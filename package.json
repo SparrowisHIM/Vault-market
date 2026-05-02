@@ -9,7 +9,6 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@next/swc-win32-x64-msvc": "^15.5.15",
     "animejs": "^4.4.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.468.0",
