@@ -1,0 +1,222 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --vault-ink: #11130f;
+  --vault-graphite: #232620;
+  --vault-steel: #6e746d;
+  --vault-paper: #f4f1e9;
+  --vault-acrylic: #f9f8f3;
+  --vault-registry: #2f5e7c;
+  --vault-amber: #a66f1f;
+  --vault-verified: #2f7158;
+  --vault-loss: #9a3e35;
+
+  --surface-canvas: #ebe6dc;
+  --surface-panel: rgba(249, 248, 243, 0.82);
+  --surface-raised: rgba(255, 254, 249, 0.9);
+  --surface-inset: rgba(17, 19, 15, 0.045);
+  --border-soft: rgba(17, 19, 15, 0.1);
+  --border-medium: rgba(17, 19, 15, 0.18);
+  --border-strong: rgba(17, 19, 15, 0.34);
+  --focus-ring: rgba(47, 94, 124, 0.44);
+  --shadow-slab: 0 18px 50px rgba(28, 25, 18, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  --shadow-slab-hover: 0 24px 70px rgba(28, 25, 18, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--surface-canvas);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--vault-ink);
+  background:
+    linear-gradient(90deg, rgba(17, 19, 15, 0.035) 1px, transparent 1px) 0 0 / 42px 42px,
+    linear-gradient(rgba(17, 19, 15, 0.025) 1px, transparent 1px) 0 0 / 42px 42px,
+    radial-gradient(circle at 14% 0%, rgba(47, 94, 124, 0.08), transparent 28rem),
+    var(--surface-canvas);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: rgba(47, 94, 124, 0.18);
+}
+
+.vault-orbit {
+  position: absolute;
+  border: 1px solid rgba(17, 19, 15, 0.1);
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.vault-orbit-one {
+  right: -18rem;
+  top: 4rem;
+  width: 46rem;
+  height: 46rem;
+  transform: rotate(-18deg);
+  background:
+    radial-gradient(circle at 50% 50%, transparent 48%, rgba(47, 94, 124, 0.1) 49%, transparent 50%),
+    radial-gradient(circle at 30% 28%, rgba(166, 111, 31, 0.14), transparent 14rem);
+  animation: vault-drift 14s ease-in-out infinite alternate;
+}
+
+.vault-orbit-two {
+  bottom: -22rem;
+  left: -14rem;
+  width: 42rem;
+  height: 42rem;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 44%, rgba(17, 19, 15, 0.08) 45%, transparent 46%),
+    radial-gradient(circle at 58% 42%, rgba(47, 113, 88, 0.12), transparent 13rem);
+  animation: vault-drift 18s ease-in-out infinite alternate-reverse;
+}
+
+.vault-scanline {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 0%, transparent 44%, rgba(255, 255, 255, 0.22) 50%, transparent 56%, transparent 100%);
+  transform: translate3d(-60%, 0, 0);
+  animation: vault-scan 8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.vault-tape-track {
+  width: max-content;
+  animation: vault-tape 32s linear infinite;
+  will-change: transform;
+}
+
+.hero-slab-motion {
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+.slab-motion-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.slab-motion-card,
+.slab-image-plane {
+  backface-visibility: hidden;
+}
+
+.slab-image-plane {
+  will-change: transform;
+}
+
+.inspection-slab-plane {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.route-transition-surface {
+  will-change: opacity, transform;
+}
+
+.vault-loader-bar {
+  width: 42%;
+  transform-origin: left center;
+  animation: vault-loader 1.1s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  will-change: transform, opacity;
+}
+
+.slab-depth-ring {
+  opacity: 0;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.42),
+    inset 0 0 34px rgba(47, 94, 124, 0.08);
+  transition: opacity 180ms ease;
+}
+
+.slab-motion-card:hover .slab-depth-ring,
+.slab-motion-card:focus-within .slab-depth-ring {
+  opacity: 1;
+}
+
+@keyframes vault-drift {
+  from {
+    transform: translate3d(0, 0, 0) rotate(-18deg);
+  }
+  to {
+    transform: translate3d(2rem, -1.2rem, 0) rotate(-10deg);
+  }
+}
+
+@keyframes vault-scan {
+  0%,
+  28% {
+    transform: translate3d(-75%, 0, 0);
+    opacity: 0;
+  }
+  44% {
+    opacity: 1;
+  }
+  70%,
+  100% {
+    transform: translate3d(75%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes vault-tape {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes vault-loader {
+  0% {
+    transform: translate3d(-120%, 0, 0) scaleX(0.7);
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(260%, 0, 0) scaleX(1);
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .vault-tape-track,
+  .vault-orbit,
+  .vault-scanline,
+  .vault-loader-bar {
+    animation: none !important;
+  }
+
+  .slab-motion-card,
+  .slab-image-plane,
+  .inspection-slab-plane {
+    transform: none !important;
+  }
+}
