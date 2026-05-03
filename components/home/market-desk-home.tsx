@@ -31,7 +31,7 @@ const deskLinks = [
   {
     href: "/vault",
     label: "Vault",
-    detail: "Preview custody, portfolio value, and intake status.",
+    detail: "Track custody, portfolio value, and intake status.",
     icon: ShieldCheck,
   },
   {
@@ -49,7 +49,7 @@ const deskLinks = [
   {
     href: "/sell",
     label: "Sell",
-    detail: "Trusted seller intake preview for graded cards.",
+    detail: "Verified seller intake for graded cards.",
     icon: BriefcaseBusiness,
   },
   {
@@ -242,8 +242,9 @@ export function MarketDeskHome() {
               </h1>
               <p className="mt-5 max-w-2xl text-base leading-7 text-vault-steel sm:text-lg">
                 VaultMarket is a premium marketplace and vault interface for authenticated,
-                graded trading cards, designed like a private trading desk instead of a
-                generic storefront.
+                graded trading cards. Start with the public marketplace, inspect each
+                slab, then route exceptional cards through the private desk when specialist
+                review matters.
               </p>
             </div>
 
@@ -252,14 +253,14 @@ export function MarketDeskHome() {
                 href="/marketplace"
                 className="group inline-flex h-12 items-center justify-center gap-2 rounded-[7px] border border-vault-graphite bg-vault-ink px-5 text-sm font-semibold text-vault-paper shadow-[0_18px_44px_rgba(17,19,15,0.22)] transition duration-200 hover:-translate-y-0.5 hover:bg-vault-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
               >
-                Enter marketplace
+                Browse graded cards
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" aria-hidden="true" />
               </Link>
               <Link
                 href="/private-desk"
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-[7px] border border-[var(--border-soft)] bg-white/46 px-5 text-sm font-semibold text-vault-graphite transition duration-200 hover:-translate-y-0.5 hover:bg-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
               >
-                Private desk
+                Private desk access
                 <Landmark className="h-4 w-4" aria-hidden="true" />
               </Link>
               <div className="hidden h-px bg-[linear-gradient(90deg,rgba(17,19,15,0.22),transparent)] sm:block" />
@@ -276,7 +277,7 @@ export function MarketDeskHome() {
                       Market command
                     </p>
                     <h2 className="mt-1 text-lg font-semibold text-vault-paper">
-                      Search slabs or jump desks
+                      Search marketplace slabs
                     </h2>
                   </div>
                   <span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/62">
@@ -300,7 +301,7 @@ export function MarketDeskHome() {
                       value={deskQuery}
                       onChange={(event) => setDeskQuery(event.target.value)}
                       autoComplete="off"
-                      placeholder="Try Black Lotus, PSA 10, auction, vault..."
+                      placeholder="Try Black Lotus, PSA 10, Charizard, cert number..."
                       className="h-12 w-full rounded-[8px] border border-white/12 bg-white/[0.07] px-10 text-sm font-semibold text-vault-paper outline-none transition placeholder:text-vault-paper/34 focus:border-white/28 focus:ring-2 focus:ring-white/18"
                     />
                   </div>

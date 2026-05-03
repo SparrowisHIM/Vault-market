@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Vault",
-  description: "Preview VaultMarket portfolio custody and value tracking.",
+  description: "Track VaultMarket portfolio custody and value for graded trading cards.",
 };
 
 const vaultAssets = mockListings.filter((listing) => listing.vaultStatus !== "seller_held");
@@ -74,15 +74,14 @@ export default function VaultPage() {
         <header className="grid gap-4 border-b border-[var(--border-soft)] pb-5 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-vault-registry">
-              VaultMarket / Portfolio preview
+              VaultMarket / Custody desk
             </p>
             <h1 className="mt-2 max-w-3xl text-3xl font-semibold tracking-normal text-vault-ink sm:text-4xl">
               Vault custody and asset value desk
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-vault-steel sm:text-base">
-              A mock portfolio view for vaulted and intake-pending graded cards, shaped by the
-              trust, custody, and market-value patterns we liked from Alt, Goldin, PSA Vault,
-              and Fanatics Collect.
+              A custody and portfolio desk for vaulted and intake-pending graded cards,
+              shaped around trust, custody, and market-value context.
             </p>
           </div>
 
@@ -92,7 +91,7 @@ export default function VaultPage() {
                 key={action}
                 type="button"
                 aria-disabled="true"
-                title={`${action} is coming later`}
+                title={`${action} requires verified collector access`}
                 className="inline-flex h-10 items-center justify-center rounded-[6px] border border-[var(--border-soft)] bg-white/38 px-3 text-sm font-semibold text-vault-steel opacity-75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
               >
                 {action}
@@ -105,7 +104,7 @@ export default function VaultPage() {
           <StatCard
             label="Vault value"
             value={formatCurrency(totalVaultValue)}
-            detail="Mock ask value across vault-held and intake-pending assets."
+            detail="Ask value across vault-held and intake-pending assets."
             icon={LockKeyhole}
           />
           <StatCard
@@ -123,7 +122,7 @@ export default function VaultPage() {
           <StatCard
             label="Verified value"
             value={formatCurrency(verifiedValue)}
-            detail="Value tied to vault-verified mock assets."
+            detail="Value tied to vault-verified assets."
             icon={BadgeCheck}
           />
         </section>
@@ -133,7 +132,7 @@ export default function VaultPage() {
             <div>
               <h2 className="text-lg font-semibold text-vault-ink">Vault assets</h2>
               <p className="mt-1 text-sm text-vault-steel">
-                Compact asset cards from the existing mock inventory.
+                Vault-linked graded cards with custody status.
               </p>
             </div>
             <div className="grid gap-3">
@@ -147,8 +146,8 @@ export default function VaultPage() {
             <section className="rounded-[8px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4">
               <h2 className="text-lg font-semibold text-vault-ink">Custody ledger</h2>
               <p className="mt-1 text-sm leading-6 text-vault-steel">
-                This is simulated with mock data. Real custody, insurance, intake,
-                and withdrawal events will come after auth and backend work.
+                Custody events show intake, verification, storage, and transfer status
+                for each asset.
               </p>
 
               <div className="mt-4 grid gap-2">

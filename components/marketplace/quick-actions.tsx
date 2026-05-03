@@ -141,7 +141,7 @@ export function QuickActions({
               ? `Remove ${listingTitle} from compare queue`
               : `Queue ${listingTitle} for comparison`
           }
-          title="Local compare preview. Full compare tools are coming later."
+          title="Add this slab to your compare queue."
           onClick={toggleCompare}
         >
           <Plus

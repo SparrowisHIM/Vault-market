@@ -20,7 +20,7 @@ import type { VaultListing } from "@/lib/marketplace/types";
 
 export const metadata: Metadata = {
   title: "Research",
-  description: "Review mock comps, market signals, and rarity context on VaultMarket.",
+  description: "Review comps, market signals, and rarity context on VaultMarket.",
 };
 
 const totalAskBook = mockListings.reduce(
@@ -109,7 +109,7 @@ export default function ResearchPage() {
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-vault-steel sm:text-base">
               A focused readout of asking prices, last comps, rarity, custody status,
-              and momentum signals using the current marketplace mock listings.
+              and momentum signals using the current marketplace listings.
             </p>
           </div>
 
@@ -117,9 +117,10 @@ export default function ResearchPage() {
             <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
               Data status
             </p>
-            <p className="mt-1 text-sm font-semibold text-vault-ink">Mock research feed</p>
+            <p className="mt-1 text-sm font-semibold text-vault-ink">Market signal feed</p>
             <p className="mt-1 text-xs leading-5 text-vault-steel">
-              Live comps, grader APIs, and watchlist alerts are deferred.
+              Expanded comp sources, grader signals, and watch alerts are part of the
+              controlled research release.
             </p>
           </div>
         </header>
@@ -162,7 +163,7 @@ export default function ResearchPage() {
                   Recent comparable sales
                 </h2>
                 <p className="mt-1 text-sm text-vault-steel">
-                  Last comp versus current ask for every mock listing with comp data.
+                  Last comp versus current ask for listings with comp data.
                 </p>
               </div>
               <span className="w-fit rounded-full border border-[var(--border-soft)] bg-white/44 px-3 py-1 font-mono text-[0.64rem] font-semibold uppercase tracking-[0.12em] text-vault-steel">

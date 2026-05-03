@@ -22,7 +22,7 @@ import type { VaultListing } from "@/lib/marketplace/types";
 
 export const metadata: Metadata = {
   title: "Private Desk",
-  description: "Preview private sales and specialist advisory workflows on VaultMarket.",
+  description: "Private sales and specialist advisory workflows on VaultMarket.",
 };
 
 const deskCandidates = mockListings
@@ -58,9 +58,9 @@ const serviceTracks = [
 ];
 
 const deferredControls = [
-  "Request specialist call",
-  "Submit private offer",
-  "Message desk",
+  "Specialist access required",
+  "Offer access required",
+  "Desk messaging access required",
 ];
 
 function DisabledDeskButton({ label }: { label: string }) {
@@ -68,7 +68,7 @@ function DisabledDeskButton({ label }: { label: string }) {
     <button
       type="button"
       aria-disabled="true"
-      title={`${label} will be enabled after authentication and secure messaging are ready.`}
+      title={`${label} requires private desk access.`}
       className="inline-flex h-10 items-center justify-center gap-2 rounded-[6px] border border-[var(--border-soft)] bg-white/34 px-4 text-sm font-semibold text-vault-steel focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
     >
       <LockKeyhole className="h-4 w-4" aria-hidden="true" />
@@ -123,8 +123,8 @@ export default function PrivateDeskPage() {
               Discreet review for rare, expensive, or relationship-led deals
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-vault-steel sm:text-base">
-              A high-touch preview for cards that need specialist context, vault
-              confidence, and private buyer matching before we build messaging or offers.
+              A high-touch desk for cards that need specialist context, vault
+              confidence, and discreet buyer matching.
             </p>
           </div>
 
@@ -136,7 +136,7 @@ export default function PrivateDeskPage() {
               <Sparkles className="h-4 w-4" aria-hidden="true" />
               Inspect lead card
             </Link>
-            <DisabledDeskButton label="Contact desk later" />
+            <DisabledDeskButton label="Desk access required" />
           </div>
         </header>
 
@@ -187,7 +187,7 @@ export default function PrivateDeskPage() {
                   {leadCandidate.provenanceNotes}
                 </p>
               </div>
-              <DisabledDeskButton label="Request call later" />
+              <DisabledDeskButton label="Specialist access required" />
             </div>
 
             <dl className="mt-4 grid gap-2 sm:grid-cols-3">
@@ -230,8 +230,8 @@ export default function PrivateDeskPage() {
                     Specialist tracks
                   </h2>
                   <p className="mt-1 text-sm leading-6 text-vault-steel">
-                    The private desk starts as a product surface, then becomes a secure
-                    workflow once accounts and messaging exist.
+                    The private desk coordinates specialist review, discreet buyer
+                    matching, and vault-backed transfer paths.
                   </p>
                 </div>
                 <MessageSquareText
@@ -271,11 +271,11 @@ export default function PrivateDeskPage() {
                     Desk candidate queue
                   </h2>
                   <p className="mt-1 text-sm text-vault-steel">
-                    High-value, premier, or scarce listings from the current mock data.
+                    High-value, premier, or scarce listings selected for private desk review.
                   </p>
                 </div>
                 <span className="w-fit rounded-full border border-[var(--border-soft)] bg-white/44 px-3 py-1 font-mono text-[0.64rem] font-semibold uppercase tracking-[0.12em] text-vault-steel">
-                  Preview queue
+                  Desk queue
                 </span>
               </div>
 
@@ -289,7 +289,7 @@ export default function PrivateDeskPage() {
         </section>
 
         <section
-          aria-label="Deferred private desk actions"
+          aria-label="Private desk actions"
           className="grid gap-2 rounded-[8px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-2 shadow-[var(--shadow-card)] sm:grid-cols-3"
         >
           {deferredControls.map((control) => (

@@ -16,7 +16,7 @@ import { mockListings } from "@/lib/marketplace/mock-listings";
 
 export const metadata: Metadata = {
   title: "Sell",
-  description: "Preview trusted seller intake for graded trading cards on VaultMarket.",
+  description: "Prepare graded trading cards for trusted seller intake on VaultMarket.",
 };
 
 const sellerHeldListings = mockListings.filter(
@@ -54,11 +54,11 @@ const intakeSteps = [
 
 const acceptedGraders = ["PSA", "BGS", "CGC", "SGC"];
 const deferredItems = [
-  "Account verification",
-  "Image uploads",
-  "Storage buckets",
-  "Consignment agreements",
-  "Payout rails",
+  "Verified account access",
+  "Inspection photo set",
+  "Secure asset storage",
+  "Consignment terms",
+  "Payout profile",
 ];
 
 function Field({
@@ -106,11 +106,11 @@ function DisabledSubmit() {
       type="button"
       aria-disabled="true"
       aria-describedby="sell-submit-note"
-      title="Submissions will be enabled after authentication, uploads, and backend review queues are ready."
+      title="Seller intake requires verified account access."
       className="inline-flex h-11 items-center justify-center gap-2 rounded-[6px] border border-[var(--border-soft)] bg-white/34 px-4 text-sm font-semibold text-vault-steel focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
     >
       <LockKeyhole className="h-4 w-4" aria-hidden="true" />
-      Submit later
+      Seller access required
     </button>
   );
 }
@@ -128,8 +128,8 @@ export default function SellPage() {
               A submission desk for serious graded-card sellers
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-vault-steel sm:text-base">
-              A preview of how trusted sellers will prepare high-value slabs for
-              marketplace, auction, or vault-first review without opening live submission yet.
+              Trusted sellers prepare high-value slabs for marketplace, auction,
+              or vault-first review through a controlled intake process.
             </p>
           </div>
 
@@ -185,8 +185,8 @@ export default function SellPage() {
                 Intake path
               </h2>
               <p className="mt-1 text-sm leading-6 text-vault-steel">
-                This is the review flow we are shaping before connecting auth, uploads,
-                and staff queues.
+                This is the inspection-grade review flow for verified seller access,
+                slab imagery, and staff routing.
               </p>
               <ol className="mt-4 grid gap-3">
                 {intakeSteps.map((step, index) => {
@@ -236,14 +236,14 @@ export default function SellPage() {
             <div className="flex flex-col gap-2 border-b border-[var(--border-soft)] pb-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <h2 className="text-lg font-semibold tracking-normal text-vault-ink">
-                  Submission preview
+                  Seller intake dossier
                 </h2>
                 <p className="mt-1 text-sm leading-6 text-vault-steel">
-                  Read-only example fields for the eventual seller intake form.
+                  Read-only fields for a seller intake review.
                 </p>
               </div>
               <span className="w-fit rounded-full border border-[var(--border-soft)] bg-white/44 px-3 py-1 font-mono text-[0.64rem] font-semibold uppercase tracking-[0.12em] text-vault-steel">
-                Preview only
+                Read-only dossier
               </span>
             </div>
 
@@ -258,7 +258,7 @@ export default function SellPage() {
                   id="cert-number"
                   label="Cert number"
                   value="812849337"
-                  help="Cert lookup will be connected later."
+                  help="Cert verification is reviewed during intake."
                 />
                 <Field
                   id="route"
@@ -287,7 +287,7 @@ export default function SellPage() {
               </div>
 
               <div className="rounded-[7px] border border-[var(--border-soft)] bg-white/36 p-4">
-                <h3 className="text-sm font-semibold text-vault-ink">Deferred before launch</h3>
+                <h3 className="text-sm font-semibold text-vault-ink">Verified intake requirements</h3>
                 <ul className="mt-3 grid gap-2 sm:grid-cols-2">
                   {deferredItems.map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm text-vault-steel">
@@ -300,8 +300,8 @@ export default function SellPage() {
 
               <div className="flex flex-col gap-3 border-t border-[var(--border-soft)] pt-4 sm:flex-row sm:items-center sm:justify-between">
                 <p id="sell-submit-note" className="text-sm leading-6 text-vault-steel">
-                  This form does not submit yet. We will enable it after authentication,
-                  image storage, and review queues are built.
+                  Seller intake requires verified account access. Submission review covers
+                  identity, slab imagery, cert details, and listing route.
                 </p>
                 <DisabledSubmit />
               </div>

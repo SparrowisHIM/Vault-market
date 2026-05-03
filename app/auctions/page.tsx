@@ -10,7 +10,7 @@ import type { VaultListing } from "@/lib/marketplace/types";
 
 export const metadata: Metadata = {
   title: "Auctions",
-  description: "Preview curated auction and premier graded card lots on VaultMarket.",
+  description: "Explore curated auction and premier graded card lots on VaultMarket.",
 };
 
 const auctionLots = mockListings.filter(
@@ -32,7 +32,7 @@ function DisabledBidButton({ label }: { label: string }) {
     <button
       type="button"
       aria-disabled="true"
-      title="Bidding will be added after marketplace inspection and account foundations are ready."
+      title="Bidding requires controlled auction access."
       className="inline-flex h-10 items-center justify-center gap-2 rounded-[6px] border border-[var(--border-soft)] bg-white/34 px-4 text-sm font-semibold text-vault-steel focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
     >
       <LockKeyhole className="h-4 w-4" aria-hidden="true" />
@@ -84,10 +84,10 @@ export default function AuctionsPage() {
               VaultMarket / Auction room
             </p>
             <h1 className="mt-2 max-w-3xl text-3xl font-semibold tracking-normal text-vault-ink sm:text-4xl">
-              Curated lots before live bidding exists
+              Curated lots for auction-style review
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-vault-steel sm:text-base">
-              A preview room for auction and premier inventory, focused on custody,
+              A curated room for auction and premier inventory, focused on custody,
               estimate context, scarce populations, and inspection links.
             </p>
           </div>
@@ -100,7 +100,7 @@ export default function AuctionsPage() {
               <Gavel className="h-4 w-4" aria-hidden="true" />
               Browse auction lots
             </Link>
-            <DisabledBidButton label="Register to bid later" />
+            <DisabledBidButton label="Bidding access required" />
           </div>
         </header>
 
@@ -156,7 +156,7 @@ export default function AuctionsPage() {
                   {leadLot.provenanceNotes}
                 </p>
               </div>
-              <DisabledBidButton label="Bidding later" />
+              <DisabledBidButton label="Bidding access required" />
             </div>
 
             <dl className="mt-4 grid gap-2 sm:grid-cols-3">
@@ -220,7 +220,7 @@ export default function AuctionsPage() {
                     Weekly auction candidates
                   </h2>
                   <p className="mt-1 text-sm text-vault-steel">
-                    Scarce graded cards that can later move into timed bidding.
+                    Scarce graded cards prepared for auction-style review.
                   </p>
                 </div>
                 <span className="rounded-full border border-[var(--border-soft)] bg-white/44 px-3 py-1 font-mono text-[0.64rem] font-semibold uppercase tracking-[0.12em] text-vault-steel">
