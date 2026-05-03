@@ -37,6 +37,7 @@ export function SlabCard({
   const sweepRef = useRef<HTMLDivElement | null>(null);
   const cardSweepRef = useRef<HTMLDivElement | null>(null);
   const gradeRef = useRef<HTMLDivElement | null>(null);
+  const authBandRef = useRef<HTMLDivElement | null>(null);
   const certRef = useRef<HTMLParagraphElement | null>(null);
   const boundsRef = useRef<DOMRect | null>(null);
   const reduceMotionRef = useRef(false);
@@ -71,9 +72,26 @@ export function SlabCard({
 
     if (gradeRef.current) {
       animate(gradeRef.current, {
-        scale: [1, 1.045, 1],
+        scale: [1, 1.035, 1],
         duration: 420,
-        ease: "outBack",
+        ease: "outExpo",
+      });
+    }
+
+    if (authBandRef.current) {
+      animate(authBandRef.current, {
+        backgroundColor: [
+          "rgba(255,255,255,0)",
+          "rgba(47,94,124,0.055)",
+          "rgba(255,255,255,0)",
+        ],
+        boxShadow: [
+          "0 0 0 0 rgba(47,94,124,0)",
+          "0 0 0 1px rgba(47,94,124,0.2), 0 8px 18px rgba(47,94,124,0.08)",
+          "0 0 0 0 rgba(47,94,124,0)",
+        ],
+        duration: 620,
+        ease: "outExpo",
       });
     }
 
@@ -202,7 +220,13 @@ export function SlabCard({
               </span>
             </div>
 
-            <div className={cn("flex flex-wrap items-center gap-2", compact && "gap-1.5")}>
+            <div
+              ref={authBandRef}
+              className={cn(
+                "slab-auth-band flex flex-wrap items-center gap-2 rounded-[7px] transition duration-200",
+                compact && "gap-1.5",
+              )}
+            >
               <div ref={gradeRef} className="origin-center">
                 <GradeBadge
                   company={listing.gradingCompany}
@@ -215,7 +239,10 @@ export function SlabCard({
                   {listing.setName}
                   {listing.cardNumber ? ` / ${listing.cardNumber}` : ""}
                 </p>
-                <p ref={certRef} className="font-mono text-[0.68rem] text-vault-steel">
+                <p
+                  ref={certRef}
+                  className="font-mono text-[0.68rem] font-semibold text-vault-steel"
+                >
                   Cert {formatCertNumber(listing.certNumber)}
                 </p>
               </div>

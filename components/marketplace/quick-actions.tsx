@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, Landmark, Plus, Sparkles, Star } from "lucide-react";
+import { Eye, Landmark, Plus, Star } from "lucide-react";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { animate } from "animejs";
@@ -33,7 +33,7 @@ export function QuickActions({
   const primaryButtonRef = useRef<HTMLButtonElement | null>(null);
   const primaryLinkRef = useRef<HTMLAnchorElement | null>(null);
   const statusRef = useRef<HTMLSpanElement | null>(null);
-  const burstRef = useRef<HTMLSpanElement | null>(null);
+  const watchRingRef = useRef<HTMLSpanElement | null>(null);
   const compareRailRef = useRef<HTMLSpanElement | null>(null);
 
   function prefersReducedMotion() {
@@ -70,14 +70,13 @@ export function QuickActions({
     });
   }
 
-  function triggerBurst() {
-    if (!burstRef.current || prefersReducedMotion()) return;
+  function triggerWatchRing() {
+    if (!watchRingRef.current || prefersReducedMotion()) return;
 
-    animate(burstRef.current, {
-      opacity: [0, 0.9, 0],
-      scale: [0.72, 1.18, 1.36],
-      rotate: [-8, 4],
-      duration: 520,
+    animate(watchRingRef.current, {
+      opacity: [0, 0.72, 0],
+      scale: [0.92, 1.08, 1.18],
+      duration: 560,
       ease: "outExpo",
     });
   }
@@ -97,7 +96,7 @@ export function QuickActions({
     const nextWatched = !isWatched;
     setIsWatched(nextWatched);
     pulseAction(watchRef.current);
-    if (nextWatched) triggerBurst();
+    if (nextWatched) triggerWatchRing();
     revealStatus(nextWatched ? "Added to watch desk" : "Removed from watch desk");
   }
 
@@ -208,12 +207,10 @@ export function QuickActions({
           onClick={toggleWatch}
         >
           <span
-            ref={burstRef}
-            className="pointer-events-none absolute inset-0 grid scale-75 place-items-center text-vault-amber opacity-0"
+            ref={watchRingRef}
+            className="pointer-events-none absolute inset-1 rounded-[5px] border border-[rgba(166,111,31,0.36)] opacity-0"
             aria-hidden="true"
-          >
-            <Sparkles className="h-5 w-5" />
-          </span>
+          />
           <Star
             className={cn("h-4 w-4", !compact && "mr-1.5", isWatched && "fill-current")}
             aria-hidden="true"
@@ -256,18 +253,18 @@ export function QuickActions({
         {context === "card" && primaryActionControl}
       </div>
 
-      {statusMessage ? (
-        <span
-          ref={statusRef}
-          role="status"
-          className={cn(
-            "mt-2 block rounded-[5px] border border-[var(--border-soft)] bg-white/38 px-2 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-vault-steel",
-            compact && "sr-only",
-          )}
-        >
-          {statusMessage}
-        </span>
-      ) : null}
+      <span
+        ref={statusRef}
+        role="status"
+        aria-live="polite"
+        className={cn(
+          "mt-2 block min-h-6 rounded-[5px] border border-[var(--border-soft)] bg-white/38 px-2 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-vault-steel",
+          !statusMessage && "invisible",
+          compact && "sr-only",
+        )}
+      >
+        {statusMessage || "Action feedback"}
+      </span>
     </div>
   );
 }

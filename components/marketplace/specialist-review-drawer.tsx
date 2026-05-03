@@ -5,7 +5,6 @@ import { createPortal } from "react-dom";
 import { animate, stagger } from "animejs";
 import {
   BadgeCheck,
-  Check,
   Landmark,
   ScanLine,
   ShieldCheck,
@@ -67,9 +66,14 @@ export function SpecialistReviewDrawer({
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const sweepRef = useRef<HTMLDivElement | null>(null);
   const checkRef = useRef<HTMLDivElement | null>(null);
+  const checkPathRef = useRef<SVGPathElement | null>(null);
   const sparkleRef = useRef<HTMLDivElement | null>(null);
   const ticketRef = useRef<HTMLDivElement | null>(null);
+  const successCopyRef = useRef<HTMLDivElement | null>(null);
+  const packetSweepRef = useRef<HTMLDivElement | null>(null);
+  const queuedBadgeRef = useRef<HTMLSpanElement | null>(null);
   const restoreFocusRef = useRef<HTMLElement | null>(null);
+  const deskTicket = `VM-DR-${listing.certNumber.replace(/\D/g, "").slice(-4) || "2048"}`;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -159,13 +163,56 @@ export function SpecialistReviewDrawer({
       });
     }
 
+    if (checkPathRef.current) {
+      animate(checkPathRef.current, {
+        strokeDashoffset: [31, 0],
+        duration: 680,
+        delay: 80,
+        ease: "outExpo",
+      });
+    }
+
+    if (successCopyRef.current) {
+      animate(successCopyRef.current, {
+        opacity: [0, 1],
+        translateY: [10, 0],
+        delay: 110,
+        duration: 520,
+        ease: "outExpo",
+      });
+    }
+
     if (ticketRef.current) {
       animate(ticketRef.current, {
         opacity: [0, 1],
-        translateY: [18, 0],
-        scale: [0.96, 1],
-        rotate: [-1.2, 0],
-        delay: 180,
+        translateY: [22, 0],
+        scale: [0.97, 1],
+        rotate: [-0.8, 0],
+        delay: 280,
+        duration: 660,
+        ease: "outExpo",
+      });
+    }
+
+    if (packetSweepRef.current) {
+      animate(packetSweepRef.current, {
+        translateX: ["-130%", "130%"],
+        opacity: [0, 0.72, 0],
+        delay: 430,
+        duration: 820,
+        ease: "outExpo",
+      });
+    }
+
+    if (queuedBadgeRef.current) {
+      animate(queuedBadgeRef.current, {
+        scale: [0.96, 1.05, 1],
+        boxShadow: [
+          "0 0 0 rgba(47,113,88,0)",
+          "0 0 0 8px rgba(47,113,88,0.08)",
+          "0 0 0 rgba(47,113,88,0)",
+        ],
+        delay: 540,
         duration: 620,
         ease: "outExpo",
       });
@@ -252,11 +299,26 @@ export function SpecialistReviewDrawer({
                     ref={checkRef}
                     className="grid h-20 w-20 place-items-center rounded-full border border-[rgba(47,113,88,0.3)] bg-[rgba(47,113,88,0.1)] text-[#235844]"
                   >
-                    <Check className="h-9 w-9" aria-hidden="true" />
+                    <svg
+                      viewBox="0 0 32 32"
+                      className="h-10 w-10"
+                      aria-hidden="true"
+                    >
+                      <path
+                        ref={checkPathRef}
+                        d="M8.5 16.5 13.2 21 23.8 10.7"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="3"
+                        style={{ strokeDasharray: 31, strokeDashoffset: 0 }}
+                      />
+                    </svg>
                   </div>
                 </div>
 
-                <div>
+                <div ref={successCopyRef} className="opacity-100">
                   <p className="font-mono text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-vault-registry">
                     Desk queue
                   </p>
@@ -272,18 +334,26 @@ export function SpecialistReviewDrawer({
 
                 <div
                   ref={ticketRef}
-                  className="mx-auto w-full max-w-sm rounded-[9px] border border-[rgba(47,113,88,0.24)] bg-white/54 p-3 text-left opacity-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]"
+                  className="relative mx-auto w-full max-w-sm overflow-hidden rounded-[9px] border border-[rgba(47,113,88,0.24)] bg-white/54 p-3 text-left opacity-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]"
                 >
+                  <div
+                    ref={packetSweepRef}
+                    className="pointer-events-none absolute inset-y-0 left-0 w-1/2 -translate-x-[130%] bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.86),transparent)] opacity-0"
+                    aria-hidden="true"
+                  />
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
-                        Review packet
+                        Desk ticket {deskTicket}
                       </p>
                       <p className="mt-2 text-sm font-semibold text-vault-ink">
                         Ask, estimate, cert, custody, seller trust, and inspection context.
                       </p>
                     </div>
-                    <span className="rounded-[5px] border border-[rgba(47,113,88,0.24)] bg-[rgba(47,113,88,0.08)] px-2 py-1 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.13em] text-[#235844]">
+                    <span
+                      ref={queuedBadgeRef}
+                      className="rounded-[5px] border border-[rgba(47,113,88,0.24)] bg-[rgba(47,113,88,0.08)] px-2 py-1 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.13em] text-[#235844]"
+                    >
                       Queued
                     </span>
                   </div>
