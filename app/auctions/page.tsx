@@ -84,7 +84,7 @@ export default function AuctionsPage() {
               VaultMarket / Auction room
             </p>
             <h1 className="mt-2 max-w-3xl text-3xl font-semibold tracking-normal text-vault-ink sm:text-4xl">
-              Curated lots for auction-style review
+              Curated auction and premier-lot review
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-vault-steel sm:text-base">
               A curated room for auction and premier inventory, focused on custody,

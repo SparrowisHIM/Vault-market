@@ -152,7 +152,7 @@ export default function SellPage() {
           <div className="rounded-[8px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)]">
             <BriefcaseBusiness className="h-5 w-5 text-vault-registry" aria-hidden="true" />
             <p className="mt-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
-              Seller-held examples
+              Seller-held slabs
             </p>
             <p className="mt-1 text-2xl font-semibold text-vault-ink">
               {sellerHeldListings.length}

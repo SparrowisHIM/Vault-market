@@ -119,8 +119,8 @@ export default function ResearchPage() {
             </p>
             <p className="mt-1 text-sm font-semibold text-vault-ink">Market signal feed</p>
             <p className="mt-1 text-xs leading-5 text-vault-steel">
-              Expanded comp sources, grader signals, and watch alerts are part of the
-              controlled research release.
+              Comp context, grader signals, and watch alerts are organized for desk
+              review.
             </p>
           </div>
         </header>
