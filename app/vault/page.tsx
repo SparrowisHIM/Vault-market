@@ -110,7 +110,7 @@ export default function VaultPage() {
           <StatCard
             label="Vault held"
             value={`${vaultHeldAssets.length}`}
-            detail="Assets with simulated custody already confirmed."
+            detail="Assets with custody status already confirmed."
             icon={PackageCheck}
           />
           <StatCard

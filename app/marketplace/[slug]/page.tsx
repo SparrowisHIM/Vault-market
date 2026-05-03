@@ -301,7 +301,7 @@ export default async function ListingDetailPage({ params }: ListingDetailPagePro
                 Related slabs
               </h2>
               <p className="mt-1 text-sm text-vault-steel">
-                Same franchise or grader from the current mock inventory.
+                Same franchise or grader from the current market set.
               </p>
             </div>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">

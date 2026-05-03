@@ -15,6 +15,8 @@ import { SellerTrustBadge } from "./seller-trust-badge";
 type SlabCardProps = {
   listing: VaultListing;
   variant?: SlabCardVariant;
+  compareQueued?: boolean;
+  onCompareToggle?: (listing: VaultListing, nextCompared: boolean) => boolean | void;
 };
 
 const statusStyles = {
@@ -23,12 +25,19 @@ const statusStyles = {
   sold: "border-[rgba(17,19,15,0.18)] text-vault-steel",
 };
 
-export function SlabCard({ listing, variant = "default" }: SlabCardProps) {
+export function SlabCard({
+  listing,
+  variant = "default",
+  compareQueued,
+  onCompareToggle,
+}: SlabCardProps) {
   const compact = variant === "compact";
   const rootRef = useRef<HTMLElement | null>(null);
   const slabImageRef = useRef<HTMLDivElement | null>(null);
   const sweepRef = useRef<HTMLDivElement | null>(null);
+  const cardSweepRef = useRef<HTMLDivElement | null>(null);
   const gradeRef = useRef<HTMLDivElement | null>(null);
+  const certRef = useRef<HTMLParagraphElement | null>(null);
   const boundsRef = useRef<DOMRect | null>(null);
   const reduceMotionRef = useRef(false);
 
@@ -51,11 +60,29 @@ export function SlabCard({ listing, variant = "default" }: SlabCardProps) {
       });
     }
 
+    if (cardSweepRef.current) {
+      animate(cardSweepRef.current, {
+        translateX: ["-125%", "125%"],
+        opacity: [0, 0.42, 0],
+        duration: 780,
+        ease: "outExpo",
+      });
+    }
+
     if (gradeRef.current) {
       animate(gradeRef.current, {
         scale: [1, 1.045, 1],
         duration: 420,
         ease: "outBack",
+      });
+    }
+
+    if (certRef.current) {
+      animate(certRef.current, {
+        color: ["#6b7066", "#2f5e7c", "#6b7066"],
+        translateX: [0, 2, 0],
+        duration: 520,
+        ease: "outExpo",
       });
     }
   }
@@ -106,6 +133,11 @@ export function SlabCard({ listing, variant = "default" }: SlabCardProps) {
     >
       <div className="slab-depth-ring pointer-events-none absolute inset-0 rounded-[8px]" aria-hidden="true" />
       <div
+        ref={cardSweepRef}
+        className="pointer-events-none absolute inset-y-[-18%] left-0 z-10 w-1/3 -translate-x-[125%] rotate-12 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent)] opacity-0"
+        aria-hidden="true"
+      />
+      <div
         className="pointer-events-none absolute inset-x-5 top-0 h-px bg-white/80"
         aria-hidden="true"
       />
@@ -115,9 +147,9 @@ export function SlabCard({ listing, variant = "default" }: SlabCardProps) {
           compact ? "grid-cols-[82px_1fr]" : "grid-cols-[minmax(112px,0.8fr)_1fr] sm:grid-cols-[minmax(132px,0.72fr)_1fr]",
         )}
       >
-        <div
-          ref={slabImageRef}
-          className={cn(
+          <div
+            ref={slabImageRef}
+            className={cn(
             "slab-image-plane relative overflow-hidden rounded-[7px] border border-[rgba(17,19,15,0.2)] bg-[var(--surface-inset)] shadow-[inset_0_1px_10px_rgba(17,19,15,0.08)] transition duration-200",
             compact ? "aspect-[5/7]" : "aspect-[5/7]",
           )}
@@ -183,7 +215,7 @@ export function SlabCard({ listing, variant = "default" }: SlabCardProps) {
                   {listing.setName}
                   {listing.cardNumber ? ` / ${listing.cardNumber}` : ""}
                 </p>
-                <p className="font-mono text-[0.68rem] text-vault-steel">
+                <p ref={certRef} className="font-mono text-[0.68rem] text-vault-steel">
                   Cert {formatCertNumber(listing.certNumber)}
                 </p>
               </div>
@@ -238,6 +270,12 @@ export function SlabCard({ listing, variant = "default" }: SlabCardProps) {
               listingSlug={listing.slug}
               listingTitle={listing.title}
               compact={compact}
+              compareQueued={compareQueued}
+              onCompareToggle={
+                onCompareToggle
+                  ? (nextCompared) => onCompareToggle(listing, nextCompared)
+                  : undefined
+              }
             />
           </div>
         </div>

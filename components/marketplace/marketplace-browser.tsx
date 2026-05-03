@@ -24,6 +24,7 @@ import type {
   VaultListing,
 } from "@/lib/marketplace/types";
 import { cn } from "@/lib/utils";
+import { CompareDrawer } from "./compare-drawer";
 import { SlabCard } from "./slab-card";
 
 type MarketplaceBrowserProps = {
@@ -172,6 +173,9 @@ export function MarketplaceBrowser({
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [viewDensity, setViewDensity] = useState<ViewDensity>("default");
   const [spotlightListingId, setSpotlightListingId] = useState<string | null>(null);
+  const [compareIds, setCompareIds] = useState<string[]>([]);
+  const [compareOpen, setCompareOpen] = useState(false);
+  const [compareNotice, setCompareNotice] = useState<string | null>(null);
   const resultsGridRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -243,6 +247,20 @@ export function MarketplaceBrowser({
     filteredListings.find((listing) => listing.id === spotlightListingId) ??
     filteredListings[0] ??
     null;
+  const comparedListings = useMemo(
+    () =>
+      compareIds
+        .map((id) => listings.find((listing) => listing.id === id))
+        .filter(Boolean) as VaultListing[],
+    [compareIds, listings],
+  );
+
+  useEffect(() => {
+    if (!compareNotice) return;
+
+    const timeout = window.setTimeout(() => setCompareNotice(null), 2600);
+    return () => window.clearTimeout(timeout);
+  }, [compareNotice]);
 
   const marketStats = useMemo(() => {
     const askBook = filteredListings.reduce((total, listing) => total + listing.priceCents, 0);
@@ -382,6 +400,40 @@ export function MarketplaceBrowser({
       setStatus("active");
       setSort("market-signal");
     }
+  }
+
+  function toggleCompareListing(listing: VaultListing, nextCompared: boolean) {
+    if (!nextCompared) {
+      setCompareIds((current) => current.filter((id) => id !== listing.id));
+      setCompareNotice(null);
+      return true;
+    }
+
+    if (compareIds.includes(listing.id)) return true;
+
+    if (compareIds.length >= 3) {
+      setCompareOpen(true);
+      setCompareNotice("Compare queue holds up to 3 slabs");
+      return false;
+    }
+
+    const nextCompareIds = [...compareIds, listing.id];
+    setCompareIds(nextCompareIds);
+    if (nextCompareIds.length >= 2) {
+      setCompareOpen(true);
+    }
+    setCompareNotice(`${listing.title} added to compare desk`);
+    return true;
+  }
+
+  function removeComparedListing(listingId: string) {
+    setCompareIds((current) => current.filter((id) => id !== listingId));
+  }
+
+  function clearComparedListings() {
+    setCompareIds([]);
+    setCompareOpen(false);
+    setCompareNotice(null);
   }
 
   function getActivePreset() {
@@ -805,7 +857,12 @@ export function MarketplaceBrowser({
               onPointerEnter={() => setSpotlightListingId(listing.id)}
               onFocusCapture={() => setSpotlightListingId(listing.id)}
             >
-              <SlabCard listing={listing} variant={viewDensity} />
+              <SlabCard
+                listing={listing}
+                variant={viewDensity}
+                compareQueued={compareIds.includes(listing.id)}
+                onCompareToggle={toggleCompareListing}
+              />
             </div>
           ))}
         </div>
@@ -813,7 +870,7 @@ export function MarketplaceBrowser({
         <div className="rounded-[8px] border border-dashed border-[var(--border-medium)] bg-white/35 px-5 py-10 text-center">
           <h3 className="text-base font-semibold text-vault-ink">No matching slabs</h3>
           <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-vault-steel">
-            Broaden the registry filters or reset the browse desk to see the full mock inventory.
+            Broaden the registry filters or reset the browse desk to see the full market set.
           </p>
           <button
             type="button"
@@ -825,6 +882,15 @@ export function MarketplaceBrowser({
           </button>
         </div>
       )}
+      <CompareDrawer
+        listings={comparedListings}
+        isOpen={compareOpen}
+        notice={compareNotice}
+        onOpen={() => setCompareOpen(true)}
+        onClose={() => setCompareOpen(false)}
+        onRemove={removeComparedListing}
+        onClear={clearComparedListings}
+      />
     </section>
   );
 }

@@ -1,16 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { animate, createScope, stagger } from "animejs";
 import { BadgeCheck, ScanLine, ShieldCheck } from "lucide-react";
 import { MarketDelta } from "@/components/marketplace/market-delta";
 import { QuickActions } from "@/components/marketplace/quick-actions";
+import { SellerTrustBadge } from "@/components/marketplace/seller-trust-badge";
+import { SpecialistReviewDrawer } from "@/components/marketplace/specialist-review-drawer";
 import {
   formatCertNumber,
   formatCurrency,
   formatEstimateRange,
   formatPopulation,
+  getVaultStatusLabel,
   getVerificationStatusLabel,
 } from "@/lib/marketplace/format";
 import type { VaultListing } from "@/lib/marketplace/types";
@@ -24,6 +27,8 @@ export function InspectionRoomHero({ listing }: InspectionRoomHeroProps) {
   const slabRef = useRef<HTMLDivElement | null>(null);
   const sweepRef = useRef<HTMLDivElement | null>(null);
   const boundsRef = useRef<DOMRect | null>(null);
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
+  const [reviewStatus, setReviewStatus] = useState<"review" | "success">("review");
 
   useEffect(() => {
     const root = rootRef.current;
@@ -92,6 +97,15 @@ export function InspectionRoomHero({ listing }: InspectionRoomHeroProps) {
     if (slabRef.current) {
       slabRef.current.style.transform = "";
     }
+  }
+
+  function openSpecialistReview() {
+    setReviewStatus("review");
+    setIsReviewOpen(true);
+  }
+
+  function closeSpecialistReview() {
+    setIsReviewOpen(false);
   }
 
   return (
@@ -192,13 +206,53 @@ export function InspectionRoomHero({ listing }: InspectionRoomHeroProps) {
             <div className="mb-3 flex items-center gap-2">
               <BadgeCheck className="h-4 w-4 text-vault-registry" aria-hidden="true" />
               <p className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
-                Collector actions
+                Desk review actions
               </p>
             </div>
-            <QuickActions listingSlug={listing.slug} listingTitle={listing.title} />
+            <div className="mb-3 grid gap-2 rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3">
+              <p className="text-sm leading-5 text-vault-graphite">
+                Specialist review frames the ask against estimate range, last comp,
+                custody confidence, and seller trust before a serious buyer moves.
+              </p>
+              <div className="grid gap-2 sm:grid-cols-2">
+                <div className="rounded-[6px] border border-[var(--border-soft)] bg-white/46 px-3 py-2">
+                  <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.13em] text-vault-steel">
+                    Custody confidence
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-vault-ink">
+                    {getVaultStatusLabel(listing.vaultStatus)}
+                  </p>
+                </div>
+                <div className="rounded-[6px] border border-[var(--border-soft)] bg-white/46 px-3 py-2">
+                  <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.13em] text-vault-steel">
+                    Seller trust
+                  </p>
+                  <div className="mt-1">
+                    <SellerTrustBadge
+                      tier={listing.seller.trustTier}
+                      completedSales={listing.seller.completedSales}
+                      compact
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <QuickActions
+              listingSlug={listing.slug}
+              listingTitle={listing.title}
+              context="inspection"
+              onRequestSpecialistReview={openSpecialistReview}
+            />
           </div>
         </div>
       </div>
+      <SpecialistReviewDrawer
+        listing={listing}
+        isOpen={isReviewOpen}
+        status={reviewStatus}
+        onClose={closeSpecialistReview}
+        onConfirm={() => setReviewStatus("success")}
+      />
     </aside>
   );
 }
