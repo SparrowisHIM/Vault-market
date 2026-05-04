@@ -176,6 +176,7 @@ export function MarketplaceBrowser({
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
   const [compareNotice, setCompareNotice] = useState<string | null>(null);
+  const [compareNoticeTone, setCompareNoticeTone] = useState<"limit" | "neutral" | null>(null);
   const resultsGridRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -258,7 +259,10 @@ export function MarketplaceBrowser({
   useEffect(() => {
     if (!compareNotice) return;
 
-    const timeout = window.setTimeout(() => setCompareNotice(null), 2600);
+    const timeout = window.setTimeout(() => {
+      setCompareNotice(null);
+      setCompareNoticeTone(null);
+    }, 2600);
     return () => window.clearTimeout(timeout);
   }, [compareNotice]);
 
@@ -406,6 +410,7 @@ export function MarketplaceBrowser({
     if (!nextCompared) {
       setCompareIds((current) => current.filter((id) => id !== listing.id));
       setCompareNotice(null);
+      setCompareNoticeTone(null);
       return true;
     }
 
@@ -414,6 +419,7 @@ export function MarketplaceBrowser({
     if (compareIds.length >= 3) {
       setCompareOpen(true);
       setCompareNotice("Compare queue holds up to 3 slabs");
+      setCompareNoticeTone("limit");
       return false;
     }
 
@@ -423,6 +429,7 @@ export function MarketplaceBrowser({
       setCompareOpen(true);
     }
     setCompareNotice(`${listing.title} added to compare desk`);
+    setCompareNoticeTone("neutral");
     return true;
   }
 
@@ -434,6 +441,7 @@ export function MarketplaceBrowser({
     setCompareIds([]);
     setCompareOpen(false);
     setCompareNotice(null);
+    setCompareNoticeTone(null);
   }
 
   function getActivePreset() {
@@ -886,6 +894,7 @@ export function MarketplaceBrowser({
         listings={comparedListings}
         isOpen={compareOpen}
         notice={compareNotice}
+        noticeTone={compareNoticeTone}
         onOpen={() => setCompareOpen(true)}
         onClose={() => setCompareOpen(false)}
         onRemove={removeComparedListing}

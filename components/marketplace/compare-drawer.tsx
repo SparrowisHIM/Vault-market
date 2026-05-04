@@ -16,10 +16,14 @@ import {
 import type { VaultListing } from "@/lib/marketplace/types";
 import { cn } from "@/lib/utils";
 
+export type CompareNoticeTone = "limit" | "neutral";
+
 type CompareDrawerProps = {
   listings: VaultListing[];
   isOpen: boolean;
   notice?: string | null;
+  /** When set with `notice`, drives calmer vs firmer tray feedback (limit = desk policy). */
+  noticeTone?: CompareNoticeTone | null;
   onOpen: () => void;
   onClose: () => void;
   onRemove: (listingId: string) => void;
@@ -68,6 +72,7 @@ export function CompareDrawer({
   listings,
   isOpen,
   notice,
+  noticeTone = null,
   onOpen,
   onClose,
   onRemove,
@@ -76,6 +81,7 @@ export function CompareDrawer({
   const trayRef = useRef<HTMLDivElement | null>(null);
   const panelRef = useRef<HTMLElement | null>(null);
   const traySweepRef = useRef<HTMLDivElement | null>(null);
+  const noticeChamberRef = useRef<HTMLDivElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const [renderDrawer, setRenderDrawer] = useState(isOpen);
 
@@ -147,14 +153,30 @@ export function CompareDrawer({
   }, [listings.length]);
 
   useEffect(() => {
-    if (!notice || !trayRef.current || prefersReducedMotion()) return;
+    if (!notice || !noticeChamberRef.current || prefersReducedMotion()) return;
 
-    animate(trayRef.current, {
-      translateX: [0, -5, 5, -3, 3, 0],
-      duration: 360,
-      ease: "outExpo",
-    });
-  }, [notice]);
+    const el = noticeChamberRef.current;
+    const tone = noticeTone ?? "neutral";
+
+    if (tone === "limit") {
+      animate(el, {
+        boxShadow: [
+          "inset 0 0 0 1px rgba(255,255,255,0.05), 0 0 0 0 rgba(47,94,124,0)",
+          "inset 0 0 0 1px rgba(255,255,255,0.1), 0 0 0 1px rgba(47,94,124,0.18), 0 0 20px rgba(47,94,124,0.09)",
+          "inset 0 0 0 1px rgba(255,255,255,0.05), 0 0 0 0 rgba(47,94,124,0)",
+        ],
+        duration: 700,
+        ease: "inOutSine",
+      });
+    } else {
+      animate(el, {
+        opacity: [0.72, 1],
+        translateY: [5, 0],
+        duration: 360,
+        ease: "outExpo",
+      });
+    }
+  }, [notice, noticeTone]);
 
   useEffect(() => {
     if (!isOpen || !panelRef.current || prefersReducedMotion()) return;
@@ -198,7 +220,7 @@ export function CompareDrawer({
       {listings.length > 0 ? (
         <div
           ref={trayRef}
-          className="fixed inset-x-3 bottom-3 z-40 mx-auto max-w-5xl overflow-hidden rounded-[10px] border border-[rgba(17,19,15,0.22)] bg-[rgba(17,19,15,0.92)] p-2 text-vault-paper shadow-[0_22px_70px_rgba(17,19,15,0.28)] backdrop-blur-md"
+          className="fixed z-40 mx-auto max-w-5xl overflow-hidden rounded-[10px] border border-[rgba(17,19,15,0.22)] bg-[rgba(17,19,15,0.92)] p-2 text-vault-paper shadow-[0_22px_70px_rgba(17,19,15,0.28)] backdrop-blur-md left-[max(0.75rem,env(safe-area-inset-left,0px))] right-[max(0.75rem,env(safe-area-inset-right,0px))] bottom-[max(0.75rem,env(safe-area-inset-bottom,0px))]"
         >
           <div
             ref={traySweepRef}
@@ -207,8 +229,8 @@ export function CompareDrawer({
           />
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex min-w-0 items-center gap-3">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[8px] border border-white/10 bg-white/[0.07] text-[#82c7a9]">
-                <Layers3 className="h-5 w-5" aria-hidden="true" />
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[8px] border border-white/12 bg-white/[0.06] text-vault-paper/72">
+                <Layers3 className="h-5 w-5 text-[var(--vault-registry)] opacity-90" aria-hidden="true" />
               </span>
               <div className="min-w-0">
                 <p className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/58">
@@ -218,7 +240,36 @@ export function CompareDrawer({
                   {listings.length} slab{listings.length === 1 ? "" : "s"} queued
                 </p>
                 {notice ? (
-                  <p className="mt-0.5 text-xs font-medium text-[#d9b572]">{notice}</p>
+                  <div
+                    ref={noticeChamberRef}
+                    className={cn(
+                      "mt-1.5 max-w-[min(100%,26rem)] rounded-[6px] px-2.5 py-1.5",
+                      (noticeTone ?? "neutral") === "limit"
+                        ? "border border-white/10 border-l-[3px] border-l-white/30 bg-white/[0.055] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]"
+                        : "border border-white/8 bg-white/[0.04]",
+                    )}
+                  >
+                    {(noticeTone ?? "neutral") === "limit" ? (
+                      <p
+                        className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/48"
+                        aria-hidden="true"
+                      >
+                        Desk policy
+                      </p>
+                    ) : null}
+                    <p
+                      role="status"
+                      aria-live="polite"
+                      className={cn(
+                        "leading-snug",
+                        (noticeTone ?? "neutral") === "limit"
+                          ? "mt-0.5 text-[0.72rem] font-semibold tracking-[0.02em] text-vault-paper/85"
+                          : "text-xs font-medium text-vault-paper/72",
+                      )}
+                    >
+                      {notice}
+                    </p>
+                  </div>
                 ) : null}
               </div>
             </div>
@@ -256,7 +307,7 @@ export function CompareDrawer({
             role="dialog"
             aria-modal="true"
             aria-labelledby="compare-drawer-title"
-            className="absolute inset-x-0 bottom-0 max-h-[88svh] overflow-hidden rounded-t-[14px] border border-[var(--border-medium)] bg-[var(--surface-panel)] shadow-[0_-26px_90px_rgba(17,19,15,0.28)]"
+            className="absolute inset-x-0 bottom-0 max-h-[88svh] overflow-hidden rounded-t-[14px] border border-[var(--border-medium)] bg-[var(--surface-panel)] shadow-[0_-26px_90px_rgba(17,19,15,0.28)] pb-[env(safe-area-inset-bottom,0px)]"
           >
             <header className="flex items-start justify-between gap-3 border-b border-[var(--border-soft)] bg-white/40 p-4">
               <div>

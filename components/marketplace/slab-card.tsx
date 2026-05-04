@@ -81,14 +81,14 @@ export function SlabCard({
     if (authBandRef.current) {
       animate(authBandRef.current, {
         backgroundColor: [
-          "rgba(255,255,255,0)",
-          "rgba(47,94,124,0.055)",
-          "rgba(255,255,255,0)",
+          "rgba(255,255,255,0.32)",
+          "rgba(255,255,255,0.5)",
+          "rgba(255,255,255,0.32)",
         ],
         boxShadow: [
-          "0 0 0 0 rgba(47,94,124,0)",
-          "0 0 0 1px rgba(47,94,124,0.2), 0 8px 18px rgba(47,94,124,0.08)",
-          "0 0 0 0 rgba(47,94,124,0)",
+          "inset 0 1px 0 rgba(255,255,255,0.55), 0 0 0 0 rgba(47,94,124,0)",
+          "inset 0 1px 0 rgba(255,255,255,0.72), 0 0 0 1px rgba(47,94,124,0.2), 0 10px 24px rgba(47,94,124,0.1)",
+          "inset 0 1px 0 rgba(255,255,255,0.55), 0 0 0 0 rgba(47,94,124,0)",
         ],
         duration: 620,
         ease: "outExpo",
@@ -97,9 +97,9 @@ export function SlabCard({
 
     if (certRef.current) {
       animate(certRef.current, {
-        color: ["#6b7066", "#2f5e7c", "#6b7066"],
-        translateX: [0, 2, 0],
-        duration: 520,
+        color: ["#232620", "#2f5e7c", "#232620"],
+        translateX: [0, 0.5, 0],
+        duration: 440,
         ease: "outExpo",
       });
     }
@@ -223,7 +223,7 @@ export function SlabCard({
             <div
               ref={authBandRef}
               className={cn(
-                "slab-auth-band flex flex-wrap items-center gap-2 rounded-[7px] transition duration-200",
+                "slab-auth-band flex flex-wrap items-center gap-2 transition duration-200",
                 compact && "gap-1.5",
               )}
             >
@@ -241,7 +241,7 @@ export function SlabCard({
                 </p>
                 <p
                   ref={certRef}
-                  className="font-mono text-[0.68rem] font-semibold text-vault-steel"
+                  className="font-mono text-[0.68rem] font-bold tabular-nums tracking-[0.04em] text-vault-graphite"
                 >
                   Cert {formatCertNumber(listing.certNumber)}
                 </p>

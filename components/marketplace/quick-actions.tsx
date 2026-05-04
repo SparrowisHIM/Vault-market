@@ -53,6 +53,16 @@ export function QuickActions({
     });
   }
 
+  function pulseWatchCalm(target: HTMLElement | null) {
+    if (!target || prefersReducedMotion()) return;
+
+    animate(target, {
+      scale: [1, 0.99, 1.018, 1],
+      duration: 520,
+      ease: "outExpo",
+    });
+  }
+
   function revealStatus(message: string) {
     setStatusMessage(message);
 
@@ -74,10 +84,10 @@ export function QuickActions({
     if (!watchRingRef.current || prefersReducedMotion()) return;
 
     animate(watchRingRef.current, {
-      opacity: [0, 0.72, 0],
-      scale: [0.92, 1.08, 1.18],
-      duration: 560,
-      ease: "outExpo",
+      opacity: [0, 0.38, 0],
+      scale: [0.97, 1.02, 1.05],
+      duration: 720,
+      ease: "inOutSine",
     });
   }
 
@@ -95,7 +105,7 @@ export function QuickActions({
   function toggleWatch() {
     const nextWatched = !isWatched;
     setIsWatched(nextWatched);
-    pulseAction(watchRef.current);
+    pulseWatchCalm(watchRef.current);
     if (nextWatched) triggerWatchRing();
     revealStatus(nextWatched ? "Added to watch desk" : "Removed from watch desk");
   }
