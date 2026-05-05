@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, BadgeCheck, ScanLine, ShieldCheck } from "lucide-react";
 import { MarketDelta } from "@/components/marketplace/market-delta";
+import { SlabArtImage } from "@/components/marketplace/slab-art-image";
 import {
   formatCertNumber,
   formatCurrency,
@@ -33,13 +33,10 @@ export function VaultAssetCard({ listing }: VaultAssetCardProps) {
       <div className="grid gap-3 md:grid-cols-[118px_minmax(0,1fr)]">
         <div className="grid gap-2">
           <div className="relative aspect-[5/7] overflow-hidden rounded-[8px] border border-[rgba(17,19,15,0.18)] bg-[var(--surface-inset)] shadow-[inset_0_1px_10px_rgba(17,19,15,0.08)]">
-            <Image
-              src={listing.imageUrl}
-              alt={listing.imageAlt}
-              fill
+            <SlabArtImage
+              image={listing.image}
               sizes="(min-width: 1024px) 118px, 38vw"
-              unoptimized
-              className="object-cover transition duration-300 group-hover:scale-[1.025]"
+              className="transition duration-300 group-hover:scale-[1.025]"
             />
             <div
               className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.18),transparent_36%,rgba(255,255,255,0.16)_45%,transparent_55%)] opacity-55"

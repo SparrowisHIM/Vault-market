@@ -35,6 +35,32 @@ function cardArtwork(title: string, accent: string, secondary: string, code: str
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
+function listingImage({
+  title,
+  src,
+  fallbackSrc,
+  official = true,
+}: {
+  title: string;
+  src?: string;
+  fallbackSrc: string;
+  official?: boolean;
+}) {
+  return {
+    src: src ?? fallbackSrc,
+    fallbackSrc,
+    alt: official ? `Official card artwork for ${title}` : `Registry artwork for ${title}`,
+    fallbackAlt: `VaultMarket slab artwork for ${title}`,
+  };
+}
+
+const charizardFallback = cardArtwork("Charizard Holo", "#b84d35", "#e5a842", "BASE 4/102");
+const shanksFallback = cardArtwork("Shanks Manga", "#7b2726", "#1b3440", "OP01-120");
+const jordanFallback = cardArtwork("Jordan Rookie", "#b4212d", "#1e1f24", "FLEER 57");
+const lotusFallback = cardArtwork("Black Lotus", "#161613", "#746348", "BETA 233");
+const blueEyesFallback = cardArtwork("Blue-Eyes", "#e7edf0", "#315c7a", "LOB-001");
+const hoOhFallback = cardArtwork("Crystal Ho-Oh", "#cc7d32", "#2f6d78", "SKY 149/144");
+
 export const mockListings: VaultListing[] = [
   {
     id: "lst_001",
@@ -47,8 +73,11 @@ export const mockListings: VaultListing[] = [
     gradingCompany: "PSA",
     grade: "9",
     certNumber: "812849337",
-    imageUrl: cardArtwork("Charizard Holo", "#b84d35", "#e5a842", "BASE 4/102"),
-    imageAlt: "Stylized registry artwork for 1999 Pokemon Base Set Charizard Holo",
+    image: listingImage({
+      title: "1999 Pokemon Base Set Charizard Holo",
+      src: "https://images.pokemontcg.io/base1/4_hires.png",
+      fallbackSrc: charizardFallback,
+    }),
     priceCents: 425000,
     marketDeltaPercent: 4.8,
     lastCompCents: 405000,
@@ -83,8 +112,11 @@ export const mockListings: VaultListing[] = [
     gradingCompany: "PSA",
     grade: "10",
     certNumber: "902184774",
-    imageUrl: cardArtwork("Shanks Manga", "#7b2726", "#1b3440", "OP01-120"),
-    imageAlt: "VaultMarket slab artwork for One Piece Shanks Manga Alternate Art",
+    image: listingImage({
+      title: "One Piece Shanks Manga Alternate Art",
+      src: "https://en.onepiece-cardgame.com/images/cardlist/card/OP01-120.png",
+      fallbackSrc: shanksFallback,
+    }),
     priceCents: 318000,
     marketDeltaPercent: -2.2,
     lastCompCents: 325000,
@@ -118,8 +150,11 @@ export const mockListings: VaultListing[] = [
     gradingCompany: "SGC",
     grade: "8",
     certNumber: "118204593",
-    imageUrl: cardArtwork("Jordan Rookie", "#b4212d", "#1e1f24", "FLEER 57"),
-    imageAlt: "Graded slab artwork for 1986 Fleer Michael Jordan Rookie",
+    image: listingImage({
+      title: "1986 Fleer Michael Jordan Rookie",
+      fallbackSrc: jordanFallback,
+      official: false,
+    }),
     priceCents: 795000,
     marketDeltaPercent: 1.4,
     lastCompCents: 784000,
@@ -154,8 +189,11 @@ export const mockListings: VaultListing[] = [
     gradingCompany: "BGS",
     grade: "8.5",
     certNumber: "0012098841",
-    imageUrl: cardArtwork("Black Lotus", "#161613", "#746348", "BETA 233"),
-    imageAlt: "Stylized registry artwork for Magic The Gathering Beta Black Lotus",
+    image: listingImage({
+      title: "Magic The Gathering Beta Black Lotus",
+      src: "https://cards.scryfall.io/large/front/b/3/b3a69a1c-c80f-4413-a6fd-ae54cabbce28.jpg?1559591595",
+      fallbackSrc: lotusFallback,
+    }),
     priceCents: 12450000,
     marketDeltaPercent: 6.1,
     lastCompCents: 11730000,
@@ -190,8 +228,11 @@ export const mockListings: VaultListing[] = [
     gradingCompany: "CGC",
     grade: "9.5",
     certNumber: "443019281",
-    imageUrl: cardArtwork("Blue-Eyes", "#e7edf0", "#315c7a", "LOB-001"),
-    imageAlt: "VaultMarket slab artwork for Yu-Gi-Oh Blue-Eyes White Dragon",
+    image: listingImage({
+      title: "Yu-Gi-Oh Blue-Eyes White Dragon",
+      src: "https://images.ygoprodeck.com/images/cards/89631139.jpg",
+      fallbackSrc: blueEyesFallback,
+    }),
     priceCents: 268000,
     marketDeltaPercent: 0,
     lastCompCents: 268000,
@@ -225,8 +266,11 @@ export const mockListings: VaultListing[] = [
     gradingCompany: "PSA",
     grade: "10",
     certNumber: "729118002",
-    imageUrl: cardArtwork("Crystal Ho-Oh", "#cc7d32", "#2f6d78", "SKY 149/144"),
-    imageAlt: "Graded slab artwork for Pokemon Skyridge Crystal Ho-Oh Holo",
+    image: listingImage({
+      title: "Pokemon Skyridge Crystal Ho-Oh Holo",
+      src: "https://images.pokemontcg.io/ecard3/149_hires.png",
+      fallbackSrc: hoOhFallback,
+    }),
     priceCents: 985000,
     marketDeltaPercent: 8.7,
     lastCompCents: 906000,

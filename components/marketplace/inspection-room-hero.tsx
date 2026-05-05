@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { animate, createScope, stagger } from "animejs";
 import { BadgeCheck, ScanLine, ShieldCheck } from "lucide-react";
 import { MarketDelta } from "@/components/marketplace/market-delta";
 import { QuickActions } from "@/components/marketplace/quick-actions";
 import { SellerTrustBadge } from "@/components/marketplace/seller-trust-badge";
+import { SlabArtImage } from "@/components/marketplace/slab-art-image";
 import { SpecialistReviewDrawer } from "@/components/marketplace/specialist-review-drawer";
 import {
   formatCertNumber,
@@ -141,14 +141,10 @@ export function InspectionRoomHero({ listing }: InspectionRoomHeroProps) {
             onFocusCapture={runSweep}
             className="inspection-slab-plane relative mx-auto aspect-[5/7] w-full max-w-[500px] overflow-hidden rounded-[10px] border border-white/15 bg-[rgba(244,241,233,0.08)] shadow-[inset_0_1px_18px_rgba(255,255,255,0.08),0_18px_50px_rgba(0,0,0,0.3)]"
           >
-            <Image
-              src={listing.imageUrl}
-              alt={listing.imageAlt}
-              fill
+            <SlabArtImage
+              image={listing.image}
               sizes="(min-width: 1024px) 40vw, 92vw"
-              unoptimized
               priority
-              className="object-cover"
             />
             <div
               className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.2),transparent_34%,rgba(255,255,255,0.16)_42%,transparent_52%)] opacity-60"

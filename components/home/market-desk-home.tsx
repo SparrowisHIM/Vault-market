@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { animate, createScope, stagger } from "animejs";
@@ -16,6 +15,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { MarketDelta } from "@/components/marketplace/market-delta";
+import { SlabArtImage } from "@/components/marketplace/slab-art-image";
 import { formatCurrency, formatPopulation } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
 import type { VaultListing } from "@/lib/marketplace/types";
@@ -414,13 +414,10 @@ export function MarketDeskHome() {
                     </span>
                   </div>
                   <div className="relative aspect-[5/7] overflow-hidden rounded-[14px] border border-[rgba(17,19,15,0.18)]">
-                    <Image
-                      src={leadListing.imageUrl}
-                      alt={leadListing.imageAlt}
-                      fill
-                      unoptimized
+                    <SlabArtImage
+                      image={leadListing.image}
                       sizes="(min-width: 1024px) 390px, 86vw"
-                      className="object-cover"
+                      priority
                     />
                   </div>
                   <div className="grid grid-cols-[1fr_auto] gap-3">

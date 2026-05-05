@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useRef } from "react";
 import { animate } from "animejs";
+import { SlabArtImage } from "@/components/marketplace/slab-art-image";
 import { formatCertNumber, formatCurrency, formatPopulation } from "@/lib/marketplace/format";
 import type { SlabCardVariant, VaultListing } from "@/lib/marketplace/types";
 import { cn } from "@/lib/utils";
@@ -174,13 +174,9 @@ export function SlabCard({
             compact ? "aspect-[5/7]" : "aspect-[5/7]",
           )}
         >
-          <Image
-            src={listing.imageUrl}
-            alt={listing.imageAlt}
-            fill
+          <SlabArtImage
+            image={listing.image}
             sizes={compact ? "82px" : "(min-width: 1280px) 150px, (min-width: 768px) 28vw, 34vw"}
-            unoptimized
-            className="object-cover"
           />
           <div
             className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.2),transparent_34%,rgba(255,255,255,0.16)_42%,transparent_52%)] opacity-55"

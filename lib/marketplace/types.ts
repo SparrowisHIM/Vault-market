@@ -16,6 +16,13 @@ export type VerificationStatus = "vault_verified" | "verified" | "pending_review
 
 export type EyeAppeal = "collect_a" | "collect_e" | "collect_s";
 
+export type ListingImage = {
+  src: string;
+  fallbackSrc: string;
+  alt: string;
+  fallbackAlt: string;
+};
+
 export type VaultListing = {
   id: string;
   slug: string;
@@ -27,8 +34,7 @@ export type VaultListing = {
   gradingCompany: GradingCompany;
   grade: string;
   certNumber: string;
-  imageUrl: string;
-  imageAlt: string;
+  image: ListingImage;
   priceCents: number;
   marketDeltaPercent?: number;
   lastCompCents?: number;
