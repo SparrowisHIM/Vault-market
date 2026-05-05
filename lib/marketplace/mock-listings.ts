@@ -94,6 +94,7 @@ const blueEyesFallback = cardArtwork("Blue-Eyes", "#e7edf0", "#315c7a", "LOB-001
 const hoOhFallback = cardArtwork("Crystal Ho-Oh", "#cc7d32", "#2f6d78", "SKY 149/144");
 const blastoiseFallback = cardArtwork("Blastoise Holo", "#2f5f91", "#c2d8e6", "BASE 2/102");
 
+// Vintage sports cards stay on local registry artwork until a stable licensed image source is available.
 export const mockListings: VaultListing[] = [
   {
     id: "lst_001",
@@ -147,8 +148,8 @@ export const mockListings: VaultListing[] = [
     certNumber: "902184774",
     image: listingImage({
       title: "2023 One Piece Shanks Manga",
+      src: "https://image.optcg.gg/images/en/OP01-120.png",
       fallbackSrc: shanksFallback,
-      official: false,
     }),
     priceCents: 320000,
     marketDeltaPercent: -1.7,
@@ -379,8 +380,8 @@ export const mockListings: VaultListing[] = [
     certNumber: "919640118",
     image: listingImage({
       title: "2023 One Piece Portgas D. Ace Manga",
+      src: "https://image.optcg.gg/images/en/OP02-013.png",
       fallbackSrc: aceFallback,
-      official: false,
     }),
     priceCents: 295000,
     marketDeltaPercent: 5.4,
