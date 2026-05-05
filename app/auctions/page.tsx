@@ -17,6 +17,7 @@ import { SlabCard } from "@/components/marketplace/slab-card";
 import { formatCurrency, formatEstimateRange, formatPopulation } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
 import type { VaultListing } from "@/lib/marketplace/types";
+import { buildListingHref } from "@/lib/navigation/listing-links";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -116,7 +117,7 @@ function AuctionRow({ listing, index }: { listing: VaultListing; index: number }
   return (
     <li>
       <Link
-        href={`/marketplace/${listing.slug}`}
+        href={buildListingHref(listing.slug, "/auctions")}
         className="group grid gap-3 rounded-[10px] border border-[var(--border-soft)] bg-white/[0.42] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] transition hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-white/72 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -367,7 +368,7 @@ export default function AuctionsPage() {
             </dl>
 
             <div className="mt-4">
-              <SlabCard listing={leadLot} />
+              <SlabCard listing={leadLot} sourceHref="/auctions" />
             </div>
           </article>
 

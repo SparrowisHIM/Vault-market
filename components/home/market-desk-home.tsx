@@ -19,6 +19,7 @@ import { MarketDelta } from "@/components/marketplace/market-delta";
 import { formatCurrency, formatPopulation } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
 import type { VaultListing } from "@/lib/marketplace/types";
+import { buildListingHref } from "@/lib/navigation/listing-links";
 import { cn } from "@/lib/utils";
 
 const deskLinks = [
@@ -69,7 +70,7 @@ const tapeItems = mockListings.map((listing) => ({
 function CommandListingResult({ listing }: { listing: VaultListing }) {
   return (
     <Link
-      href={`/marketplace/${listing.slug}`}
+      href={buildListingHref(listing.slug, "/")}
       className="command-result group grid grid-cols-[1fr_auto] gap-3 rounded-[8px] border border-white/10 bg-white/[0.055] p-3 transition hover:bg-white/[0.09] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
     >
       <span className="min-w-0">
@@ -504,7 +505,7 @@ export function MarketDeskHome() {
               {featuredListings.map((listing) => (
                 <Link
                   key={listing.id}
-                  href={`/marketplace/${listing.slug}`}
+                  href={buildListingHref(listing.slug, "/")}
                   className="group rounded-[8px] border border-white/10 bg-white/[0.055] p-3 transition duration-200 hover:bg-white/[0.09] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
                 >
                   <div className="flex items-start justify-between gap-3">

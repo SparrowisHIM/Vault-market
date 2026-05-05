@@ -177,6 +177,7 @@ export function MarketplaceBrowser({
   const [compareOpen, setCompareOpen] = useState(false);
   const [compareNotice, setCompareNotice] = useState<string | null>(null);
   const [compareNoticeTone, setCompareNoticeTone] = useState<"limit" | "neutral" | null>(null);
+  const compareIdsRef = useRef<string[]>([]);
   const resultsGridRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -265,6 +266,10 @@ export function MarketplaceBrowser({
     }, 2600);
     return () => window.clearTimeout(timeout);
   }, [compareNotice]);
+
+  useEffect(() => {
+    compareIdsRef.current = compareIds;
+  }, [compareIds]);
 
   const marketStats = useMemo(() => {
     const askBook = filteredListings.reduce((total, listing) => total + listing.priceCents, 0);
@@ -408,22 +413,27 @@ export function MarketplaceBrowser({
 
   function toggleCompareListing(listing: VaultListing, nextCompared: boolean) {
     if (!nextCompared) {
-      setCompareIds((current) => current.filter((id) => id !== listing.id));
+      const nextCompareIds = compareIdsRef.current.filter((id) => id !== listing.id);
+      compareIdsRef.current = nextCompareIds;
+      setCompareIds(nextCompareIds);
       setCompareNotice(null);
       setCompareNoticeTone(null);
       return true;
     }
 
-    if (compareIds.includes(listing.id)) return true;
+    const currentCompareIds = compareIdsRef.current;
 
-    if (compareIds.length >= 3) {
+    if (currentCompareIds.includes(listing.id)) return true;
+
+    if (currentCompareIds.length >= 3) {
       setCompareOpen(true);
       setCompareNotice("Compare queue holds up to 3 slabs");
       setCompareNoticeTone("limit");
       return false;
     }
 
-    const nextCompareIds = [...compareIds, listing.id];
+    const nextCompareIds = [...currentCompareIds, listing.id];
+    compareIdsRef.current = nextCompareIds;
     setCompareIds(nextCompareIds);
     if (nextCompareIds.length >= 2) {
       setCompareOpen(true);
@@ -434,10 +444,13 @@ export function MarketplaceBrowser({
   }
 
   function removeComparedListing(listingId: string) {
-    setCompareIds((current) => current.filter((id) => id !== listingId));
+    const nextCompareIds = compareIdsRef.current.filter((id) => id !== listingId);
+    compareIdsRef.current = nextCompareIds;
+    setCompareIds(nextCompareIds);
   }
 
   function clearComparedListings() {
+    compareIdsRef.current = [];
     setCompareIds([]);
     setCompareOpen(false);
     setCompareNotice(null);
@@ -481,6 +494,20 @@ export function MarketplaceBrowser({
   }
 
   const activePreset = getActivePreset();
+  const currentMarketplacePath = useMemo(() => {
+    const params = new URLSearchParams();
+    const trimmedQuery = query.trim();
+
+    if (trimmedQuery) params.set("q", trimmedQuery);
+    if (listingType !== "all") params.set("type", listingType);
+    if (franchise !== "all") params.set("franchise", franchise);
+    if (gradingCompany !== "all") params.set("grader", gradingCompany);
+    if (sellerTrust !== "all") params.set("trust", sellerTrust);
+    if (status !== "all") params.set("status", status);
+    if (sort !== "market-signal") params.set("sort", sort);
+
+    return params.toString() ? `/marketplace?${params.toString()}` : "/marketplace";
+  }, [franchise, gradingCompany, listingType, query, sellerTrust, sort, status]);
 
   return (
     <section aria-labelledby="marketplace-results-heading" className="grid gap-4">
@@ -868,6 +895,7 @@ export function MarketplaceBrowser({
               <SlabCard
                 listing={listing}
                 variant={viewDensity}
+                sourceHref={currentMarketplacePath}
                 compareQueued={compareIds.includes(listing.id)}
                 onCompareToggle={toggleCompareListing}
               />
@@ -894,6 +922,7 @@ export function MarketplaceBrowser({
         listings={comparedListings}
         isOpen={compareOpen}
         notice={compareNotice}
+        sourceHref={currentMarketplacePath}
         noticeTone={compareNoticeTone}
         onOpen={() => setCompareOpen(true)}
         onClose={() => setCompareOpen(false)}

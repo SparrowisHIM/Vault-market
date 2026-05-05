@@ -23,6 +23,7 @@ import {
 } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
 import type { VaultListing } from "@/lib/marketplace/types";
+import { buildListingHref } from "@/lib/navigation/listing-links";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -147,7 +148,7 @@ function CandidateCard({ listing, index }: { listing: VaultListing; index: numbe
   return (
     <li>
       <Link
-        href={`/marketplace/${listing.slug}`}
+        href={buildListingHref(listing.slug, "/private-desk")}
         className="group grid gap-3 rounded-[10px] border border-[var(--border-soft)] bg-white/[0.42] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] transition hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-white/72 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -363,7 +364,7 @@ export default function PrivateDeskPage() {
                 </p>
               </div>
               <Link
-                href={`/marketplace/${leadCandidate.slug}`}
+                href={buildListingHref(leadCandidate.slug, "/private-desk")}
                 className="inline-flex h-10 items-center justify-center gap-2 rounded-[6px] border border-vault-graphite bg-vault-ink px-4 text-sm font-semibold text-vault-paper transition hover:bg-vault-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
               >
                 <Sparkles className="h-4 w-4" aria-hidden="true" />
@@ -399,7 +400,7 @@ export default function PrivateDeskPage() {
             </dl>
 
             <div className="mt-4">
-              <SlabCard listing={leadCandidate} />
+              <SlabCard listing={leadCandidate} sourceHref="/private-desk" />
             </div>
           </article>
 

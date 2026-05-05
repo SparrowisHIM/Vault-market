@@ -15,6 +15,7 @@ import { SellerTrustBadge } from "./seller-trust-badge";
 type SlabCardProps = {
   listing: VaultListing;
   variant?: SlabCardVariant;
+  sourceHref?: string;
   compareQueued?: boolean;
   onCompareToggle?: (listing: VaultListing, nextCompared: boolean) => boolean | void;
 };
@@ -28,6 +29,7 @@ const statusStyles = {
 export function SlabCard({
   listing,
   variant = "default",
+  sourceHref,
   compareQueued,
   onCompareToggle,
 }: SlabCardProps) {
@@ -296,6 +298,7 @@ export function SlabCard({
             <QuickActions
               listingSlug={listing.slug}
               listingTitle={listing.title}
+              sourceHref={sourceHref}
               compact={compact}
               compareQueued={compareQueued}
               onCompareToggle={

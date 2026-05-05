@@ -3,6 +3,7 @@ import { ArrowUpRight, BadgeCheck, Crosshair, Layers3 } from "lucide-react";
 import { MarketDelta } from "@/components/marketplace/market-delta";
 import { formatCurrency, getVaultStatusLabel } from "@/lib/marketplace/format";
 import type { VaultListing } from "@/lib/marketplace/types";
+import { buildListingHref } from "@/lib/navigation/listing-links";
 import { cn } from "@/lib/utils";
 
 type ResearchCompFeedProps = {
@@ -26,7 +27,7 @@ function compSpreadPercent(listing: VaultListing) {
 function AssetLink({ listing }: { listing: VaultListing }) {
   return (
     <Link
-      href={`/marketplace/${listing.slug}`}
+      href={buildListingHref(listing.slug, "/research")}
       className="rounded-[5px] font-semibold text-vault-ink underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
     >
       {listing.title}
@@ -165,7 +166,7 @@ export function ResearchCompFeed({ listings, maxAbsDelta }: ResearchCompFeedProp
                       {getVaultStatusLabel(listing.vaultStatus)}
                     </span>
                     <Link
-                      href={`/marketplace/${listing.slug}`}
+                      href={buildListingHref(listing.slug, "/research")}
                       className="inline-flex h-8 items-center justify-center gap-1.5 rounded-[6px] border border-[var(--border-soft)] bg-white/58 px-2.5 text-xs font-semibold text-vault-graphite transition hover:bg-white/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                     >
                       Inspect

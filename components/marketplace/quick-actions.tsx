@@ -4,6 +4,7 @@ import { Eye, Landmark, Plus, Star } from "lucide-react";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { animate } from "animejs";
+import { buildListingHref } from "@/lib/navigation/listing-links";
 import { cn } from "@/lib/utils";
 
 type QuickActionsProps = {
@@ -11,6 +12,7 @@ type QuickActionsProps = {
   listingTitle: string;
   compact?: boolean;
   context?: "card" | "inspection";
+  sourceHref?: string;
   onRequestSpecialistReview?: () => void;
   compareQueued?: boolean;
   onCompareToggle?: (nextCompared: boolean) => boolean | void;
@@ -21,6 +23,7 @@ export function QuickActions({
   listingTitle,
   compact = false,
   context = "card",
+  sourceHref,
   onRequestSpecialistReview,
   compareQueued,
   onCompareToggle,
@@ -111,6 +114,8 @@ export function QuickActions({
   }
 
   function toggleCompare() {
+    if (!onCompareToggle) return;
+
     const currentCompared = compareQueued ?? localCompared;
     const nextCompared = !currentCompared;
     const handled = onCompareToggle?.(nextCompared);
@@ -131,7 +136,11 @@ export function QuickActions({
 
   const buttonClass = cn(
     "relative inline-flex items-center justify-center overflow-hidden rounded-[6px] border border-[rgba(17,19,15,0.16)] bg-white/58 font-medium text-vault-graphite shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.36)] hover:bg-white/86 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]",
-    compact ? "h-8 px-2 text-xs" : "h-9 min-w-0 px-3 text-sm",
+    context === "inspection"
+      ? "h-10 w-full px-3 text-sm"
+      : compact
+        ? "h-8 px-2 text-xs"
+        : "h-9 min-w-0 px-3 text-sm",
   );
   const primaryAction =
     context === "inspection"
@@ -142,13 +151,14 @@ export function QuickActions({
           Icon: Landmark,
         }
       : {
-          href: `/marketplace/${listingSlug}`,
+          href: buildListingHref(listingSlug, sourceHref),
           label: "Inspect slab",
           ariaLabel: `Inspect slab for ${listingTitle}`,
           Icon: Eye,
         };
   const PrimaryIcon = primaryAction.Icon;
   const isCompared = compareQueued ?? localCompared;
+  const showCompare = Boolean(onCompareToggle);
   const primaryActionControl =
     context === "inspection" ? (
       <button
@@ -161,8 +171,13 @@ export function QuickActions({
         onPointerEnter={() => pulseAction(primaryButtonRef.current)}
         className={cn(
           "group inline-flex items-center justify-center overflow-hidden rounded-[6px] border border-vault-graphite bg-vault-ink font-semibold text-vault-paper transition duration-200 hover:-translate-y-0.5 hover:bg-vault-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]",
-          !compact && "col-span-2 w-full",
-          compact ? "h-8 px-2 text-xs" : "h-9 px-3 text-sm",
+          context === "inspection" && "w-full",
+          !compact && context !== "inspection" && "col-span-2 w-full",
+          context === "inspection"
+            ? "h-10 px-3 text-sm"
+            : compact
+              ? "h-8 px-2 text-xs"
+              : "h-9 px-3 text-sm",
         )}
         aria-label={primaryAction.ariaLabel}
       >
@@ -179,7 +194,7 @@ export function QuickActions({
       href={primaryAction.href}
       onPointerEnter={() => pulseAction(primaryLinkRef.current)}
       className={cn(
-        "group inline-flex items-center justify-center overflow-hidden rounded-[6px] border border-vault-graphite bg-vault-ink font-semibold text-vault-paper transition duration-200 hover:-translate-y-0.5 hover:bg-vault-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]",
+          "group inline-flex items-center justify-center overflow-hidden rounded-[6px] border border-vault-graphite bg-vault-ink font-semibold text-vault-paper transition duration-200 hover:-translate-y-0.5 hover:bg-vault-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]",
         !compact && "col-span-2 w-full",
         compact ? "h-8 px-2 text-xs" : "h-9 px-3 text-sm",
       )}
@@ -197,7 +212,14 @@ export function QuickActions({
   return (
     <div>
       <div
-        className={cn("grid gap-2", compact ? "grid-cols-3" : "grid-cols-2")}
+        className={cn(
+          "grid gap-2",
+          context === "inspection"
+            ? "grid-cols-1"
+            : compact && showCompare
+              ? "grid-cols-3"
+              : "grid-cols-2",
+        )}
         aria-label={`Actions for ${listingTitle}`}
       >
         {context === "inspection" && primaryActionControl}
@@ -206,7 +228,7 @@ export function QuickActions({
           type="button"
           className={cn(
             buttonClass,
-            !compact && "w-full",
+            (!compact || context === "inspection") && "w-full",
             isWatched &&
               "border-[rgba(166,111,31,0.42)] bg-[rgba(166,111,31,0.13)] text-[#744e18]",
           )}
@@ -227,39 +249,41 @@ export function QuickActions({
           />
           {!compact && <span>{isWatched ? "Watching" : "Watch"}</span>}
         </button>
-        <button
-          ref={compareRef}
-          type="button"
-          className={cn(
-            buttonClass,
-            !compact && "w-full",
-            isCompared &&
-              "border-[rgba(47,94,124,0.38)] bg-[rgba(47,94,124,0.1)] text-[#244f69]",
-          )}
-          aria-pressed={isCompared}
-          aria-label={
-            isCompared
-              ? `Remove ${listingTitle} from compare queue`
-              : `Queue ${listingTitle} for comparison`
-          }
-          title="Add this slab to your compare queue."
-          onClick={toggleCompare}
-        >
-          <span
-            ref={compareRailRef}
-            className="pointer-events-none absolute inset-x-2 bottom-1 h-px origin-left scale-x-0 rounded-full bg-[linear-gradient(90deg,transparent,rgba(47,94,124,0.72),transparent)] opacity-0"
-            aria-hidden="true"
-          />
-          <Plus
+        {showCompare ? (
+          <button
+            ref={compareRef}
+            type="button"
             className={cn(
-              "h-4 w-4 transition-transform duration-200",
-              !compact && "mr-1.5",
-              isCompared && "rotate-45",
+              buttonClass,
+              !compact && "w-full",
+              isCompared &&
+                "border-[rgba(47,94,124,0.38)] bg-[rgba(47,94,124,0.1)] text-[#244f69]",
             )}
-            aria-hidden="true"
-          />
-          {!compact && <span>{isCompared ? "Queued" : "Compare"}</span>}
-        </button>
+            aria-pressed={isCompared}
+            aria-label={
+              isCompared
+                ? `Remove ${listingTitle} from compare queue`
+                : `Queue ${listingTitle} for comparison`
+            }
+            title="Add this slab to your compare queue."
+            onClick={toggleCompare}
+          >
+            <span
+              ref={compareRailRef}
+              className="pointer-events-none absolute inset-x-2 bottom-1 h-px origin-left scale-x-0 rounded-full bg-[linear-gradient(90deg,transparent,rgba(47,94,124,0.72),transparent)] opacity-0"
+              aria-hidden="true"
+            />
+            <Plus
+              className={cn(
+                "h-4 w-4 transition-transform duration-200",
+                !compact && "mr-1.5",
+                isCompared && "rotate-45",
+              )}
+              aria-hidden="true"
+            />
+            {!compact && <span>{isCompared ? "Queued" : "Compare"}</span>}
+          </button>
+        ) : null}
         {context === "card" && primaryActionControl}
       </div>
 

@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SlabCard } from "@/components/marketplace/slab-card";
+import { VaultAssetCard } from "@/components/vault/vault-asset-card";
 import {
   formatCurrency,
   getVaultStatusLabel,
@@ -20,6 +20,7 @@ import {
 } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
 import type { VaultListing } from "@/lib/marketplace/types";
+import { buildListingHref } from "@/lib/navigation/listing-links";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -334,12 +335,7 @@ export default function VaultPage() {
             </div>
             <div className="grid gap-3">
               {vaultAssets.map((listing) => (
-                <div key={listing.id} className="group relative">
-                  <div className="absolute left-3 top-3 z-10">
-                    <CustodyPill listing={listing} />
-                  </div>
-                  <SlabCard listing={listing} variant="compact" />
-                </div>
+                <VaultAssetCard key={listing.id} listing={listing} />
               ))}
             </div>
           </div>
@@ -361,7 +357,7 @@ export default function VaultPage() {
                 {vaultAssets.map((listing, index) => (
                   <Link
                     key={`${listing.id}-ledger`}
-                    href={`/marketplace/${listing.slug}`}
+                    href={buildListingHref(listing.slug, "/vault")}
                     className="group grid gap-3 rounded-[9px] border border-[var(--border-soft)] bg-white/[0.42] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] transition hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-white/72 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                   >
                     <div className="flex items-start justify-between gap-3">

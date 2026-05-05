@@ -4,6 +4,7 @@ import { ListingTypeBadge } from "@/components/marketplace/listing-type-badge";
 import { MarketDelta } from "@/components/marketplace/market-delta";
 import { formatCurrency, formatPopulation } from "@/lib/marketplace/format";
 import type { VaultListing } from "@/lib/marketplace/types";
+import { buildListingHref } from "@/lib/navigation/listing-links";
 import { cn } from "@/lib/utils";
 
 type ResearchIntelligenceSidebarProps = {
@@ -30,7 +31,7 @@ function rarityBarPercent(pop: number | undefined, minP: number, maxP: number) {
 function AssetLink({ listing }: { listing: VaultListing }) {
   return (
     <Link
-      href={`/marketplace/${listing.slug}`}
+      href={buildListingHref(listing.slug, "/research")}
       className="rounded-[5px] font-semibold text-vault-ink underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
     >
       {listing.title}
@@ -65,7 +66,7 @@ export function ResearchIntelligenceSidebar({
           {marketMovers.slice(0, 4).map((listing, index) => (
             <li key={listing.id}>
               <Link
-                href={`/marketplace/${listing.slug}`}
+                href={buildListingHref(listing.slug, "/research")}
                 className="group block rounded-[9px] border border-[var(--border-soft)] bg-white/[0.42] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-white/74 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-panel)]"
               >
                 <div className="flex items-start justify-between gap-3">
