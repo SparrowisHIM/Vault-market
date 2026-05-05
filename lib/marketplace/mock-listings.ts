@@ -1,6 +1,6 @@
 import type { VaultListing } from "./types";
 
-type ArtworkStyle = "registry" | "manga" | "court";
+type ArtworkStyle = "registry" | "manga";
 
 function cardArtwork(
   title: string,
@@ -28,10 +28,6 @@ function cardArtwork(
         <feFuncA type="table" tableValues="0 0.13"/>
       </feComponentTransfer>
     </filter>
-    <pattern id="court" width="96" height="96" patternUnits="userSpaceOnUse">
-      <path d="M0 48 H96 M48 0 V96" stroke="rgba(246,240,223,0.14)" stroke-width="2"/>
-      <circle cx="48" cy="48" r="28" fill="none" stroke="rgba(246,240,223,0.18)" stroke-width="2"/>
-    </pattern>
     <pattern id="manga" width="92" height="92" patternUnits="userSpaceOnUse" patternTransform="rotate(15)">
       <path d="M0 46 H92 M46 0 V92" stroke="rgba(246,240,223,0.12)" stroke-width="2"/>
       <path d="M18 18 L74 74 M74 18 L18 74" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
@@ -40,13 +36,7 @@ function cardArtwork(
   <rect width="640" height="900" rx="38" fill="#f6f0df"/>
   <rect x="36" y="36" width="568" height="828" rx="28" fill="url(#g)"/>
   ${
-    style === "court"
-      ? `<rect x="72" y="86" width="496" height="560" rx="18" fill="url(#court)" stroke="rgba(255,255,255,0.34)" stroke-width="2"/>
-  <circle cx="320" cy="360" r="124" fill="rgba(246,240,223,0.1)" stroke="rgba(246,240,223,0.28)" stroke-width="8"/>
-  <path d="M204 526 C248 420 277 354 318 240 C368 338 408 418 456 526" fill="none" stroke="rgba(246,240,223,0.4)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M214 522 C274 486 363 486 450 522" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="10" stroke-linecap="round"/>
-  <text x="96" y="146" fill="rgba(246,240,223,0.78)" font-family="Arial, sans-serif" font-size="24" font-weight="800" letter-spacing="5">ROOKIE LEDGER</text>`
-      : style === "manga"
+    style === "manga"
         ? `<rect x="72" y="86" width="496" height="560" rx="18" fill="url(#manga)" stroke="rgba(255,255,255,0.34)" stroke-width="2"/>
   <path d="M112 590 L178 134 L314 568 L430 126 L526 590 Z" fill="rgba(246,240,223,0.12)" stroke="rgba(246,240,223,0.24)" stroke-width="8" stroke-linejoin="round"/>
   <path d="M136 564 C214 464 254 426 318 298 C382 426 430 466 504 564" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="15" stroke-linecap="round"/>
@@ -87,14 +77,13 @@ function listingImage({
 const charizardFallback = cardArtwork("Charizard Holo", "#b84d35", "#e5a842", "BASE 4/102");
 const shanksFallback = cardArtwork("Shanks Manga", "#7b2726", "#1b3440", "OP01-120", "manga");
 const aceFallback = cardArtwork("Portgas D. Ace", "#9f2d25", "#d6a14b", "OP02-013", "manga");
-const jordanFallback = cardArtwork("Jordan Rookie", "#b4212d", "#1e1f24", "FLEER 57", "court");
-const lotusFallback = cardArtwork("Black Lotus", "#161613", "#746348", "BETA 233");
-const moxSapphireFallback = cardArtwork("Mox Sapphire", "#183d66", "#75a8c7", "BETA 266");
+const lugiaFallback = cardArtwork("Lugia Holo", "#4b6f92", "#d9e7ef", "NEO 9/111");
 const blueEyesFallback = cardArtwork("Blue-Eyes", "#e7edf0", "#315c7a", "LOB-001");
+const darkMagicianFallback = cardArtwork("Dark Magician", "#45246b", "#be7fc7", "LOB-005");
+const redEyesFallback = cardArtwork("Red-Eyes", "#2f2f36", "#9b2e2d", "LOB-070");
 const hoOhFallback = cardArtwork("Crystal Ho-Oh", "#cc7d32", "#2f6d78", "SKY 149/144");
 const blastoiseFallback = cardArtwork("Blastoise Holo", "#2f5f91", "#c2d8e6", "BASE 2/102");
 
-// Vintage sports cards stay on local registry artwork until a stable licensed image source is available.
 export const mockListings: VaultListing[] = [
   {
     id: "lst_001",
@@ -148,8 +137,8 @@ export const mockListings: VaultListing[] = [
     certNumber: "902184774",
     image: listingImage({
       title: "2023 One Piece Shanks Manga",
-      src: "https://image.optcg.gg/images/en/OP01-120.png",
       fallbackSrc: shanksFallback,
+      official: false,
     }),
     priceCents: 320000,
     marketDeltaPercent: -1.7,
@@ -175,118 +164,118 @@ export const mockListings: VaultListing[] = [
   },
   {
     id: "lst_003",
-    slug: "1986-fleer-michael-jordan-rookie-sgc-8",
-    title: "1986 Fleer Michael Jordan Rookie",
-    franchise: "Sports",
-    setName: "Fleer Basketball",
-    year: 1986,
-    cardNumber: "57",
-    gradingCompany: "SGC",
-    grade: "8",
-    certNumber: "118204593",
+    slug: "2000-pokemon-neo-genesis-lugia-holo-psa-9",
+    title: "2000 Pokemon Neo Genesis Lugia Holo",
+    franchise: "Pokemon",
+    setName: "Neo Genesis",
+    year: 2000,
+    cardNumber: "9/111",
+    gradingCompany: "PSA",
+    grade: "9",
+    certNumber: "638294105",
     image: listingImage({
-      title: "1986 Fleer Michael Jordan Rookie",
-      fallbackSrc: jordanFallback,
-      official: false,
+      title: "2000 Pokemon Neo Genesis Lugia Holo",
+      src: "https://images.pokemontcg.io/neo1/9_hires.png",
+      fallbackSrc: lugiaFallback,
     }),
-    priceCents: 795000,
-    marketDeltaPercent: 1.4,
-    lastCompCents: 784000,
-    estimatedRangeCents: [760000, 835000],
-    population: 1194,
+    priceCents: 1850000,
+    marketDeltaPercent: 5.2,
+    lastCompCents: 1759000,
+    estimatedRangeCents: [1650000, 2050000],
+    population: 642,
     listingType: "premier",
     vaultStatus: "vault_held",
     verificationStatus: "vault_verified",
-    eyeAppeal: "collect_a",
-    provenanceNotes: "Reserved premier lot from a long-standing sports-card seller.",
+    eyeAppeal: "collect_s",
+    provenanceNotes: "Vault-held Neo Genesis chase card selected for specialist review and private desk routing.",
     inspectionHighlights: [
       "Vault custody confirmed",
-      "Vintage rookie lot",
-      "Seller history reviewed",
+      "Iconic Neo-era chase card",
+      "Estimate range assigned",
     ],
     seller: {
-      name: "Baseline Registry",
+      name: "Northstar Vault",
       trustTier: "vault",
-      completedSales: 312,
-      location: "New York, NY",
+      completedSales: 421,
+      location: "Chicago, IL",
     },
-    status: "reserved",
+    status: "active",
   },
   {
     id: "lst_004",
-    slug: "1993-mtg-beta-black-lotus-bgs-85",
-    title: "1993 MTG Beta Black Lotus",
-    franchise: "MTG",
-    setName: "Limited Edition Beta",
-    year: 1993,
-    cardNumber: "233",
-    gradingCompany: "BGS",
-    grade: "8.5",
-    certNumber: "0012098841",
+    slug: "2002-yugioh-dark-magician-psa-9",
+    title: "2002 Yu-Gi-Oh! Dark Magician",
+    franchise: "Yu-Gi-Oh",
+    setName: "Legend of Blue Eyes",
+    year: 2002,
+    cardNumber: "LOB-005",
+    gradingCompany: "PSA",
+    grade: "9",
+    certNumber: "557390126",
     image: listingImage({
-      title: "1993 Magic: The Gathering Beta Black Lotus",
-      src: "https://cards.scryfall.io/large/front/b/3/b3a69a1c-c80f-4413-a6fd-ae54cabbce28.jpg?1559591595",
-      fallbackSrc: lotusFallback,
+      title: "2002 Yu-Gi-Oh! Dark Magician",
+      src: "https://images.ygoprodeck.com/images/cards/46986414.jpg",
+      fallbackSrc: darkMagicianFallback,
     }),
-    priceCents: 12450000,
-    marketDeltaPercent: 6.1,
-    lastCompCents: 11730000,
-    estimatedRangeCents: [11200000, 13200000],
-    population: 86,
+    priceCents: 625000,
+    marketDeltaPercent: 3.5,
+    lastCompCents: 604000,
+    estimatedRangeCents: [560000, 700000],
+    population: 538,
     listingType: "premier",
-    vaultStatus: "intake_pending",
-    verificationStatus: "pending_review",
-    eyeAppeal: "collect_s",
-    provenanceNotes: "Premier candidate pending final vault intake and surface review.",
+    vaultStatus: "vault_held",
+    verificationStatus: "vault_verified",
+    eyeAppeal: "collect_e",
+    provenanceNotes: "Iconic spellcaster lot held in vault custody with cert and label review complete.",
     inspectionHighlights: [
-      "Elite rarity profile",
+      "Vault custody confirmed",
+      "Iconic LOB chase card",
       "Estimate range assigned",
-      "Final intake pending",
     ],
     seller: {
-      name: "Lotus Desk",
-      trustTier: "verified",
-      completedSales: 51,
-      location: "Seattle, WA",
+      name: "Kaiba Casework",
+      trustTier: "vault",
+      completedSales: 176,
+      location: "Irvine, CA",
     },
     status: "active",
   },
   {
     id: "lst_005",
-    slug: "1993-mtg-beta-mox-sapphire-psa-8",
-    title: "1993 MTG Beta Mox Sapphire",
-    franchise: "MTG",
-    setName: "Limited Edition Beta",
-    year: 1993,
-    cardNumber: "266",
+    slug: "2002-yugioh-red-eyes-black-dragon-psa-9",
+    title: "2002 Yu-Gi-Oh! Red-Eyes Black Dragon",
+    franchise: "Yu-Gi-Oh",
+    setName: "Legend of Blue Eyes",
+    year: 2002,
+    cardNumber: "LOB-070",
     gradingCompany: "PSA",
-    grade: "8",
-    certNumber: "413609251",
+    grade: "9",
+    certNumber: "731846290",
     image: listingImage({
-      title: "1993 Magic: The Gathering Beta Mox Sapphire",
-      src: "https://cards.scryfall.io/large/front/1/e/1eb3178b-dac5-4b34-9d3e-4f5a170d1c87.jpg?1559591907",
-      fallbackSrc: moxSapphireFallback,
+      title: "2002 Yu-Gi-Oh! Red-Eyes Black Dragon",
+      src: "https://images.ygoprodeck.com/images/cards/74677422.jpg",
+      fallbackSrc: redEyesFallback,
     }),
-    priceCents: 3850000,
-    marketDeltaPercent: 4.2,
-    lastCompCents: 3695000,
-    estimatedRangeCents: [3400000, 4200000],
-    population: 132,
+    priceCents: 485000,
+    marketDeltaPercent: -0.9,
+    lastCompCents: 489000,
+    estimatedRangeCents: [430000, 540000],
+    population: 611,
     listingType: "premier",
-    vaultStatus: "vault_held",
-    verificationStatus: "vault_verified",
-    eyeAppeal: "collect_s",
-    provenanceNotes: "Power Nine trophy card held in vault custody with specialist desk review complete.",
+    vaultStatus: "seller_held",
+    verificationStatus: "verified",
+    eyeAppeal: "collect_e",
+    provenanceNotes: "Seller-held LOB icon queued for intake review and custody path evaluation.",
     inspectionHighlights: [
-      "Vault custody confirmed",
-      "Power Nine market signal",
+      "Cert number visible",
+      "Classic LOB chase card",
       "Estimate range assigned",
     ],
     seller: {
-      name: "Lotus Desk",
-      trustTier: "vault",
-      completedSales: 52,
-      location: "Seattle, WA",
+      name: "Kaiba Casework",
+      trustTier: "verified",
+      completedSales: 177,
+      location: "Irvine, CA",
     },
     status: "active",
   },
@@ -380,8 +369,8 @@ export const mockListings: VaultListing[] = [
     certNumber: "919640118",
     image: listingImage({
       title: "2023 One Piece Portgas D. Ace Manga",
-      src: "https://image.optcg.gg/images/en/OP02-013.png",
       fallbackSrc: aceFallback,
+      official: false,
     }),
     priceCents: 295000,
     marketDeltaPercent: 5.4,
