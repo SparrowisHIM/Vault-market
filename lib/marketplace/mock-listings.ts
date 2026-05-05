@@ -1,14 +1,6 @@
 import type { VaultListing } from "./types";
 
-type ArtworkStyle = "registry" | "manga";
-
-function cardArtwork(
-  title: string,
-  accent: string,
-  secondary: string,
-  code: string,
-  style: ArtworkStyle = "registry",
-) {
+function cardArtwork(title: string, accent: string, secondary: string, code: string) {
   const escapedTitle = title
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -28,24 +20,12 @@ function cardArtwork(
         <feFuncA type="table" tableValues="0 0.13"/>
       </feComponentTransfer>
     </filter>
-    <pattern id="manga" width="92" height="92" patternUnits="userSpaceOnUse" patternTransform="rotate(15)">
-      <path d="M0 46 H92 M46 0 V92" stroke="rgba(246,240,223,0.12)" stroke-width="2"/>
-      <path d="M18 18 L74 74 M74 18 L18 74" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
-    </pattern>
   </defs>
   <rect width="640" height="900" rx="38" fill="#f6f0df"/>
   <rect x="36" y="36" width="568" height="828" rx="28" fill="url(#g)"/>
-  ${
-    style === "manga"
-        ? `<rect x="72" y="86" width="496" height="560" rx="18" fill="url(#manga)" stroke="rgba(255,255,255,0.34)" stroke-width="2"/>
-  <path d="M112 590 L178 134 L314 568 L430 126 L526 590 Z" fill="rgba(246,240,223,0.12)" stroke="rgba(246,240,223,0.24)" stroke-width="8" stroke-linejoin="round"/>
-  <path d="M136 564 C214 464 254 426 318 298 C382 426 430 466 504 564" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="15" stroke-linecap="round"/>
-  <path d="M172 184 L468 554 M468 184 L172 554" stroke="rgba(255,255,255,0.13)" stroke-width="10" stroke-linecap="round"/>
-  <text x="96" y="146" fill="rgba(246,240,223,0.8)" font-family="Arial, sans-serif" font-size="24" font-weight="800" letter-spacing="5">MANGA RARE</text>`
-        : `<rect x="72" y="86" width="496" height="560" rx="18" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.34)" stroke-width="2"/>
+  <rect x="72" y="86" width="496" height="560" rx="18" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.34)" stroke-width="2"/>
   <path d="M104 612 C180 474 238 534 300 386 C363 236 434 298 536 138" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="20" stroke-linecap="round"/>
-  <path d="M126 554 C210 492 268 492 346 356 C422 225 472 224 540 172" fill="none" stroke="rgba(246,240,223,0.42)" stroke-width="5" stroke-linecap="round"/>`
-  }
+  <path d="M126 554 C210 492 268 492 346 356 C422 225 472 224 540 172" fill="none" stroke="rgba(246,240,223,0.42)" stroke-width="5" stroke-linecap="round"/>
   <rect x="72" y="682" width="496" height="118" rx="18" fill="rgba(246,240,223,0.88)"/>
   <text x="96" y="730" fill="#121410" font-family="Arial, sans-serif" font-size="34" font-weight="700">${escapedTitle}</text>
   <text x="96" y="770" fill="#384037" font-family="Arial, sans-serif" font-size="22" letter-spacing="4">${code}</text>
@@ -75,8 +55,8 @@ function listingImage({
 }
 
 const charizardFallback = cardArtwork("Charizard Holo", "#b84d35", "#e5a842", "BASE 4/102");
-const shanksFallback = cardArtwork("Shanks Manga", "#7b2726", "#1b3440", "OP01-120", "manga");
-const aceFallback = cardArtwork("Portgas D. Ace", "#9f2d25", "#d6a14b", "OP02-013", "manga");
+const venusaurFallback = cardArtwork("Venusaur Holo", "#4d7d52", "#c6d55d", "BASE 3/102");
+const umbreonFallback = cardArtwork("Umbreon VMAX", "#2f3358", "#b7a2d6", "SWSH 215");
 const lugiaFallback = cardArtwork("Lugia Holo", "#4b6f92", "#d9e7ef", "NEO 9/111");
 const blueEyesFallback = cardArtwork("Blue-Eyes", "#e7edf0", "#315c7a", "LOB-001");
 const darkMagicianFallback = cardArtwork("Dark Magician", "#45246b", "#be7fc7", "LOB-005");
@@ -126,39 +106,40 @@ export const mockListings: VaultListing[] = [
   },
   {
     id: "lst_002",
-    slug: "2023-one-piece-manga-shanks-psa-10",
-    title: "2023 One Piece Shanks Manga",
-    franchise: "One Piece",
-    setName: "Romance Dawn",
-    year: 2023,
-    cardNumber: "OP01-120",
+    slug: "1999-pokemon-base-venusaur-holo-psa-9",
+    title: "1999 Pokemon Base Set Venusaur Holo",
+    franchise: "Pokemon",
+    setName: "Base Set Unlimited",
+    year: 1999,
+    cardNumber: "3/102",
     gradingCompany: "PSA",
-    grade: "10",
-    certNumber: "902184774",
+    grade: "9",
+    certNumber: "580294613",
     image: listingImage({
-      title: "2023 One Piece Shanks Manga",
-      fallbackSrc: shanksFallback,
-      official: false,
+      title: "1999 Pokemon Base Set Venusaur Holo",
+      src: "https://images.pokemontcg.io/base1/3_hires.png",
+      fallbackSrc: venusaurFallback,
     }),
-    priceCents: 320000,
-    marketDeltaPercent: -1.7,
-    lastCompCents: 326000,
-    estimatedRangeCents: [295000, 355000],
-    population: 381,
-    listingType: "auction",
-    vaultStatus: "seller_held",
-    verificationStatus: "verified",
-    provenanceNotes: "Seller-held listing prepared for auction review and final intake.",
+    priceCents: 185000,
+    marketDeltaPercent: 2.8,
+    lastCompCents: 180000,
+    estimatedRangeCents: [165000, 210000],
+    population: 3184,
+    listingType: "buy_now",
+    vaultStatus: "vault_held",
+    verificationStatus: "vault_verified",
+    eyeAppeal: "collect_e",
+    provenanceNotes: "Vault-held Base Set holo with cert, slab face, and label reviewed.",
     inspectionHighlights: [
       "Cert number visible",
-      "Auction intake requested",
-      "Low population example",
+      "No slab cracks noted",
+      "Classic Base Set holo",
     ],
     seller: {
-      name: "Red Line Cards",
-      trustTier: "verified",
-      completedSales: 96,
-      location: "Austin, TX",
+      name: "Northstar Vault",
+      trustTier: "vault",
+      completedSales: 422,
+      location: "Chicago, IL",
     },
     status: "active",
   },
@@ -358,40 +339,40 @@ export const mockListings: VaultListing[] = [
   },
   {
     id: "lst_008",
-    slug: "2023-one-piece-portgas-d-ace-manga-psa-10",
-    title: "2023 One Piece Portgas D. Ace Manga",
-    franchise: "One Piece",
-    setName: "Paramount War",
-    year: 2023,
-    cardNumber: "OP02-013",
+    slug: "2021-pokemon-umbreon-vmax-alt-art-psa-10",
+    title: "2021 Pokemon Umbreon VMAX Alternate Art",
+    franchise: "Pokemon",
+    setName: "Evolving Skies",
+    year: 2021,
+    cardNumber: "215/203",
     gradingCompany: "PSA",
     grade: "10",
-    certNumber: "919640118",
+    certNumber: "776318904",
     image: listingImage({
-      title: "2023 One Piece Portgas D. Ace Manga",
-      fallbackSrc: aceFallback,
-      official: false,
+      title: "2021 Pokemon Umbreon VMAX Alternate Art",
+      src: "https://images.pokemontcg.io/swsh7/215_hires.png",
+      fallbackSrc: umbreonFallback,
     }),
-    priceCents: 295000,
-    marketDeltaPercent: 5.4,
-    lastCompCents: 280000,
-    estimatedRangeCents: [265000, 330000],
-    population: 514,
+    priceCents: 245000,
+    marketDeltaPercent: 4.6,
+    lastCompCents: 234000,
+    estimatedRangeCents: [220000, 275000],
+    population: 6412,
     listingType: "auction",
-    vaultStatus: "intake_pending",
-    verificationStatus: "pending_review",
+    vaultStatus: "seller_held",
+    verificationStatus: "verified",
     eyeAppeal: "collect_e",
-    provenanceNotes: "Modern manga rare candidate routed for intake review before auction placement.",
+    provenanceNotes: "Modern chase card queued for auction review with verified slab data.",
     inspectionHighlights: [
       "Auction intake requested",
-      "Manga rare profile",
+      "Modern alternate-art demand",
       "Estimate range assigned",
     ],
     seller: {
-      name: "Red Line Cards",
+      name: "Summit Slabs",
       trustTier: "verified",
-      completedSales: 97,
-      location: "Austin, TX",
+      completedSales: 229,
+      location: "Denver, CO",
     },
     status: "active",
   },
