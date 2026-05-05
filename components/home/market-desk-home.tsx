@@ -159,18 +159,18 @@ export function MarketDeskHome() {
       });
 
       animate(".signal-node", {
-        opacity: [0.18, 0.7, 0.18],
-        scale: [0.92, 1.16, 0.92],
+        opacity: [0.16, 0.54, 0.28],
+        scale: [0.96, 1.08, 1],
         delay: stagger(140),
-        duration: 2400,
-        loop: true,
+        duration: 2600,
+        loop: 2,
         ease: "inOutSine",
       });
 
       animate(".hero-slab-motion", {
-        rotateZ: [-1.2, 1.2],
-        y: [-5, 5],
-        duration: 5200,
+        rotateZ: [-0.8, 0.8],
+        y: [-3, 3],
+        duration: 9200,
         alternate: true,
         loop: true,
         ease: "inOutSine",
@@ -241,7 +241,7 @@ export function MarketDeskHome() {
                 Inspect the slab. Read the market. Move with confidence.
               </h1>
               <p className="mt-5 max-w-2xl text-base leading-7 text-vault-steel sm:text-lg">
-                VaultMarket is a premium marketplace and vault interface for authenticated,
+                VaultMarket is a premium marketplace and vault interface for verified,
                 graded trading cards. Start with the public marketplace, inspect each
                 slab, then route exceptional cards through the private desk when specialist
                 review matters.

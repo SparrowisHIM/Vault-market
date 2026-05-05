@@ -73,7 +73,7 @@ a {
   background:
     radial-gradient(circle at 50% 50%, transparent 48%, rgba(47, 94, 124, 0.1) 49%, transparent 50%),
     radial-gradient(circle at 30% 28%, rgba(166, 111, 31, 0.14), transparent 14rem);
-  animation: vault-drift 14s ease-in-out infinite alternate;
+  animation: vault-drift 18s ease-in-out 1 alternate both;
 }
 
 .vault-orbit-two {
@@ -84,7 +84,7 @@ a {
   background:
     radial-gradient(circle at 50% 50%, transparent 44%, rgba(17, 19, 15, 0.08) 45%, transparent 46%),
     radial-gradient(circle at 58% 42%, rgba(47, 113, 88, 0.12), transparent 13rem);
-  animation: vault-drift 18s ease-in-out infinite alternate-reverse;
+  animation: vault-drift 22s ease-in-out 1 alternate-reverse both;
 }
 
 .vault-scanline {
@@ -93,13 +93,18 @@ a {
   pointer-events: none;
   background: linear-gradient(115deg, transparent 0%, transparent 44%, rgba(255, 255, 255, 0.22) 50%, transparent 56%, transparent 100%);
   transform: translate3d(-60%, 0, 0);
-  animation: vault-scan 8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation: vault-scan 7.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s 1 both;
 }
 
 .vault-tape-track {
   width: max-content;
-  animation: vault-tape 32s linear infinite;
+  animation: vault-tape 72s linear infinite;
   will-change: transform;
+}
+
+.vault-tape-track:hover,
+.vault-tape-track:focus-within {
+  animation-play-state: paused;
 }
 
 .hero-slab-motion {
@@ -293,12 +298,340 @@ a {
   animation: research-ticker-scroll 52s linear infinite;
 }
 
+.research-terminal {
+  isolation: isolate;
+}
+
+.research-terminal-sweep {
+  background:
+    linear-gradient(115deg, transparent 0%, transparent 44%, rgba(130, 199, 169, 0.12) 50%, transparent 58%, transparent 100%),
+    radial-gradient(circle at 78% 18%, rgba(47, 94, 124, 0.18), transparent 18rem);
+  transform: translate3d(-70%, 0, 0);
+  animation: research-terminal-sweep 9s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.research-comp-band-a {
+  background:
+    linear-gradient(90deg, rgba(47, 94, 124, 0.055), transparent 42%),
+    rgba(255, 255, 255, 0.46);
+}
+
+.research-comp-band-b {
+  background:
+    linear-gradient(90deg, rgba(166, 111, 31, 0.048), transparent 42%),
+    rgba(249, 248, 243, 0.42);
+}
+
+.vault-custody-console {
+  isolation: isolate;
+}
+
+.vault-custody-sweep {
+  background:
+    linear-gradient(115deg, transparent 0%, transparent 43%, rgba(130, 199, 169, 0.105) 50%, transparent 58%, transparent 100%),
+    radial-gradient(circle at 76% 20%, rgba(47, 113, 88, 0.14), transparent 17rem);
+  transform: translate3d(-70%, 0, 0);
+  animation: vault-custody-sweep 10s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.vault-status-pulse {
+  animation: vault-status-pulse 2.4s ease-in-out infinite;
+}
+
+.vault-progress-flow {
+  background-size: 180% 100%;
+  animation: vault-progress-flow 3.8s ease-in-out infinite;
+}
+
+.auction-session-console {
+  isolation: isolate;
+}
+
+.auction-session-sweep {
+  background:
+    linear-gradient(115deg, transparent 0%, transparent 43%, rgba(224, 181, 108, 0.105) 50%, transparent 58%, transparent 100%),
+    radial-gradient(circle at 75% 18%, rgba(166, 111, 31, 0.14), transparent 17rem);
+  transform: translate3d(-70%, 0, 0);
+  animation: auction-session-sweep 10.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.auction-clock-dial {
+  background:
+    radial-gradient(circle, transparent 0 58%, rgba(255, 255, 255, 0.08) 59% 60%, transparent 61%),
+    conic-gradient(from 0deg, rgba(224, 181, 108, 0.3) 0 8deg, transparent 8deg 30deg);
+}
+
+.auction-clock-hand {
+  transform: rotate(-34deg);
+  animation: auction-clock-hand 5.8s steps(6, end) infinite;
+}
+
+.auction-access-pulse {
+  animation: auction-access-pulse 2.6s ease-in-out infinite;
+}
+
+.auction-lot-spotlight {
+  position: relative;
+  overflow: hidden;
+}
+
+.auction-lot-spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 0%, transparent 46%, rgba(255, 255, 255, 0.18) 50%, transparent 56%, transparent 100%);
+  transform: translate3d(-82%, 0, 0);
+  animation: auction-lot-spotlight 8.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.sell-intake-console {
+  isolation: isolate;
+}
+
+.sell-intake-sweep {
+  background:
+    linear-gradient(115deg, transparent 0%, transparent 43%, rgba(130, 199, 169, 0.105) 50%, transparent 58%, transparent 100%),
+    radial-gradient(circle at 74% 18%, rgba(47, 113, 88, 0.15), transparent 17rem);
+  transform: translate3d(-70%, 0, 0);
+  animation: sell-intake-sweep 10s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.sell-status-pulse {
+  animation: sell-status-pulse 2.5s ease-in-out infinite;
+}
+
+.sell-progress-flow {
+  background-size: 180% 100%;
+  animation: sell-progress-flow 3.9s ease-in-out infinite;
+}
+
+.private-desk-console {
+  isolation: isolate;
+}
+
+.private-desk-sweep {
+  background:
+    linear-gradient(115deg, transparent 0%, transparent 43%, rgba(155, 194, 220, 0.11) 50%, transparent 58%, transparent 100%),
+    radial-gradient(circle at 74% 18%, rgba(47, 94, 124, 0.16), transparent 17rem);
+  transform: translate3d(-70%, 0, 0);
+  animation: private-desk-sweep 10.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.private-desk-pulse {
+  animation: private-desk-pulse 2.7s ease-in-out infinite;
+}
+
+.private-desk-spotlight {
+  position: relative;
+  overflow: hidden;
+}
+
+.private-desk-spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 0%, transparent 46%, rgba(255, 255, 255, 0.16) 50%, transparent 56%, transparent 100%);
+  transform: translate3d(-82%, 0, 0);
+  animation: private-desk-spotlight 9.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
 @keyframes research-ticker-scroll {
   from {
     transform: translate3d(0, 0, 0);
   }
   to {
     transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes research-terminal-sweep {
+  0%,
+  32% {
+    transform: translate3d(-72%, 0, 0);
+    opacity: 0;
+  }
+  45% {
+    opacity: 1;
+  }
+  78%,
+  100% {
+    transform: translate3d(72%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes private-desk-sweep {
+  0%,
+  36% {
+    transform: translate3d(-74%, 0, 0);
+    opacity: 0;
+  }
+  48% {
+    opacity: 1;
+  }
+  80%,
+  100% {
+    transform: translate3d(74%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes private-desk-pulse {
+  0%,
+  100% {
+    opacity: 0.58;
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 0 0.22rem transparent;
+  }
+}
+
+@keyframes private-desk-spotlight {
+  0%,
+  46% {
+    transform: translate3d(-82%, 0, 0);
+    opacity: 0;
+  }
+  58% {
+    opacity: 0.7;
+  }
+  88%,
+  100% {
+    transform: translate3d(82%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes sell-intake-sweep {
+  0%,
+  36% {
+    transform: translate3d(-74%, 0, 0);
+    opacity: 0;
+  }
+  48% {
+    opacity: 1;
+  }
+  80%,
+  100% {
+    transform: translate3d(74%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes sell-status-pulse {
+  0%,
+  100% {
+    opacity: 0.58;
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 0 0.22rem transparent;
+  }
+}
+
+@keyframes sell-progress-flow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes auction-session-sweep {
+  0%,
+  36% {
+    transform: translate3d(-74%, 0, 0);
+    opacity: 0;
+  }
+  48% {
+    opacity: 1;
+  }
+  80%,
+  100% {
+    transform: translate3d(74%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes auction-clock-hand {
+  0% {
+    transform: rotate(-34deg);
+  }
+  100% {
+    transform: rotate(326deg);
+  }
+}
+
+@keyframes auction-access-pulse {
+  0%,
+  100% {
+    opacity: 0.58;
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 0 0.22rem transparent;
+  }
+}
+
+@keyframes auction-lot-spotlight {
+  0%,
+  44% {
+    transform: translate3d(-82%, 0, 0);
+    opacity: 0;
+  }
+  55% {
+    opacity: 0.75;
+  }
+  86%,
+  100% {
+    transform: translate3d(82%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes vault-custody-sweep {
+  0%,
+  36% {
+    transform: translate3d(-74%, 0, 0);
+    opacity: 0;
+  }
+  48% {
+    opacity: 1;
+  }
+  80%,
+  100% {
+    transform: translate3d(74%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes vault-status-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 0 0.22rem transparent;
+  }
+}
+
+@keyframes vault-progress-flow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
 }
 
@@ -316,6 +649,20 @@ a {
   .vault-orbit,
   .vault-scanline,
   .vault-loader-bar,
+  .vault-custody-sweep,
+  .vault-progress-flow,
+  .vault-status-pulse,
+  .auction-session-sweep,
+  .auction-clock-hand,
+  .auction-access-pulse,
+  .auction-lot-spotlight::before,
+  .sell-intake-sweep,
+  .sell-status-pulse,
+  .sell-progress-flow,
+  .private-desk-sweep,
+  .private-desk-pulse,
+  .private-desk-spotlight::before,
+  .research-terminal-sweep,
   .research-ticker-track {
     animation: none !important;
   }

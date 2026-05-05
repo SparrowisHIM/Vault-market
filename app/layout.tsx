@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: "%s | VaultMarket",
   },
   description:
-    "A trust-first marketplace for authenticated high-value graded trading cards.",
+    "A trust-first marketplace for verified high-value graded trading cards.",
 };
 
 export default function RootLayout({

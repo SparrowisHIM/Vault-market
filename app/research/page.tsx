@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
-import { Activity, BarChart3, Gem, Gauge } from "lucide-react";
+import {
+  Activity,
+  BarChart3,
+  Gem,
+  Gauge,
+  Radar,
+  Radio,
+  ScanLine,
+} from "lucide-react";
 import { ResearchCompFeed } from "@/components/research/research-comp-feed";
 import { ResearchConfidenceTile } from "@/components/research/research-confidence-tile";
 import { ResearchIntelligenceSidebar } from "@/components/research/research-intelligence-sidebar";
@@ -65,15 +73,19 @@ const bandTopAsk = Math.min(
 const popN = lowestPopulation.population ?? 200;
 const bandRarestPop = Math.min(100, Math.round(32 + (720 / Math.min(Math.max(popN, 1), 720)) * 26));
 
+function shortenTitle(title: string, length: number) {
+  return `${title.slice(0, length)}${title.length > length ? "..." : ""}`;
+}
+
 const tickerItems = [
   `ASK BOOK ${formatCurrency(totalAskBook)}`,
   `NET SIGNAL ${formatSignedPercent(averageDelta)}`,
-  `LEAD ASK ${highestValue.title.slice(0, 32)}${highestValue.title.length > 32 ? "…" : ""} · ${formatCurrency(highestValue.priceCents)}`,
-  `STRONGEST MOVE ${strongestSignal.title.slice(0, 28)}${strongestSignal.title.length > 28 ? "…" : ""} · ${formatSignedPercent(strongestSignal.marketDeltaPercent ?? 0)}`,
-  `RARITY ANCHOR ${lowestPopulation.title.slice(0, 28)}${lowestPopulation.title.length > 28 ? "…" : ""} · ${formatPopulation(lowestPopulation.population)}`,
+  `LEAD ASK ${shortenTitle(highestValue.title, 32)} / ${formatCurrency(highestValue.priceCents)}`,
+  `STRONGEST MOVE ${shortenTitle(strongestSignal.title, 28)} / ${formatSignedPercent(strongestSignal.marketDeltaPercent ?? 0)}`,
+  `RARITY ANCHOR ${shortenTitle(lowestPopulation.title, 28)} / ${formatPopulation(lowestPopulation.population)}`,
   ...mockListings.slice(0, 4).map(
     (listing) =>
-      `${listing.gradingCompany} ${listing.grade} · ${listing.title.slice(0, 26)}${listing.title.length > 26 ? "…" : ""} · ${formatCurrency(listing.priceCents)}`,
+      `${listing.gradingCompany} ${listing.grade} / ${shortenTitle(listing.title, 26)} / ${formatCurrency(listing.priceCents)}`,
   ),
 ];
 
@@ -82,29 +94,120 @@ export default function ResearchPage() {
     <main className="min-h-screen px-4 py-5 sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
         <section className="overflow-hidden rounded-[12px] border border-[rgba(17,19,15,0.22)] shadow-[0_22px_70px_rgba(17,19,15,0.14)]">
-          <div className="relative overflow-hidden bg-[linear-gradient(135deg,rgba(17,19,15,0.97)_0%,rgba(28,32,26,0.98)_42%,rgba(17,19,15,0.96)_100%)] text-vault-paper">
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent,rgba(255,255,255,0.06)_48%,transparent_58%)] opacity-70" />
-            <div className="relative grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(220px,280px)] lg:items-end">
-              <div>
-                <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-vault-paper/45">
-                  Signal terminal / RV-1
-                </p>
-                <h1 className="mt-2 max-w-3xl text-3xl font-semibold tracking-tight text-vault-paper sm:text-4xl">
-                  Market context before a collector opens the slab
-                </h1>
-                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-vault-paper/62 sm:text-[0.95rem]">
-                  A focused readout of asking prices, last comps, rarity, custody status,
-                  and momentum signals using the current marketplace listings.
-                </p>
+          <div className="research-terminal relative overflow-hidden bg-[linear-gradient(135deg,rgba(13,15,12,0.98)_0%,rgba(24,28,23,0.99)_48%,rgba(12,14,11,0.98)_100%)] text-vault-paper">
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(244,241,233,0.035)_1px,transparent_1px),linear-gradient(rgba(244,241,233,0.028)_1px,transparent_1px)] bg-[length:42px_42px]" />
+            <div className="research-terminal-sweep pointer-events-none absolute inset-0" />
+            <div className="relative grid gap-5 p-4 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.46fr)] lg:items-stretch">
+              <div className="grid min-h-[25rem] gap-5 rounded-[10px] border border-white/10 bg-black/10 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-5">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5">
+                    <Radio className="h-4 w-4 text-[#82c7a9]" aria-hidden="true" />
+                    <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-vault-paper/62">
+                      Signal terminal / RV-1
+                    </span>
+                  </div>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-[rgba(130,199,169,0.22)] bg-[rgba(47,113,88,0.1)] px-3 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#a7ddc4]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#82c7a9] shadow-[0_0_16px_rgba(130,199,169,0.8)]" />
+                    Feed aligned
+                  </span>
+                </div>
+
+                <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px] lg:items-end">
+                  <div>
+                    <h1 className="max-w-3xl text-3xl font-semibold leading-[1.03] text-vault-paper sm:text-5xl">
+                      Market context before a collector opens the slab
+                    </h1>
+                    <p className="mt-4 max-w-2xl text-sm leading-relaxed text-vault-paper/64 sm:text-[0.95rem]">
+                      A focused readout of asking prices, last comps, rarity, custody status,
+                      and momentum signals using the current marketplace listings.
+                    </p>
+                  </div>
+                  <div className="grid gap-2 rounded-[9px] border border-white/10 bg-white/[0.045] p-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
+                        Confidence arc
+                      </span>
+                      <ScanLine className="h-4 w-4 text-vault-paper/54" aria-hidden="true" />
+                    </div>
+                    {[bandAverageSignal, bandTopAsk, bandRarestPop].map((value, index) => (
+                      <div key={index} className="h-1.5 overflow-hidden rounded-full bg-white/[0.08]" aria-hidden="true">
+                        <div
+                          className="h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.55),rgba(130,199,169,0.72))]"
+                          style={{ width: `${value}%` }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                    <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
+                      Lead ask
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold text-vault-paper">
+                      {formatCurrency(highestValue.priceCents)}
+                    </p>
+                    <p className="mt-1 truncate text-xs text-vault-paper/50">{highestValue.title}</p>
+                  </div>
+                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                    <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
+                      Net signal
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold text-vault-paper">
+                      {formatSignedPercent(averageDelta)}
+                    </p>
+                    <p className="mt-1 truncate text-xs text-vault-paper/50">{strongestSignal.title}</p>
+                  </div>
+                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                    <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
+                      Rarity anchor
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold text-vault-paper">
+                      {formatPopulation(lowestPopulation.population)}
+                    </p>
+                    <p className="mt-1 truncate text-xs text-vault-paper/50">{lowestPopulation.title}</p>
+                  </div>
+                </div>
               </div>
-              <div className="rounded-[9px] border border-white/10 bg-white/[0.04] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-                <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
-                  Feed status
-                </p>
-                <p className="mt-2 text-sm font-semibold text-vault-paper">Market signal feed</p>
-                <p className="mt-1 text-xs leading-relaxed text-vault-paper/55">
-                  Comp context, grader signals, and watch alerts are organized for desk review.
-                </p>
+
+              <div className="grid gap-3 rounded-[10px] border border-white/10 bg-white/[0.045] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
+                      Desk scan
+                    </p>
+                    <h2 className="mt-1 text-lg font-semibold text-vault-paper">
+                      Collector intelligence
+                    </h2>
+                  </div>
+                  <span className="grid h-10 w-10 place-items-center rounded-[8px] border border-white/10 bg-white/[0.06] text-[#a7ddc4]">
+                    <Radar className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                </div>
+                <div className="grid gap-2">
+                  {marketMovers.slice(0, 4).map((listing, index) => (
+                    <div
+                      key={listing.id}
+                      className="grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-[8px] border border-white/10 bg-black/[0.12] p-2.5"
+                    >
+                      <span className="grid h-7 w-7 place-items-center rounded-[6px] border border-white/10 bg-white/[0.055] font-mono text-[0.62rem] font-semibold text-vault-paper/54">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block truncate text-sm font-semibold text-vault-paper">
+                          {listing.title}
+                        </span>
+                        <span className="mt-0.5 block font-mono text-[0.6rem] uppercase tracking-[0.12em] text-vault-paper/42">
+                          {listing.gradingCompany} {listing.grade}
+                        </span>
+                      </span>
+                      <span className="font-mono text-xs font-semibold text-[#a7ddc4]">
+                        {formatSignedPercent(listing.marketDeltaPercent ?? 0)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
             <ResearchTicker items={tickerItems} />
