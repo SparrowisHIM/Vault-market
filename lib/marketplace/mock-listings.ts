@@ -63,7 +63,6 @@ const moxSapphireFallback = cardArtwork("Mox Sapphire", "#183d66", "#75a8c7", "B
 const blueEyesFallback = cardArtwork("Blue-Eyes", "#e7edf0", "#315c7a", "LOB-001");
 const hoOhFallback = cardArtwork("Crystal Ho-Oh", "#cc7d32", "#2f6d78", "SKY 149/144");
 const blastoiseFallback = cardArtwork("Blastoise Holo", "#2f5f91", "#c2d8e6", "BASE 2/102");
-const lukaFallback = cardArtwork("Luka Doncic", "#243a63", "#c9d3df", "PRIZM 280");
 
 export const mockListings: VaultListing[] = [
   {
@@ -412,45 +411,6 @@ export const mockListings: VaultListing[] = [
       trustTier: "vault",
       completedSales: 419,
       location: "Chicago, IL",
-    },
-    status: "active",
-  },
-  {
-    id: "lst_010",
-    slug: "2018-panini-prizm-luka-doncic-silver-rookie-psa-10",
-    title: "2018 Panini Prizm Luka Doncic Silver Rookie",
-    franchise: "Sports",
-    setName: "Panini Prizm Basketball",
-    year: 2018,
-    cardNumber: "280",
-    gradingCompany: "PSA",
-    grade: "10",
-    certNumber: "640381774",
-    image: listingImage({
-      title: "2018 Panini Prizm Luka Doncic Silver Rookie",
-      fallbackSrc: lukaFallback,
-      official: false,
-    }),
-    priceCents: 460000,
-    marketDeltaPercent: -0.8,
-    lastCompCents: 464000,
-    estimatedRangeCents: [420000, 510000],
-    population: 2250,
-    listingType: "buy_now",
-    vaultStatus: "seller_held",
-    verificationStatus: "verified",
-    eyeAppeal: "collect_a",
-    provenanceNotes: "Modern basketball rookie listing with seller-held custody and verified slab data.",
-    inspectionHighlights: [
-      "Cert number visible",
-      "Modern rookie market signal",
-      "Seller history reviewed",
-    ],
-    seller: {
-      name: "Baseline Registry",
-      trustTier: "verified",
-      completedSales: 313,
-      location: "New York, NY",
     },
     status: "active",
   },
