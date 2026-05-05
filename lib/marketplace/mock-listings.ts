@@ -117,8 +117,8 @@ export const mockListings: VaultListing[] = [
     certNumber: "902184774",
     image: listingImage({
       title: "2023 One Piece Shanks Manga",
-      src: "https://en.onepiece-cardgame.com/images/cardlist/card/OP01-120_p1.png",
       fallbackSrc: shanksFallback,
+      official: false,
     }),
     priceCents: 320000,
     marketDeltaPercent: -1.7,
@@ -349,8 +349,8 @@ export const mockListings: VaultListing[] = [
     certNumber: "919640118",
     image: listingImage({
       title: "2023 One Piece Portgas D. Ace Manga",
-      src: "https://en.onepiece-cardgame.com/images/cardlist/card/OP02-013_p2.png",
       fallbackSrc: aceFallback,
+      official: false,
     }),
     priceCents: 295000,
     marketDeltaPercent: 5.4,

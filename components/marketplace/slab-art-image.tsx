@@ -23,11 +23,14 @@ export function SlabArtImage({
 
   if (shouldRenderFallback) {
     return (
-      <div
-        role="img"
-        aria-label={image.fallbackAlt}
-        className={cn("absolute inset-0 bg-contain bg-center bg-no-repeat", className)}
-        style={{ backgroundImage: `url("${image.fallbackSrc}")` }}
+      <Image
+        src={image.fallbackSrc}
+        alt={image.fallbackAlt}
+        fill
+        sizes={sizes}
+        unoptimized
+        priority={priority}
+        className={cn("object-contain", className)}
       />
     );
   }
