@@ -183,7 +183,7 @@ a {
   pointer-events: none;
 }
 
-.slab-auth-band {
+.slab-cert-band {
   padding: 0.3125rem 0.4375rem;
   border: 1px solid rgba(17, 19, 15, 0.065);
   border-radius: 0.4375rem;
@@ -196,8 +196,8 @@ a {
     background-color 200ms ease;
 }
 
-.slab-motion-card:hover .slab-auth-band,
-.slab-motion-card:focus-within .slab-auth-band {
+.slab-motion-card:hover .slab-cert-band,
+.slab-motion-card:focus-within .slab-cert-band {
   background: rgba(255, 255, 255, 0.42);
   border-color: rgba(47, 94, 124, 0.14);
   box-shadow:

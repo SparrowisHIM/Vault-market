@@ -39,7 +39,7 @@ export function SlabCard({
   const sweepRef = useRef<HTMLDivElement | null>(null);
   const cardSweepRef = useRef<HTMLDivElement | null>(null);
   const gradeRef = useRef<HTMLDivElement | null>(null);
-  const authBandRef = useRef<HTMLDivElement | null>(null);
+  const certBandRef = useRef<HTMLDivElement | null>(null);
   const certRef = useRef<HTMLParagraphElement | null>(null);
   const boundsRef = useRef<DOMRect | null>(null);
   const reduceMotionRef = useRef(false);
@@ -80,8 +80,8 @@ export function SlabCard({
       });
     }
 
-    if (authBandRef.current) {
-      animate(authBandRef.current, {
+    if (certBandRef.current) {
+      animate(certBandRef.current, {
         backgroundColor: [
           "rgba(255,255,255,0.32)",
           "rgba(255,255,255,0.5)",
@@ -219,9 +219,9 @@ export function SlabCard({
             </div>
 
             <div
-              ref={authBandRef}
+              ref={certBandRef}
               className={cn(
-                "slab-auth-band flex flex-wrap items-center gap-2 transition duration-200",
+                "slab-cert-band flex flex-wrap items-center gap-2 transition duration-200",
                 compact && "gap-1.5",
               )}
             >
