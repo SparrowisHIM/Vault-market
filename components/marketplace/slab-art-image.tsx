@@ -14,7 +14,7 @@ type SlabArtImageProps = {
 
 export function SlabArtImage({
   image,
-  sizes,
+  sizes: _sizes,
   priority = false,
   className,
 }: SlabArtImageProps) {
@@ -23,14 +23,14 @@ export function SlabArtImage({
 
   if (shouldRenderFallback) {
     return (
-      <Image
+      // Native img is more reliable for inline SVG data artwork than Next/Image.
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
         src={image.fallbackSrc}
         alt={image.fallbackAlt}
-        fill
-        sizes={sizes}
-        unoptimized
-        priority={priority}
-        className={cn("object-contain", className)}
+        loading={priority ? "eager" : "lazy"}
+        decoding="async"
+        className={cn("absolute inset-0 h-full w-full object-contain", className)}
       />
     );
   }
@@ -40,7 +40,7 @@ export function SlabArtImage({
       src={image.src}
       alt={image.alt}
       fill
-      sizes={sizes}
+      sizes={_sizes}
       unoptimized
       priority={priority}
       onError={() => setUseFallback(true)}
