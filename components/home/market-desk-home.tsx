@@ -10,7 +10,6 @@ import {
   Search,
   Sparkles,
 } from "lucide-react";
-import { MarketDelta } from "@/components/marketplace/market-delta";
 import { SlabArtImage } from "@/components/marketplace/slab-art-image";
 import { formatCurrency } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
@@ -20,29 +19,26 @@ import { cn } from "@/lib/utils";
 type HeroStackLayout = "clustered" | "spread";
 
 type HeroStackPosition = {
-  x: number;
-  y: number;
+  x: string;
+  y: string;
   rotate: number;
-  scale: number;
-  width: string;
-  opacity: number;
   zIndex: number;
 };
 
 const heroStackLayouts: Record<HeroStackLayout, HeroStackPosition[]> = {
   clustered: [
-    { x: 0, y: 0, rotate: 0, scale: 1, width: "55%", opacity: 1, zIndex: 40 },
-    { x: -142, y: -10, rotate: -15, scale: 0.96, width: "45%", opacity: 1, zIndex: 30 },
-    { x: 142, y: -14, rotate: 15, scale: 0.96, width: "45%", opacity: 1, zIndex: 20 },
-    { x: -214, y: 30, rotate: -27, scale: 0.9, width: "38%", opacity: 0.84, zIndex: 10 },
-    { x: 214, y: 30, rotate: 27, scale: 0.9, width: "38%", opacity: 0.84, zIndex: 0 },
+    { x: "0px", y: "0px", rotate: 0, zIndex: 40 },
+    { x: "clamp(-86px,-7vw,-54px)", y: "clamp(4px,1vw,10px)", rotate: -8, zIndex: 30 },
+    { x: "clamp(54px,7vw,86px)", y: "clamp(4px,1vw,10px)", rotate: 8, zIndex: 20 },
+    { x: "clamp(-148px,-11vw,-96px)", y: "clamp(16px,2vw,28px)", rotate: -15, zIndex: 10 },
+    { x: "clamp(96px,11vw,148px)", y: "clamp(16px,2vw,28px)", rotate: 15, zIndex: 0 },
   ],
   spread: [
-    { x: 0, y: -4, rotate: 0, scale: 1.02, width: "54%", opacity: 1, zIndex: 40 },
-    { x: -182, y: 2, rotate: -18, scale: 0.94, width: "43%", opacity: 1, zIndex: 30 },
-    { x: 182, y: 0, rotate: 18, scale: 0.94, width: "43%", opacity: 1, zIndex: 20 },
-    { x: -276, y: 54, rotate: -32, scale: 0.86, width: "36%", opacity: 0.82, zIndex: 10 },
-    { x: 276, y: 54, rotate: 32, scale: 0.86, width: "36%", opacity: 0.82, zIndex: 0 },
+    { x: "0px", y: "-2px", rotate: 0, zIndex: 40 },
+    { x: "clamp(-206px,-14vw,-112px)", y: "clamp(4px,1.5vw,18px)", rotate: -16, zIndex: 30 },
+    { x: "clamp(112px,14vw,206px)", y: "clamp(4px,1.5vw,18px)", rotate: 16, zIndex: 20 },
+    { x: "clamp(-350px,-23vw,-188px)", y: "clamp(26px,4vw,58px)", rotate: -30, zIndex: 10 },
+    { x: "clamp(188px,23vw,350px)", y: "clamp(26px,4vw,58px)", rotate: 30, zIndex: 0 },
   ],
 };
 
@@ -176,7 +172,7 @@ export function MarketDeskHome() {
 
   return (
     <main ref={rootRef} className="overflow-hidden">
-      <section className="relative min-h-[calc(100svh-118px)] px-4 py-6 sm:px-6 lg:px-8">
+      <section className="relative min-h-[calc(100svh-118px)] px-3 py-6 sm:px-5 lg:px-4">
         <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
           <div className="vault-orbit vault-orbit-one" />
           <div className="vault-orbit vault-orbit-two" />
@@ -186,7 +182,7 @@ export function MarketDeskHome() {
           <div className="signal-node absolute bottom-[18%] left-[41%] h-2 w-2 rounded-full bg-vault-verified" />
         </div>
 
-        <div className="mx-auto grid min-h-[calc(100svh-166px)] w-full max-w-7xl gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(480px,0.78fr)] lg:items-center">
+        <div className="mx-auto grid min-h-[calc(100svh-166px)] w-full max-w-[94rem] gap-8 lg:grid-cols-[minmax(0,0.76fr)_minmax(560px,0.86fr)] lg:items-center">
           <div className="desk-reveal flex flex-col gap-6">
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(17,19,15,0.16)] bg-white/42 px-3 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
               <Sparkles className="h-4 w-4 text-vault-registry" aria-hidden="true" />
@@ -243,7 +239,7 @@ export function MarketDeskHome() {
 
           <div className="desk-reveal">
             <div
-              className="hero-slab-motion relative mx-auto h-[520px] max-w-[640px] cursor-pointer overflow-visible rounded-[24px] transition-transform duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:h-[600px] lg:h-[640px]"
+              className="hero-slab-motion relative mx-auto h-[500px] max-w-[760px] cursor-pointer overflow-visible rounded-[24px] transition-transform duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:h-[590px] lg:h-[640px]"
               style={tiltStyle}
               onPointerMove={handlePointerMove}
               onPointerLeave={() => setTiltStyle({ transform: "perspective(1100px)" })}
@@ -264,21 +260,16 @@ export function MarketDeskHome() {
 
               {heroStackListings.map((listing, index) => {
                 const position = heroStackLayouts[stackLayout][index] ?? heroStackLayouts.clustered[0];
-                const isActive = index === 0;
-
                 return (
                   <div
                     key={listing.id}
                     className={cn(
-                      "hero-stack-card absolute left-1/2 top-[49%] block rounded-[18px] border border-[rgba(17,19,15,0.24)] bg-[rgba(249,248,243,0.94)] p-2 shadow-[0_34px_82px_rgba(17,19,15,0.32),inset_0_2px_0_rgba(255,255,255,0.72)] will-change-transform",
-                      shouldReduceMotion ? "" : "transition-[transform,opacity,width,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                      isActive && "border-[rgba(17,19,15,0.38)] shadow-[0_48px_120px_rgba(17,19,15,0.42),0_0_0_1px_rgba(255,255,255,0.42)_inset]",
+                      "hero-stack-card absolute left-1/2 top-[49%] block w-[clamp(214px,31vw,330px)] rounded-[18px] border border-[rgba(17,19,15,0.26)] bg-[rgba(249,248,243,0.94)] p-2 shadow-[0_38px_90px_rgba(17,19,15,0.34),inset_0_2px_0_rgba(255,255,255,0.72)] will-change-transform",
+                      shouldReduceMotion ? "" : "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
                     )}
                     style={{
                       zIndex: position.zIndex,
-                      width: position.width,
-                      opacity: position.opacity,
-                      transform: `translate(-50%, -50%) translate3d(${position.x}px, ${position.y}px, 0) rotate(${position.rotate}deg) scale(${position.scale})`,
+                      transform: `translate(-50%, -50%) translate3d(${position.x}, ${position.y}, 0) rotate(${position.rotate}deg)`,
                     }}
                     aria-label={listing.title}
                   >
@@ -286,8 +277,8 @@ export function MarketDeskHome() {
                       <div className="relative aspect-[5/7] overflow-hidden rounded-[10px] border border-[rgba(255,255,255,0.18)] bg-[var(--surface-inset)]">
                         <SlabArtImage
                           image={listing.image}
-                          sizes={isActive ? "(min-width: 1024px) 340px, 70vw" : "(min-width: 1024px) 260px, 56vw"}
-                          priority={isActive}
+                          sizes="(min-width: 1024px) 330px, 72vw"
+                          priority={index === 0}
                         />
                         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.18),transparent_34%,rgba(255,255,255,0.12)_42%,transparent_52%)]" aria-hidden="true" />
                       </div>
@@ -298,14 +289,11 @@ export function MarketDeskHome() {
                             {listing.grade}
                           </span>
                         </div>
-                        {isActive && (
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-vault-steel">
-                              {listing.gradingCompany} / {listing.franchise}
-                            </span>
-                            <MarketDelta value={listing.marketDeltaPercent} compact />
-                          </div>
-                        )}
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-vault-steel">
+                            {listing.gradingCompany} / {listing.franchise}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
