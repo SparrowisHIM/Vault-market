@@ -17,6 +17,37 @@ import { mockListings } from "@/lib/marketplace/mock-listings";
 import type { VaultListing } from "@/lib/marketplace/types";
 import { cn } from "@/lib/utils";
 
+type HeroStackLayout = "clustered" | "spread";
+
+type HeroStackPosition = {
+  x: number;
+  y: number;
+  rotate: number;
+  scale: number;
+  width: string;
+  opacity: number;
+  zIndex: number;
+};
+
+const heroStackLayouts: Record<HeroStackLayout, HeroStackPosition[]> = {
+  clustered: [
+    { x: 0, y: 0, rotate: 0, scale: 1, width: "55%", opacity: 1, zIndex: 40 },
+    { x: -142, y: -10, rotate: -15, scale: 0.96, width: "45%", opacity: 1, zIndex: 30 },
+    { x: 142, y: -14, rotate: 15, scale: 0.96, width: "45%", opacity: 1, zIndex: 20 },
+    { x: -214, y: 30, rotate: -27, scale: 0.9, width: "38%", opacity: 0.84, zIndex: 10 },
+    { x: 214, y: 30, rotate: 27, scale: 0.9, width: "38%", opacity: 0.84, zIndex: 0 },
+  ],
+  spread: [
+    { x: 0, y: -4, rotate: 0, scale: 1.02, width: "54%", opacity: 1, zIndex: 40 },
+    { x: -182, y: 2, rotate: -18, scale: 0.94, width: "43%", opacity: 1, zIndex: 30 },
+    { x: 182, y: 0, rotate: 18, scale: 0.94, width: "43%", opacity: 1, zIndex: 20 },
+    { x: -276, y: 54, rotate: -32, scale: 0.86, width: "36%", opacity: 0.82, zIndex: 10 },
+    { x: 276, y: 54, rotate: 32, scale: 0.86, width: "36%", opacity: 0.82, zIndex: 0 },
+  ],
+};
+
+const HERO_STACK_TRANSITION_MS = 520;
+
 const storySteps = [
   {
     href: "/marketplace",
@@ -50,7 +81,11 @@ const tapeItems = mockListings.map((listing) => ({
 
 export function MarketDeskHome() {
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const stackTransitionTimeoutRef = useRef<number | null>(null);
   const [tiltStyle, setTiltStyle] = useState({ transform: "perspective(1100px)" });
+  const [stackLayout, setStackLayout] = useState<HeroStackLayout>("clustered");
+  const [isStackTransitioning, setIsStackTransitioning] = useState(false);
+  const [shouldReduceMotion, setShouldReduceMotion] = useState(false);
   const heroStackListings = useMemo(() => {
     const heroSlugs = [
       "2021-pokemon-umbreon-vmax-alt-art-psa-10",
@@ -64,11 +99,31 @@ export function MarketDeskHome() {
       .map((slug) => mockListings.find((listing) => listing.slug === slug))
       .filter(Boolean) as VaultListing[];
   }, []);
+
+  function setLockedStackLayout(nextLayout: HeroStackLayout) {
+    if (isStackTransitioning || nextLayout === stackLayout) return;
+
+    if (stackTransitionTimeoutRef.current !== null) {
+      window.clearTimeout(stackTransitionTimeoutRef.current);
+    }
+
+    setStackLayout(nextLayout);
+
+    if (shouldReduceMotion) return;
+
+    setIsStackTransitioning(true);
+    stackTransitionTimeoutRef.current = window.setTimeout(() => {
+      stackTransitionTimeoutRef.current = null;
+      setIsStackTransitioning(false);
+    }, HERO_STACK_TRANSITION_MS);
+  }
+
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setShouldReduceMotion(reduceMotion);
     if (reduceMotion) return;
 
     const scope = createScope({ root }).add(() => {
@@ -99,6 +154,14 @@ export function MarketDeskHome() {
     });
 
     return () => scope.revert();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (stackTransitionTimeoutRef.current !== null) {
+        window.clearTimeout(stackTransitionTimeoutRef.current);
+      }
+    };
   }, []);
 
   function handlePointerMove(event: React.PointerEvent<HTMLDivElement>) {
@@ -180,33 +243,43 @@ export function MarketDeskHome() {
 
           <div className="desk-reveal">
             <div
-              className="hero-slab-motion relative mx-auto h-[520px] max-w-[640px] overflow-visible transition-transform duration-150 sm:h-[600px] lg:h-[640px]"
+              className="hero-slab-motion relative mx-auto h-[520px] max-w-[640px] cursor-pointer overflow-visible rounded-[24px] transition-transform duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:h-[600px] lg:h-[640px]"
               style={tiltStyle}
               onPointerMove={handlePointerMove}
               onPointerLeave={() => setTiltStyle({ transform: "perspective(1100px)" })}
+              onClick={() => setLockedStackLayout(stackLayout === "clustered" ? "spread" : "clustered")}
+              onKeyDown={(event) => {
+                if (event.key !== "Enter" && event.key !== " ") return;
+                event.preventDefault();
+                setLockedStackLayout(stackLayout === "clustered" ? "spread" : "clustered");
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={`${stackLayout === "clustered" ? "Open" : "Close"} the graded slab stack`}
+              aria-pressed={stackLayout === "spread"}
             >
               <div className="absolute left-1/2 top-1/2 -z-10 h-[72%] w-[84%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.5),rgba(111,158,172,0.16)_36%,rgba(166,111,31,0.1)_58%,transparent_74%)] blur-2xl" aria-hidden="true" />
               <div className="absolute inset-x-8 bottom-[2.4rem] -z-10 h-28 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(17,19,15,0.32),rgba(17,19,15,0.15)_42%,transparent_72%)] blur-xl" aria-hidden="true" />
               <div className="absolute inset-x-16 bottom-[4.7rem] -z-10 h-px bg-[linear-gradient(90deg,transparent,rgba(17,19,15,0.22),transparent)]" aria-hidden="true" />
 
               {heroStackListings.map((listing, index) => {
-                const transforms = [
-                  "left-1/2 top-[49%] z-40 w-[55%] -translate-x-1/2 -translate-y-1/2 rotate-0",
-                  "left-[19%] top-[47%] z-30 w-[45%] -translate-y-1/2 -rotate-[15deg]",
-                  "right-[19%] top-[46%] z-20 w-[45%] -translate-y-1/2 rotate-[15deg]",
-                  "left-[8%] top-[55%] z-10 w-[38%] -translate-y-1/2 -rotate-[27deg] opacity-[0.84]",
-                  "right-[8%] top-[55%] z-0 w-[38%] -translate-y-1/2 rotate-[27deg] opacity-[0.84]",
-                ];
+                const position = heroStackLayouts[stackLayout][index] ?? heroStackLayouts.clustered[0];
                 const isActive = index === 0;
 
                 return (
                   <div
                     key={listing.id}
                     className={cn(
-                      "hero-stack-card absolute block rounded-[18px] border border-[rgba(17,19,15,0.24)] bg-[rgba(249,248,243,0.94)] p-2 shadow-[0_34px_82px_rgba(17,19,15,0.32),inset_0_2px_0_rgba(255,255,255,0.72)]",
-                      transforms[index],
+                      "hero-stack-card absolute left-1/2 top-[49%] block rounded-[18px] border border-[rgba(17,19,15,0.24)] bg-[rgba(249,248,243,0.94)] p-2 shadow-[0_34px_82px_rgba(17,19,15,0.32),inset_0_2px_0_rgba(255,255,255,0.72)] will-change-transform",
+                      shouldReduceMotion ? "" : "transition-[transform,opacity,width,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
                       isActive && "border-[rgba(17,19,15,0.38)] shadow-[0_48px_120px_rgba(17,19,15,0.42),0_0_0_1px_rgba(255,255,255,0.42)_inset]",
                     )}
+                    style={{
+                      zIndex: position.zIndex,
+                      width: position.width,
+                      opacity: position.opacity,
+                      transform: `translate(-50%, -50%) translate3d(${position.x}px, ${position.y}px, 0) rotate(${position.rotate}deg) scale(${position.scale})`,
+                    }}
                     aria-label={listing.title}
                   >
                     <div className="rounded-[14px] border border-[rgba(17,19,15,0.16)] bg-vault-ink p-2">
