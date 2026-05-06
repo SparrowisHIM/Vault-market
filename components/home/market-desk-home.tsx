@@ -7,11 +7,8 @@ import {
   ArrowRight,
   BadgeCheck,
   BookOpen,
-  BriefcaseBusiness,
-  Gavel,
   Landmark,
   Search,
-  ShieldCheck,
   Sparkles,
 } from "lucide-react";
 import { MarketDelta } from "@/components/marketplace/market-delta";
@@ -22,42 +19,28 @@ import type { VaultListing } from "@/lib/marketplace/types";
 import { buildListingHref } from "@/lib/navigation/listing-links";
 import { cn } from "@/lib/utils";
 
-const deskLinks = [
+const storySteps = [
   {
     href: "/marketplace",
-    label: "Marketplace",
-    detail: "Browse graded-card slabs with cert, seller trust, and market signal.",
+    label: "Inspect",
+    kicker: "Start with the slab",
+    detail: "Review cert, grade, custody, seller trust, and inspection notes before the price ever becomes the point.",
     icon: Search,
   },
   {
-    href: "/vault",
-    label: "Vault",
-    detail: "Track custody, portfolio value, and intake status.",
-    icon: ShieldCheck,
-  },
-  {
-    href: "/auctions",
-    label: "Auctions",
-    detail: "Curated auction and premier-lot staging room.",
-    icon: Gavel,
-  },
-  {
     href: "/research",
-    label: "Research",
-    detail: "Comps, rarity, ask book, and signal readouts.",
+    label: "Read the market",
+    kicker: "Comps with context",
+    detail: "Use market signal, last comp, population, and estimate range to separate noise from conviction.",
     icon: BookOpen,
   },
   {
-    href: "/sell",
-    label: "Sell",
-    detail: "Verified seller intake for graded cards.",
-    icon: BriefcaseBusiness,
-  },
-  {
     href: "/private-desk",
-    label: "Private Desk",
-    detail: "Specialist review for rare, expensive, relationship-led deals.",
+    label: "Route exceptional slabs",
+    kicker: "Private desk",
+    detail: "For cards that deserve a slower decision, send the slab into specialist review and high-touch desk handling.",
     icon: Landmark,
+    exclusive: true,
   },
 ];
 
@@ -84,11 +67,6 @@ export function MarketDeskHome() {
       .filter(Boolean) as VaultListing[];
   }, []);
   const activeHeroListing = heroStackListings[0] ?? mockListings[0];
-  const featuredListings = useMemo(
-    () => [...mockListings].sort((a, b) => (b.marketDeltaPercent ?? 0) - (a.marketDeltaPercent ?? 0)).slice(0, 3),
-    [],
-  );
-
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -325,60 +303,76 @@ export function MarketDeskHome() {
         </div>
       </section>
 
-      <section className="px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {deskLinks.map((item, index) => {
-            const Icon = item.icon;
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:items-start">
+          <div className="desk-reveal">
+            <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
+              How VaultMarket is read
+            </p>
+            <h2 className="mt-3 max-w-md text-3xl font-semibold leading-tight text-vault-ink sm:text-4xl">
+              A slower path for faster conviction.
+            </h2>
+            <p className="mt-4 max-w-md text-sm leading-6 text-vault-steel">
+              The desk is organized around a simple collector workflow: inspect the slab,
+              read the market, and reserve specialist attention for the cards that need it.
+            </p>
+          </div>
 
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="desk-reveal group relative overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-5 shadow-[var(--shadow-card)] transition duration-200 hover:-translate-y-1 hover:border-[rgba(47,94,124,0.3)] hover:bg-[var(--surface-raised)] hover:shadow-slab-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                <div className="absolute right-4 top-4 opacity-0 transition duration-200 group-hover:opacity-100">
-                  <ArrowRight className="h-4 w-4 text-vault-registry" aria-hidden="true" />
-                </div>
-                <span className="grid h-10 w-10 place-items-center rounded-[8px] border border-[var(--border-soft)] bg-white/46 text-vault-registry">
-                  <Icon className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <h2 className="mt-4 text-xl font-semibold text-vault-ink">{item.label}</h2>
-                <p className="mt-2 text-sm leading-6 text-vault-steel">{item.detail}</p>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
+          <div className="grid gap-3">
+            {storySteps.map((item, index) => {
+              const Icon = item.icon;
 
-      <section className="px-4 pb-10 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl rounded-[10px] border border-[var(--border-soft)] bg-[rgba(17,19,15,0.9)] p-4 text-vault-paper shadow-[0_30px_90px_rgba(17,19,15,0.26)]">
-          <div className="grid gap-3 lg:grid-cols-[auto_1fr] lg:items-center">
-            <div className="flex items-center gap-2">
-              <BadgeCheck className="h-5 w-5 text-[#82c7a9]" aria-hidden="true" />
-              <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/72">
-                Signal watch
-              </p>
-            </div>
-            <div className="grid gap-2 md:grid-cols-3">
-              {featuredListings.map((listing) => (
+              return (
                 <Link
-                  key={listing.id}
-                  href={buildListingHref(listing.slug, "/")}
-                  className="group rounded-[8px] border border-white/10 bg-white/[0.055] p-3 transition duration-200 hover:bg-white/[0.09] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "desk-reveal group grid gap-4 rounded-[10px] border p-5 transition duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:grid-cols-[auto_1fr_auto] sm:items-center",
+                    item.exclusive
+                      ? "border-[rgba(17,19,15,0.34)] bg-[rgba(17,19,15,0.92)] text-vault-paper shadow-[0_26px_70px_rgba(17,19,15,0.22)]"
+                      : "border-[var(--border-soft)] bg-white/42 text-vault-ink shadow-[inset_0_1px_0_rgba(255,255,255,0.62)] hover:bg-white/64",
+                  )}
+                  style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold">{listing.title}</p>
-                      <p className="mt-1 font-mono text-[0.66rem] uppercase tracking-[0.12em] text-vault-paper/58">
-                        {listing.gradingCompany} {listing.grade} / {formatCurrency(listing.priceCents)}
-                      </p>
-                    </div>
-                    <ArrowRight className="h-4 w-4 shrink-0 text-vault-paper/44 transition group-hover:translate-x-0.5 group-hover:text-vault-paper" aria-hidden="true" />
-                  </div>
+                  <span
+                    className={cn(
+                      "grid h-11 w-11 place-items-center rounded-[8px] border",
+                      item.exclusive
+                        ? "border-white/12 bg-white/[0.07] text-vault-paper"
+                        : "border-[var(--border-soft)] bg-white/54 text-vault-registry",
+                    )}
+                  >
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <span className="min-w-0">
+                    <span
+                      className={cn(
+                        "font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em]",
+                        item.exclusive ? "text-vault-paper/54" : "text-vault-steel",
+                      )}
+                    >
+                      {String(index + 1).padStart(2, "0")} / {item.kicker}
+                    </span>
+                    <span className="mt-1 block text-xl font-semibold">{item.label}</span>
+                    <span
+                      className={cn(
+                        "mt-1 block text-sm leading-6",
+                        item.exclusive ? "text-vault-paper/64" : "text-vault-steel",
+                      )}
+                    >
+                      {item.detail}
+                    </span>
+                  </span>
+                  <ArrowRight
+                    className={cn(
+                      "h-4 w-4 shrink-0 transition group-hover:translate-x-0.5",
+                      item.exclusive ? "text-vault-paper/58" : "text-vault-registry",
+                    )}
+                    aria-hidden="true"
+                  />
                 </Link>
-              ))}
-            </div>
+              );
+            })}
           </div>
         </div>
       </section>
