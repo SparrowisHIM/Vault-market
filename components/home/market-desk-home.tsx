@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { MarketDelta } from "@/components/marketplace/market-delta";
 import { SlabArtImage } from "@/components/marketplace/slab-art-image";
-import { formatCurrency } from "@/lib/marketplace/format";
+import { formatCurrency, formatPopulation, getVaultStatusLabel } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
 import type { VaultListing } from "@/lib/marketplace/types";
 import { buildListingHref } from "@/lib/navigation/listing-links";
@@ -174,17 +174,16 @@ export function MarketDeskHome() {
               <div className="hidden h-px bg-[linear-gradient(90deg,rgba(17,19,15,0.22),transparent)] sm:block" />
             </div>
 
-            <div className="desk-reveal grid max-w-2xl gap-2 sm:grid-cols-5">
+            <div className="desk-reveal grid max-w-2xl gap-2 sm:grid-cols-4">
               {[
-                "cert-backed",
-                "seller trust",
-                "market signal",
-                "vault custody",
-                "specialist review",
+                "Cert-backed",
+                "Market signal",
+                "Seller trust",
+                "Specialist review",
               ].map((label) => (
                 <div
                   key={label}
-                  className="rounded-[8px] border border-[var(--border-soft)] bg-white/38 px-3 py-2 text-center font-mono text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-vault-steel shadow-[inset_0_1px_0_rgba(255,255,255,0.62)]"
+                  className="rounded-[8px] border border-[rgba(17,19,15,0.16)] bg-white/52 px-3 py-2.5 text-center font-mono text-[0.65rem] font-bold uppercase tracking-[0.12em] text-vault-graphite shadow-[0_12px_28px_rgba(17,19,15,0.055),inset_0_1px_0_rgba(255,255,255,0.72)]"
                 >
                   {label}
                 </div>
@@ -194,21 +193,22 @@ export function MarketDeskHome() {
 
           <div className="desk-reveal">
             <div
-              className="hero-slab-motion group relative mx-auto h-[620px] max-w-[560px] rounded-[30px] border border-[rgba(17,19,15,0.16)] bg-[radial-gradient(circle_at_50%_18%,rgba(255,255,255,0.72),rgba(255,255,255,0.22)_42%,rgba(17,19,15,0.06))] p-4 shadow-[0_34px_110px_rgba(17,19,15,0.22),inset_0_1px_0_rgba(255,255,255,0.84)] transition-transform duration-150 sm:h-[660px]"
+              className="hero-slab-motion group relative mx-auto h-[560px] max-w-[560px] rounded-[30px] border border-[rgba(17,19,15,0.16)] bg-[radial-gradient(circle_at_50%_22%,rgba(255,255,255,0.58),rgba(255,255,255,0.2)_38%,rgba(17,19,15,0.06)_72%),linear-gradient(180deg,rgba(255,255,255,0.5),rgba(235,230,220,0.24))] p-4 shadow-[0_34px_110px_rgba(17,19,15,0.22),inset_0_1px_0_rgba(255,255,255,0.84)] transition-transform duration-150 sm:h-[620px] lg:h-[640px]"
               style={tiltStyle}
               onPointerMove={handlePointerMove}
               onPointerLeave={() => setTiltStyle({ transform: "perspective(1100px)" })}
             >
               <div className="absolute -inset-1 -z-10 rounded-[32px] bg-[conic-gradient(from_180deg,rgba(47,94,124,0.2),rgba(166,111,31,0.18),rgba(47,113,88,0.16),rgba(47,94,124,0.2))] opacity-70 blur-xl" />
-              <div className="absolute inset-x-8 bottom-10 h-20 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(17,19,15,0.32),transparent_68%)] blur-sm" aria-hidden="true" />
+              <div className="absolute inset-x-10 bottom-20 h-24 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(17,19,15,0.34),rgba(17,19,15,0.13)_42%,transparent_70%)] blur-md" aria-hidden="true" />
+              <div className="absolute inset-x-8 bottom-[5.6rem] h-px bg-[linear-gradient(90deg,transparent,rgba(17,19,15,0.18),transparent)]" aria-hidden="true" />
 
               {heroStackListings.map((listing, index) => {
                 const transforms = [
-                  "left-1/2 top-[54%] z-40 w-[62%] -translate-x-1/2 -translate-y-1/2 rotate-0",
-                  "left-[18%] top-[48%] z-30 w-[50%] -translate-y-1/2 -rotate-[13deg]",
-                  "right-[13%] top-[47%] z-20 w-[50%] -translate-y-1/2 rotate-[13deg]",
-                  "left-[5%] top-[59%] z-10 w-[43%] -translate-y-1/2 -rotate-[23deg] opacity-82",
-                  "right-[3%] top-[60%] z-0 w-[43%] -translate-y-1/2 rotate-[23deg] opacity-82",
+                  "left-1/2 top-[49%] z-40 w-[57%] -translate-x-1/2 -translate-y-1/2 rotate-0",
+                  "left-[17%] top-[45%] z-30 w-[46%] -translate-y-1/2 -rotate-[14deg]",
+                  "right-[17%] top-[44%] z-20 w-[46%] -translate-y-1/2 rotate-[14deg]",
+                  "left-[9%] top-[55%] z-10 w-[39%] -translate-y-1/2 -rotate-[24deg] opacity-86",
+                  "right-[8%] top-[55%] z-0 w-[39%] -translate-y-1/2 rotate-[24deg] opacity-86",
                 ];
                 const isActive = index === 0;
 
@@ -217,9 +217,9 @@ export function MarketDeskHome() {
                     key={listing.id}
                     href={buildListingHref(listing.slug, "/")}
                     className={cn(
-                      "hero-stack-card absolute block rounded-[18px] border border-[rgba(17,19,15,0.22)] bg-[rgba(249,248,243,0.92)] p-2 shadow-[0_28px_70px_rgba(17,19,15,0.28),inset_0_1px_0_rgba(255,255,255,0.86)] transition duration-300 hover:-translate-y-[52%] hover:scale-[1.025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]",
+                      "hero-stack-card absolute block rounded-[18px] border border-[rgba(17,19,15,0.24)] bg-[rgba(249,248,243,0.94)] p-2 shadow-[0_30px_76px_rgba(17,19,15,0.3),0_2px_0_rgba(255,255,255,0.7)_inset] transition duration-300 hover:scale-[1.025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]",
                       transforms[index],
-                      isActive && "shadow-[0_34px_90px_rgba(17,19,15,0.32),inset_0_1px_0_rgba(255,255,255,0.9)]",
+                      isActive && "border-[rgba(17,19,15,0.34)] shadow-[0_42px_110px_rgba(17,19,15,0.38),0_0_0_1px_rgba(255,255,255,0.42)_inset]",
                     )}
                     aria-label={`Inspect ${listing.title}`}
                   >
@@ -253,16 +253,42 @@ export function MarketDeskHome() {
                 );
               })}
 
-              <div className="absolute inset-x-5 top-5 z-50 flex items-center justify-between gap-3 rounded-[12px] border border-[rgba(17,19,15,0.12)] bg-white/54 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur">
-                <div>
-                  <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
-                    Active slab
-                  </p>
-                  <p className="mt-1 text-sm font-semibold text-vault-ink">
-                    {activeHeroListing.gradingCompany} {activeHeroListing.grade} / {formatCurrency(activeHeroListing.priceCents)}
-                  </p>
+              <div className="absolute inset-x-5 top-5 z-50 rounded-[14px] border border-[rgba(17,19,15,0.16)] bg-[rgba(249,248,243,0.78)] p-4 shadow-[0_18px_48px_rgba(17,19,15,0.12),inset_0_1px_0_rgba(255,255,255,0.76)] backdrop-blur">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
+                      Active slab dossier
+                    </p>
+                    <p className="mt-1 truncate text-base font-semibold leading-tight text-vault-ink">
+                      {activeHeroListing.title}
+                    </p>
+                  </div>
+                  <BadgeCheck className="mt-0.5 h-5 w-5 shrink-0 text-vault-verified" aria-hidden="true" />
                 </div>
-                <BadgeCheck className="h-5 w-5 text-vault-verified" aria-hidden="true" />
+                <dl className="mt-3 grid grid-cols-4 gap-2">
+                  {[
+                    ["Grade", `${activeHeroListing.gradingCompany} ${activeHeroListing.grade}`],
+                    ["Ask", formatCurrency(activeHeroListing.priceCents)],
+                    ["Rarity", formatPopulation(activeHeroListing.population)],
+                    ["Custody", getVaultStatusLabel(activeHeroListing.vaultStatus)],
+                  ].map(([label, value]) => (
+                    <div
+                      key={label}
+                      className="rounded-[8px] border border-[rgba(17,19,15,0.09)] bg-white/46 px-2 py-2"
+                    >
+                      <dt className="font-mono text-[0.56rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
+                        {label}
+                      </dt>
+                      <dd className="mt-1 truncate text-xs font-semibold text-vault-ink">{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <div className="mt-3 flex items-center justify-between gap-3">
+                  <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
+                    Seller trust / market signal aligned
+                  </span>
+                  <MarketDelta value={activeHeroListing.marketDeltaPercent} compact />
+                </div>
               </div>
 
               <div className="absolute inset-x-6 bottom-5 z-50 rounded-[13px] border border-white/12 bg-[rgba(17,19,15,0.88)] p-3 text-vault-paper shadow-[0_20px_60px_rgba(17,19,15,0.24)]">
