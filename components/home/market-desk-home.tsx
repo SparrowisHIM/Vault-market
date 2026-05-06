@@ -92,21 +92,11 @@ export function MarketDeskHome() {
         ease: "inOutSine",
       });
 
-      animate(".hero-slab-motion", {
-        rotateZ: [-0.8, 0.8],
-        y: [-3, 3],
-        duration: 9200,
-        alternate: true,
-        loop: true,
-        ease: "inOutSine",
-      });
-
       animate(".hero-stack-card", {
         opacity: [0, 1],
-        y: [32, 0],
-        rotateZ: (_target: HTMLElement, index: number) => [index % 2 ? -10 : 10, 0],
+        filter: ["blur(5px)", "blur(0px)"],
         delay: stagger(90),
-        duration: 820,
+        duration: 620,
         ease: "outExpo",
       });
     });
@@ -120,7 +110,7 @@ export function MarketDeskHome() {
     const y = (event.clientY - bounds.top) / bounds.height - 0.5;
 
     setTiltStyle({
-      transform: `perspective(1100px) rotateX(${y * -8}deg) rotateY(${x * 10}deg) translate3d(0,-4px,0)`,
+      transform: `perspective(1100px) rotateX(${y * -3.5}deg) rotateY(${x * 4.5}deg)`,
     });
   }
 
@@ -204,11 +194,11 @@ export function MarketDeskHome() {
 
               {heroStackListings.map((listing, index) => {
                 const transforms = [
-                  "left-1/2 top-[49%] z-40 w-[57%] -translate-x-1/2 -translate-y-1/2 rotate-0",
-                  "left-[17%] top-[45%] z-30 w-[46%] -translate-y-1/2 -rotate-[14deg]",
-                  "right-[17%] top-[44%] z-20 w-[46%] -translate-y-1/2 rotate-[14deg]",
-                  "left-[9%] top-[55%] z-10 w-[39%] -translate-y-1/2 -rotate-[24deg] opacity-86",
-                  "right-[8%] top-[55%] z-0 w-[39%] -translate-y-1/2 rotate-[24deg] opacity-86",
+                  "left-1/2 top-[47%] z-40 w-[54%] -translate-x-1/2 -translate-y-1/2 rotate-0",
+                  "left-[18%] top-[44%] z-30 w-[44%] -translate-y-1/2 -rotate-[13deg]",
+                  "right-[18%] top-[43%] z-20 w-[44%] -translate-y-1/2 rotate-[13deg]",
+                  "left-[10%] top-[53%] z-10 w-[37%] -translate-y-1/2 -rotate-[22deg] opacity-[0.86]",
+                  "right-[10%] top-[53%] z-0 w-[37%] -translate-y-1/2 rotate-[22deg] opacity-[0.86]",
                 ];
                 const isActive = index === 0;
 
@@ -217,7 +207,7 @@ export function MarketDeskHome() {
                     key={listing.id}
                     href={buildListingHref(listing.slug, "/")}
                     className={cn(
-                      "hero-stack-card absolute block rounded-[18px] border border-[rgba(17,19,15,0.24)] bg-[rgba(249,248,243,0.94)] p-2 shadow-[0_30px_76px_rgba(17,19,15,0.3),0_2px_0_rgba(255,255,255,0.7)_inset] transition duration-300 hover:scale-[1.025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]",
+                      "hero-stack-card absolute block rounded-[18px] border border-[rgba(17,19,15,0.24)] bg-[rgba(249,248,243,0.94)] p-2 shadow-[0_30px_76px_rgba(17,19,15,0.3),inset_0_2px_0_rgba(255,255,255,0.7)] transition-shadow duration-300 hover:shadow-[0_36px_86px_rgba(17,19,15,0.34),inset_0_2px_0_rgba(255,255,255,0.72)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]",
                       transforms[index],
                       isActive && "border-[rgba(17,19,15,0.34)] shadow-[0_42px_110px_rgba(17,19,15,0.38),0_0_0_1px_rgba(255,255,255,0.42)_inset]",
                     )}
