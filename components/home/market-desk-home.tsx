@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { MarketDelta } from "@/components/marketplace/market-delta";
 import { SlabArtImage } from "@/components/marketplace/slab-art-image";
-import { formatCurrency, formatPopulation } from "@/lib/marketplace/format";
+import { formatCurrency } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
 import type { VaultListing } from "@/lib/marketplace/types";
 import { buildListingHref } from "@/lib/navigation/listing-links";
@@ -67,81 +67,27 @@ const tapeItems = mockListings.map((listing) => ({
   delta: listing.marketDeltaPercent,
 }));
 
-function CommandListingResult({ listing }: { listing: VaultListing }) {
-  return (
-    <Link
-      href={buildListingHref(listing.slug, "/")}
-      className="command-result group grid grid-cols-[1fr_auto] gap-3 rounded-[8px] border border-white/10 bg-white/[0.055] p-3 transition hover:bg-white/[0.09] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
-    >
-      <span className="min-w-0">
-        <span className="block truncate text-sm font-semibold text-vault-paper">
-          {listing.title}
-        </span>
-        <span className="mt-1 block font-mono text-[0.64rem] uppercase tracking-[0.12em] text-vault-paper/52">
-          {listing.gradingCompany} {listing.grade} / {listing.franchise} /{" "}
-          {formatCurrency(listing.priceCents)}
-        </span>
-      </span>
-      <span className="grid justify-items-end gap-1">
-        <MarketDelta value={listing.marketDeltaPercent} compact />
-        <ArrowRight
-          className="h-4 w-4 text-vault-paper/38 transition group-hover:translate-x-0.5 group-hover:text-vault-paper"
-          aria-hidden="true"
-        />
-      </span>
-    </Link>
-  );
-}
-
 export function MarketDeskHome() {
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const commandRef = useRef<HTMLDivElement | null>(null);
   const [tiltStyle, setTiltStyle] = useState({ transform: "perspective(1100px)" });
-  const [deskQuery, setDeskQuery] = useState("");
-  const leadListing = useMemo(
-    () => [...mockListings].sort((a, b) => b.priceCents - a.priceCents)[0],
-    [],
-  );
+  const heroStackListings = useMemo(() => {
+    const heroSlugs = [
+      "2021-pokemon-umbreon-vmax-alt-art-psa-10",
+      "1999-pokemon-base-charizard-psa-9",
+      "2000-pokemon-neo-genesis-lugia-holo-psa-9",
+      "2002-yugioh-blue-eyes-white-dragon-psa-9",
+      "2003-pokemon-skyridge-crystal-ho-oh-psa-10",
+    ];
+
+    return heroSlugs
+      .map((slug) => mockListings.find((listing) => listing.slug === slug))
+      .filter(Boolean) as VaultListing[];
+  }, []);
+  const activeHeroListing = heroStackListings[0] ?? mockListings[0];
   const featuredListings = useMemo(
     () => [...mockListings].sort((a, b) => (b.marketDeltaPercent ?? 0) - (a.marketDeltaPercent ?? 0)).slice(0, 3),
     [],
   );
-  const askBook = useMemo(
-    () => mockListings.reduce((total, listing) => total + listing.priceCents, 0),
-    [],
-  );
-  const commandResults = useMemo(() => {
-    const normalizedQuery = deskQuery.trim().toLowerCase();
-    const rankedListings = [...mockListings].sort((a, b) => b.priceCents - a.priceCents);
-
-    if (!normalizedQuery) return rankedListings.slice(0, 3);
-
-    return rankedListings
-      .filter((listing) =>
-        [
-          listing.title,
-          listing.franchise,
-          listing.setName,
-          listing.gradingCompany,
-          listing.grade,
-          listing.certNumber,
-          listing.seller.name,
-        ]
-          .join(" ")
-          .toLowerCase()
-          .includes(normalizedQuery),
-      )
-      .slice(0, 3);
-  }, [deskQuery]);
-  const routeSuggestions = useMemo(() => {
-    const normalizedQuery = deskQuery.trim().toLowerCase();
-
-    if (!normalizedQuery) return deskLinks.slice(0, 3);
-
-    return deskLinks
-      .filter((link) => `${link.label} ${link.detail}`.toLowerCase().includes(normalizedQuery))
-      .slice(0, 3);
-  }, [deskQuery]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -176,6 +122,15 @@ export function MarketDeskHome() {
         loop: true,
         ease: "inOutSine",
       });
+
+      animate(".hero-stack-card", {
+        opacity: [0, 1],
+        y: [32, 0],
+        rotateZ: (_target: HTMLElement, index: number) => [index % 2 ? -10 : 10, 0],
+        delay: stagger(90),
+        duration: 820,
+        ease: "outExpo",
+      });
     });
 
     return () => scope.revert();
@@ -191,31 +146,6 @@ export function MarketDeskHome() {
     });
   }
 
-  function animateCommandResults() {
-    const root = commandRef.current;
-    if (!root) return;
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) return;
-
-    animate(root.querySelectorAll(".command-result"), {
-      opacity: [0, 1],
-      translateY: [10, 0],
-      delay: stagger(45),
-      duration: 340,
-      ease: "outExpo",
-    });
-  }
-
-  useEffect(() => {
-    animateCommandResults();
-  }, [commandResults, routeSuggestions]);
-
-  function marketplaceSearchHref(query: string) {
-    const trimmedQuery = query.trim();
-    return trimmedQuery ? `/marketplace?q=${encodeURIComponent(trimmedQuery)}` : "/marketplace";
-  }
-
   return (
     <main ref={rootRef} className="overflow-hidden">
       <section className="relative min-h-[calc(100svh-118px)] px-4 py-6 sm:px-6 lg:px-8">
@@ -228,24 +158,23 @@ export function MarketDeskHome() {
           <div className="signal-node absolute bottom-[18%] left-[41%] h-2 w-2 rounded-full bg-vault-verified" />
         </div>
 
-        <div className="mx-auto grid min-h-[calc(100svh-166px)] w-full max-w-7xl gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(420px,0.72fr)] lg:items-center">
-          <div className="desk-reveal flex flex-col gap-5">
+        <div className="mx-auto grid min-h-[calc(100svh-166px)] w-full max-w-7xl gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(480px,0.78fr)] lg:items-center">
+          <div className="desk-reveal flex flex-col gap-6">
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(17,19,15,0.16)] bg-white/42 px-3 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
               <Sparkles className="h-4 w-4 text-vault-registry" aria-hidden="true" />
               <span className="font-mono text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
-                Trust-first graded card market desk
+                Cert-backed collector desk
               </span>
             </div>
 
             <div>
-              <h1 className="max-w-4xl text-[clamp(3.15rem,8vw,7.4rem)] font-semibold leading-[0.86] tracking-normal text-vault-ink">
-                Inspect the slab. Read the market. Move with confidence.
+              <h1 className="max-w-4xl text-[clamp(3.25rem,8vw,7.1rem)] font-semibold leading-[0.86] tracking-normal text-vault-ink">
+                Built for the slabs worth slowing down for.
               </h1>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-vault-steel sm:text-lg">
-                VaultMarket is a premium marketplace and vault interface for verified,
-                graded trading cards. Start with the public marketplace, inspect each
-                slab, then route exceptional cards through the private desk when specialist
-                review matters.
+              <p className="mt-6 max-w-2xl text-base leading-7 text-vault-steel sm:text-lg">
+                VaultMarket is a trust-first market desk for graded cards where
+                collectors inspect, compare, and route exceptional slabs through
+                specialist review.
               </p>
             </div>
 
@@ -267,175 +196,108 @@ export function MarketDeskHome() {
               <div className="hidden h-px bg-[linear-gradient(90deg,rgba(17,19,15,0.22),transparent)] sm:block" />
             </div>
 
-            <div
-              ref={commandRef}
-              className="desk-reveal overflow-hidden rounded-[12px] border border-[rgba(17,19,15,0.16)] bg-[rgba(17,19,15,0.9)] p-3 text-vault-paper shadow-[0_26px_70px_rgba(17,19,15,0.24)]"
-            >
-              <div className="grid gap-3">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <p className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/58">
-                      Market command
-                    </p>
-                    <h2 className="mt-1 text-lg font-semibold text-vault-paper">
-                      Search marketplace slabs
-                    </h2>
-                  </div>
-                  <span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/62">
-                    {commandResults.length} slab matches
-                  </span>
+            <div className="desk-reveal grid max-w-2xl gap-2 sm:grid-cols-5">
+              {[
+                "cert-backed",
+                "seller trust",
+                "market signal",
+                "vault custody",
+                "specialist review",
+              ].map((label) => (
+                <div
+                  key={label}
+                  className="rounded-[8px] border border-[var(--border-soft)] bg-white/38 px-3 py-2 text-center font-mono text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-vault-steel shadow-[inset_0_1px_0_rgba(255,255,255,0.62)]"
+                >
+                  {label}
                 </div>
-
-                <form action="/marketplace" className="grid gap-2 sm:grid-cols-[1fr_auto]">
-                  <label htmlFor="desk-command-search" className="sr-only">
-                    Search VaultMarket marketplace
-                  </label>
-                  <div className="relative">
-                    <Search
-                      className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-vault-paper/44"
-                      aria-hidden="true"
-                    />
-                    <input
-                      id="desk-command-search"
-                      name="q"
-                      type="search"
-                      value={deskQuery}
-                      onChange={(event) => setDeskQuery(event.target.value)}
-                      autoComplete="off"
-                      placeholder="Try Black Lotus, PSA 10, Charizard, cert number..."
-                      className="h-12 w-full rounded-[8px] border border-white/12 bg-white/[0.07] px-10 text-sm font-semibold text-vault-paper outline-none transition placeholder:text-vault-paper/34 focus:border-white/28 focus:ring-2 focus:ring-white/18"
-                    />
-                  </div>
-                  <Link
-                    href={marketplaceSearchHref(deskQuery)}
-                    className="inline-flex h-12 items-center justify-center gap-2 rounded-[8px] border border-white/16 bg-vault-paper px-4 text-sm font-semibold text-vault-ink transition hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
-                  >
-                    Execute search
-                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </Link>
-                </form>
-
-                <div className="grid gap-2 lg:grid-cols-[1.1fr_0.9fr]">
-                  <div className="grid gap-2">
-                    {commandResults.length > 0 ? (
-                      commandResults.map((listing) => (
-                        <CommandListingResult key={listing.id} listing={listing} />
-                      ))
-                    ) : (
-                      <div className="command-result rounded-[8px] border border-white/10 bg-white/[0.055] p-3 text-sm text-vault-paper/68">
-                        No slab matches yet. Try a title, grader, cert, franchise, or seller.
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="grid gap-2">
-                    {routeSuggestions.map((item) => {
-                      const Icon = item.icon;
-
-                      return (
-                        <Link
-                          key={item.href}
-                          href={item.href}
-                          className="command-result group grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-[8px] border border-white/10 bg-white/[0.055] p-3 transition hover:bg-white/[0.09] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
-                        >
-                          <span className="grid h-9 w-9 place-items-center rounded-[7px] border border-white/10 bg-white/[0.07] text-vault-paper/76">
-                            <Icon className="h-4 w-4" aria-hidden="true" />
-                          </span>
-                          <span className="min-w-0">
-                            <span className="block text-sm font-semibold text-vault-paper">
-                              {item.label}
-                            </span>
-                            <span className="mt-0.5 block truncate text-xs text-vault-paper/52">
-                              {item.detail}
-                            </span>
-                          </span>
-                          <ArrowRight
-                            className="h-4 w-4 text-vault-paper/38 transition group-hover:translate-x-0.5 group-hover:text-vault-paper"
-                            aria-hidden="true"
-                          />
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <p className="sr-only" role="status" aria-live="polite">
-                  {commandResults.length} matching slabs shown.
-                </p>
-              </div>
+              ))}
             </div>
-
-            <dl className="desk-reveal grid gap-2 sm:grid-cols-3">
-              <div className="rounded-[8px] border border-[var(--border-soft)] bg-white/36 p-3">
-                <dt className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
-                  Ask book
-                </dt>
-                <dd className="mt-1 text-2xl font-semibold text-vault-ink">{formatCurrency(askBook)}</dd>
-              </div>
-              <div className="rounded-[8px] border border-[var(--border-soft)] bg-white/36 p-3">
-                <dt className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
-                  Live modules
-                </dt>
-                <dd className="mt-1 text-2xl font-semibold text-vault-ink">{deskLinks.length}</dd>
-              </div>
-              <div className="rounded-[8px] border border-[var(--border-soft)] bg-white/36 p-3">
-                <dt className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
-                  Lead rarity
-                </dt>
-                <dd className="mt-1 text-2xl font-semibold text-vault-ink">
-                  {formatPopulation(leadListing.population)}
-                </dd>
-              </div>
-            </dl>
           </div>
 
           <div className="desk-reveal">
             <div
-              className="hero-slab-motion group relative mx-auto max-w-[430px] rounded-[28px] border border-[rgba(17,19,15,0.2)] bg-[linear-gradient(145deg,rgba(255,255,255,0.72),rgba(255,255,255,0.22))] p-4 shadow-[0_34px_90px_rgba(17,19,15,0.24),inset_0_1px_0_rgba(255,255,255,0.84)] transition-transform duration-150"
+              className="hero-slab-motion group relative mx-auto h-[620px] max-w-[560px] rounded-[30px] border border-[rgba(17,19,15,0.16)] bg-[radial-gradient(circle_at_50%_18%,rgba(255,255,255,0.72),rgba(255,255,255,0.22)_42%,rgba(17,19,15,0.06))] p-4 shadow-[0_34px_110px_rgba(17,19,15,0.22),inset_0_1px_0_rgba(255,255,255,0.84)] transition-transform duration-150 sm:h-[660px]"
               style={tiltStyle}
               onPointerMove={handlePointerMove}
               onPointerLeave={() => setTiltStyle({ transform: "perspective(1100px)" })}
             >
-              <div className="absolute -inset-1 -z-10 rounded-[30px] bg-[conic-gradient(from_180deg,rgba(47,94,124,0.2),rgba(166,111,31,0.2),rgba(47,113,88,0.16),rgba(47,94,124,0.2))] opacity-70 blur-xl" />
-              <div className="relative overflow-hidden rounded-[20px] border border-[rgba(17,19,15,0.22)] bg-vault-ink p-3">
-                <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.16)_38%,transparent_56%)] opacity-0 transition duration-500 group-hover:translate-x-16 group-hover:opacity-100" />
-                <div className="grid gap-3 rounded-[15px] bg-[var(--surface-panel)] p-3">
-                  <div className="flex items-center justify-between gap-3">
-                    <div>
-                      <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
-                        Lead desk slab
-                      </p>
-                      <h2 className="mt-1 text-xl font-semibold leading-tight text-vault-ink">
-                        {leadListing.title}
-                      </h2>
+              <div className="absolute -inset-1 -z-10 rounded-[32px] bg-[conic-gradient(from_180deg,rgba(47,94,124,0.2),rgba(166,111,31,0.18),rgba(47,113,88,0.16),rgba(47,94,124,0.2))] opacity-70 blur-xl" />
+              <div className="absolute inset-x-8 bottom-10 h-20 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(17,19,15,0.32),transparent_68%)] blur-sm" aria-hidden="true" />
+
+              {heroStackListings.map((listing, index) => {
+                const transforms = [
+                  "left-1/2 top-[54%] z-40 w-[62%] -translate-x-1/2 -translate-y-1/2 rotate-0",
+                  "left-[18%] top-[48%] z-30 w-[50%] -translate-y-1/2 -rotate-[13deg]",
+                  "right-[13%] top-[47%] z-20 w-[50%] -translate-y-1/2 rotate-[13deg]",
+                  "left-[5%] top-[59%] z-10 w-[43%] -translate-y-1/2 -rotate-[23deg] opacity-82",
+                  "right-[3%] top-[60%] z-0 w-[43%] -translate-y-1/2 rotate-[23deg] opacity-82",
+                ];
+                const isActive = index === 0;
+
+                return (
+                  <Link
+                    key={listing.id}
+                    href={buildListingHref(listing.slug, "/")}
+                    className={cn(
+                      "hero-stack-card absolute block rounded-[18px] border border-[rgba(17,19,15,0.22)] bg-[rgba(249,248,243,0.92)] p-2 shadow-[0_28px_70px_rgba(17,19,15,0.28),inset_0_1px_0_rgba(255,255,255,0.86)] transition duration-300 hover:-translate-y-[52%] hover:scale-[1.025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]",
+                      transforms[index],
+                      isActive && "shadow-[0_34px_90px_rgba(17,19,15,0.32),inset_0_1px_0_rgba(255,255,255,0.9)]",
+                    )}
+                    aria-label={`Inspect ${listing.title}`}
+                  >
+                    <div className="rounded-[14px] border border-[rgba(17,19,15,0.16)] bg-vault-ink p-2">
+                      <div className="relative aspect-[5/7] overflow-hidden rounded-[10px] border border-[rgba(255,255,255,0.18)] bg-[var(--surface-inset)]">
+                        <SlabArtImage
+                          image={listing.image}
+                          sizes={isActive ? "(min-width: 1024px) 340px, 70vw" : "(min-width: 1024px) 260px, 56vw"}
+                          priority={isActive}
+                        />
+                        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.18),transparent_34%,rgba(255,255,255,0.12)_42%,transparent_52%)]" aria-hidden="true" />
+                      </div>
+                      <div className="mt-2 grid gap-1 rounded-[9px] bg-vault-paper px-2.5 py-2 text-vault-ink">
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="truncate text-sm font-semibold leading-tight">{listing.title}</p>
+                          <span className="shrink-0 rounded-[5px] border border-[rgba(154,62,53,0.22)] bg-[rgba(154,62,53,0.08)] px-2 py-0.5 font-mono text-[0.68rem] font-bold text-vault-loss">
+                            {listing.grade}
+                          </span>
+                        </div>
+                        {isActive && (
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-vault-steel">
+                              {listing.gradingCompany} / {listing.franchise}
+                            </span>
+                            <MarketDelta value={listing.marketDeltaPercent} compact />
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <span className="rounded-full border border-[rgba(47,113,88,0.24)] bg-[rgba(47,113,88,0.08)] px-2 py-1 font-mono text-[0.64rem] font-semibold uppercase tracking-[0.12em] text-[#235844]">
-                      Verified
-                    </span>
+                  </Link>
+                );
+              })}
+
+              <div className="absolute inset-x-5 top-5 z-50 flex items-center justify-between gap-3 rounded-[12px] border border-[rgba(17,19,15,0.12)] bg-white/54 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur">
+                <div>
+                  <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
+                    Active slab
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-vault-ink">
+                    {activeHeroListing.gradingCompany} {activeHeroListing.grade} / {formatCurrency(activeHeroListing.priceCents)}
+                  </p>
+                </div>
+                <BadgeCheck className="h-5 w-5 text-vault-verified" aria-hidden="true" />
+              </div>
+
+              <div className="absolute inset-x-6 bottom-5 z-50 rounded-[13px] border border-white/12 bg-[rgba(17,19,15,0.88)] p-3 text-vault-paper shadow-[0_20px_60px_rgba(17,19,15,0.24)]">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/54">
+                      Stack signal
+                    </p>
+                    <p className="mt-1 truncate text-sm font-semibold">
+                      {heroStackListings.length} graded slabs staged for inspection
+                    </p>
                   </div>
-                  <div className="relative aspect-[5/7] overflow-hidden rounded-[14px] border border-[rgba(17,19,15,0.18)]">
-                    <SlabArtImage
-                      image={leadListing.image}
-                      sizes="(min-width: 1024px) 390px, 86vw"
-                      priority
-                    />
-                  </div>
-                  <div className="grid grid-cols-[1fr_auto] gap-3">
-                    <div>
-                      <p className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
-                        Ask
-                      </p>
-                      <p className="text-3xl font-semibold text-vault-ink">
-                        {formatCurrency(leadListing.priceCents)}
-                      </p>
-                    </div>
-                    <div className="grid content-end justify-items-end gap-2">
-                      <MarketDelta value={leadListing.marketDeltaPercent} compact />
-                      <span className="rounded-[5px] border border-[var(--border-soft)] bg-white/46 px-2 py-1 font-mono text-[0.68rem] font-semibold text-vault-steel">
-                        {leadListing.gradingCompany} {leadListing.grade}
-                      </span>
-                    </div>
-                  </div>
+                  <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-vault-paper/58" aria-hidden="true" />
                 </div>
               </div>
             </div>
