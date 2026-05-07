@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { ListingTypeBadge } from "@/components/marketplace/listing-type-badge";
 import { MarketDelta } from "@/components/marketplace/market-delta";
-import { SlabArtImage } from "@/components/marketplace/slab-art-image";
 import { SlabCard } from "@/components/marketplace/slab-card";
 import { formatCurrency, formatEstimateRange, formatPopulation } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
@@ -207,42 +206,65 @@ export default function AuctionsPage() {
                   </div>
 
                   <div className="mx-auto w-full max-w-[14rem]">
-                    <div className="relative h-48 overflow-hidden rounded-[14px] border border-white/10 bg-[linear-gradient(155deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02)_42%,rgba(0,0,0,0.22))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_24px_48px_rgba(0,0,0,0.24)]">
-                      <div className="absolute inset-x-5 bottom-4 h-8 rounded-full bg-black/35 blur-xl" />
-                      <div className="absolute inset-x-4 bottom-5 h-8 rounded-[50%] border border-[rgba(224,181,108,0.18)] bg-[linear-gradient(180deg,rgba(224,181,108,0.2),rgba(0,0,0,0.08))]" />
-                      <div className="absolute right-3 top-3 rounded-full border border-[rgba(224,181,108,0.24)] bg-[rgba(224,181,108,0.1)] px-2 py-1 font-mono text-[0.52rem] font-semibold uppercase tracking-[0.13em] text-[#e0b56c]">
-                        Staged
-                      </div>
-                      <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-2 py-1 font-mono text-[0.52rem] font-semibold uppercase tracking-[0.13em] text-vault-paper/54">
-                        <Gavel className="h-3 w-3 text-[#e0b56c]" aria-hidden="true" />
-                        Lot 01
-                      </div>
-                      <div className="relative mx-auto mt-8 w-[7.1rem] rotate-[-3deg] rounded-[12px] border border-white/70 bg-[#f3efe6] p-1.5 shadow-[0_18px_34px_rgba(0,0,0,0.34)]">
-                        <div className="relative aspect-[5/7] overflow-hidden rounded-[8px] border border-[rgba(17,19,15,0.24)] bg-[var(--surface-inset)]">
-                          <SlabArtImage
-                            image={leadLot.image}
-                            sizes="120px"
-                            priority
-                            className="p-1"
-                          />
-                          <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.34),transparent_38%,rgba(255,255,255,0.2)_48%,transparent_58%)]" />
-                        </div>
-                        <div className="mt-1.5 rounded-[6px] border border-[rgba(17,19,15,0.12)] bg-white/80 px-1.5 py-1">
-                          <p className="truncate text-[0.55rem] font-semibold leading-none text-vault-ink">
-                            {leadLot.title}
-                          </p>
-                          <p className="mt-0.5 font-mono text-[0.47rem] font-semibold uppercase tracking-[0.1em] text-vault-steel">
-                            PSA {leadLot.grade} / {formatPopulation(leadLot.population)}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="absolute inset-x-3 bottom-3 grid grid-cols-[1fr_auto] items-center gap-2 rounded-[8px] border border-white/10 bg-black/25 px-2 py-1.5 backdrop-blur-sm">
-                        <span className="font-mono text-[0.52rem] font-semibold uppercase tracking-[0.13em] text-vault-paper/48">
-                          Estimate read
+                    <div className="relative overflow-hidden rounded-[14px] border border-white/10 bg-[linear-gradient(155deg,rgba(255,255,255,0.08),rgba(255,255,255,0.025)_44%,rgba(0,0,0,0.2))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_22px_44px_rgba(0,0,0,0.22)]">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-mono text-[0.56rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/48">
+                          Estimate calibration
                         </span>
-                        <span className="font-mono text-[0.55rem] font-semibold uppercase tracking-[0.08em] text-vault-paper/72">
-                          {formatEstimateRange(leadLot.estimatedRangeCents)}
+                        <span className="rounded-full border border-[rgba(224,181,108,0.24)] bg-[rgba(224,181,108,0.1)] px-2 py-1 font-mono text-[0.52rem] font-semibold uppercase tracking-[0.12em] text-[#e0b56c]">
+                          Lot 01
                         </span>
+                      </div>
+
+                      <div className="mt-5">
+                        <div className="flex items-end justify-between gap-3">
+                          <div>
+                            <p className="font-mono text-[0.55rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/42">
+                              Lead estimate
+                            </p>
+                            <p className="mt-1 text-xl font-semibold text-vault-paper">
+                              {formatEstimateRange(leadLot.estimatedRangeCents)}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p className="font-mono text-[0.55rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/42">
+                              Ask
+                            </p>
+                            <p className="mt-1 text-sm font-semibold text-[#e0b56c]">
+                              {formatCurrency(leadLot.priceCents)}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="relative mt-5 h-12">
+                          <div className="absolute inset-x-0 top-5 h-1.5 rounded-full bg-white/[0.08]" />
+                          <div className="absolute left-[8%] right-[13%] top-5 h-1.5 rounded-full bg-[linear-gradient(90deg,#c8b68c,#88b6b2)]" />
+                          <span className="absolute left-[8%] top-1 font-mono text-[0.48rem] font-semibold uppercase tracking-[0.1em] text-vault-paper/44">
+                            low
+                          </span>
+                          <span className="absolute right-[13%] top-1 font-mono text-[0.48rem] font-semibold uppercase tracking-[0.1em] text-vault-paper/44">
+                            high
+                          </span>
+                          <span className="absolute left-[68%] top-2 h-8 w-px bg-[#e0b56c] shadow-[0_0_14px_rgba(224,181,108,0.34)]" />
+                          <span className="absolute left-[calc(68%-0.35rem)] top-[1.04rem] h-3 w-3 rounded-full border border-black/30 bg-[#e0b56c]" />
+                        </div>
+                      </div>
+
+                      <div className="mt-3 grid grid-cols-2 gap-2">
+                        <div className="rounded-[8px] border border-white/10 bg-black/15 p-2">
+                          <p className="font-mono text-[0.5rem] font-semibold uppercase tracking-[0.12em] text-vault-paper/38">
+                            Confidence
+                          </p>
+                          <p className="mt-1 text-sm font-semibold text-vault-paper">High fit</p>
+                        </div>
+                        <div className="rounded-[8px] border border-white/10 bg-black/15 p-2">
+                          <p className="font-mono text-[0.5rem] font-semibold uppercase tracking-[0.12em] text-vault-paper/38">
+                            Scarcity
+                          </p>
+                          <p className="mt-1 text-sm font-semibold text-vault-paper">
+                            {formatPopulation(scarceLot.population)}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
