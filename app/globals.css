@@ -399,17 +399,6 @@ a {
   animation: auction-session-sweep 10.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
-.auction-clock-dial {
-  background:
-    radial-gradient(circle, transparent 0 58%, rgba(255, 255, 255, 0.08) 59% 60%, transparent 61%),
-    conic-gradient(from 0deg, rgba(224, 181, 108, 0.3) 0 8deg, transparent 8deg 30deg);
-}
-
-.auction-clock-hand {
-  transform: rotate(-34deg);
-  animation: auction-clock-hand 5.8s steps(6, end) infinite;
-}
-
 .auction-access-pulse {
   animation: auction-access-pulse 2.6s ease-in-out infinite;
 }
@@ -604,15 +593,6 @@ a {
   }
 }
 
-@keyframes auction-clock-hand {
-  0% {
-    transform: rotate(-34deg);
-  }
-  100% {
-    transform: rotate(326deg);
-  }
-}
-
 @keyframes auction-access-pulse {
   0%,
   100% {
@@ -698,7 +678,6 @@ a {
   .vault-progress-flow,
   .vault-status-pulse,
   .auction-session-sweep,
-  .auction-clock-hand,
   .auction-access-pulse,
   .auction-lot-spotlight::before,
   .sell-intake-sweep,

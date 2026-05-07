@@ -205,13 +205,45 @@ export default function AuctionsPage() {
                     </p>
                   </div>
 
-                  <div className="mx-auto grid h-44 w-44 place-items-center rounded-full border border-white/10 bg-white/[0.045] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-                    <div className="auction-clock-dial relative grid h-32 w-32 place-items-center rounded-full border border-white/14 bg-black/[0.18]">
-                      <span className="auction-clock-hand absolute left-1/2 top-1/2 h-[2px] w-10 origin-left rounded-full bg-[#e0b56c]" />
-                      <span className="absolute h-2.5 w-2.5 rounded-full bg-[#e0b56c] shadow-[0_0_18px_rgba(224,181,108,0.55)]" />
-                      <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/52">
-                        Session
-                      </span>
+                  <div className="mx-auto w-full max-w-[14rem] rounded-[13px] border border-[rgba(224,181,108,0.2)] bg-[linear-gradient(150deg,rgba(255,255,255,0.085),rgba(255,255,255,0.025)_42%,rgba(0,0,0,0.16))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_22px_45px_rgba(0,0,0,0.22)]">
+                    <div className="relative overflow-hidden rounded-[10px] border border-white/10 bg-black/[0.16] p-3">
+                      <span className="absolute inset-y-0 left-0 w-1 bg-[linear-gradient(180deg,rgba(224,181,108,0.95),rgba(166,111,31,0.35))]" />
+                      <div className="flex items-center justify-between gap-3 pl-2">
+                        <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
+                          Session lot
+                        </span>
+                        <span className="grid h-8 w-8 place-items-center rounded-[8px] border border-[rgba(224,181,108,0.26)] bg-[rgba(224,181,108,0.1)] text-[#e0b56c]">
+                          <Gavel className="h-4 w-4" aria-hidden="true" />
+                        </span>
+                      </div>
+                      <div className="mt-4 pl-2">
+                        <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-[#e0b56c]">
+                          Lot 01
+                        </p>
+                        <p className="mt-1 line-clamp-2 text-sm font-semibold leading-snug text-vault-paper">
+                          {leadLot.title}
+                        </p>
+                      </div>
+                      <div className="mt-4 grid gap-2 pl-2">
+                        <div className="flex items-center justify-between gap-3 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/46">
+                          <span>Estimate</span>
+                          <span className="text-vault-paper/72">
+                            {formatEstimateRange(leadLot.estimatedRangeCents)}
+                          </span>
+                        </div>
+                        <div className="h-1.5 overflow-hidden rounded-full bg-white/[0.08]">
+                          <div className="h-full w-[78%] rounded-full bg-[linear-gradient(90deg,#c9b78f,#8fb7bc)]" />
+                        </div>
+                      </div>
+                      <div className="mt-3 flex items-center justify-between gap-2 pl-2">
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(224,181,108,0.22)] bg-[rgba(224,181,108,0.08)] px-2 py-1 font-mono text-[0.56rem] font-semibold uppercase tracking-[0.11em] text-[#e0b56c]">
+                          <KeyRound className="h-3 w-3" aria-hidden="true" />
+                          Access gated
+                        </span>
+                        <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-vault-paper/52">
+                          {formatPopulation(scarceLot.population)}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
