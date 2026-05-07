@@ -76,6 +76,11 @@ const gatedItems = [
   "Payout profile",
 ];
 const photoChecklist = ["Front", "Back", "Label", "Corners", "Surface", "Slab edges"];
+const dossierCompleteness = [
+  "6/6 photos staged",
+  "Cert ready for review",
+  "Custody path selected",
+];
 
 function pipelinePercent(index: number) {
   return Math.min(100, Math.max(14, Math.round(((index + 1) / intakeSteps.length) * 100)));
@@ -375,6 +380,31 @@ export default function SellPage() {
             </div>
 
             <form className="grid gap-5 p-4" aria-describedby="sell-submit-note">
+              <section className="rounded-[9px] border border-[rgba(47,113,88,0.2)] bg-[linear-gradient(135deg,rgba(47,113,88,0.08),rgba(255,255,255,0.38))] p-4">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-registry">
+                      Dossier completeness
+                    </p>
+                    <h3 className="mt-1 text-base font-semibold text-vault-ink">Ready for intake review</h3>
+                  </div>
+                  <span className="w-fit rounded-full border border-[rgba(47,113,88,0.24)] bg-[rgba(47,113,88,0.08)] px-3 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-[#235844]">
+                    Complete dossier
+                  </span>
+                </div>
+                <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[rgba(17,19,15,0.07)]" aria-hidden="true">
+                  <div className="h-full w-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.48),rgba(47,113,88,0.68))]" />
+                </div>
+                <ul className="mt-3 grid gap-2 sm:grid-cols-3">
+                  {dossierCompleteness.map((item) => (
+                    <li key={item} className="flex items-center gap-2 rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-2.5 text-sm font-semibold text-vault-graphite">
+                      <Check className="h-3.5 w-3.5 shrink-0 text-[#235844]" aria-hidden="true" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
               <fieldset className="grid gap-3 md:grid-cols-2">
                 <legend className="mb-1 font-mono text-[0.67rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
                   Slab identity

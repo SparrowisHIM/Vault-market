@@ -87,7 +87,7 @@ const reviewPath = [
     tone: "green",
   },
   {
-    label: "Specialist ticket",
+    label: "Ticket prepared",
     detail: specialistTicket,
     tone: "dark",
   },
@@ -352,7 +352,7 @@ export default function PrivateDeskPage() {
         </section>
 
         <section className="grid gap-5 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.18fr)] xl:items-start">
-          <article className="private-desk-spotlight rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)] xl:sticky xl:top-28">
+          <article className="private-desk-spotlight rounded-[10px] border border-[rgba(47,94,124,0.14)] bg-[linear-gradient(180deg,rgba(255,254,249,0.86),rgba(249,248,243,0.64))] p-4 shadow-[var(--shadow-card)] xl:sticky xl:top-28">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-vault-registry">
@@ -403,7 +403,7 @@ export default function PrivateDeskPage() {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-registry">
-                    Valuation desk panel
+                    Review lounge
                   </p>
                   <h2 className="mt-1 text-lg font-semibold text-vault-ink">Specialist tracks</h2>
                   <p className="mt-1 text-sm leading-6 text-vault-steel">
@@ -420,7 +420,7 @@ export default function PrivateDeskPage() {
                   return (
                     <li
                       key={track.label}
-                      className="grid grid-cols-[auto_1fr] gap-3 rounded-[9px] border border-[var(--border-soft)] bg-white/[0.42] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)]"
+                      className="grid grid-cols-[auto_1fr] gap-3 rounded-[9px] border border-[rgba(47,94,124,0.1)] bg-white/[0.34] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.52)]"
                     >
                       <span className="grid h-9 w-9 place-items-center rounded-[7px] border border-[var(--border-soft)] bg-white/56 text-vault-registry">
                         <Icon className="h-4 w-4" aria-hidden="true" />
@@ -446,13 +446,13 @@ export default function PrivateDeskPage() {
                   <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-registry">
                     Specialist queue
                   </p>
-                  <h2 className="mt-1 text-lg font-semibold text-vault-ink">Desk candidate queue</h2>
+                  <h2 className="mt-1 text-lg font-semibold text-vault-ink">Quiet candidate queue</h2>
                   <p className="mt-1 text-sm text-vault-steel">
                     High-value, premier, or scarce listings selected for private desk review.
                   </p>
                 </div>
-                <span className="w-fit rounded-full border border-[var(--border-soft)] bg-white/50 px-3 py-1 font-mono text-[0.64rem] font-semibold uppercase tracking-[0.12em] text-vault-steel">
-                  {deskCandidates.length} cards
+                <span className="w-fit rounded-full border border-[rgba(47,94,124,0.18)] bg-[rgba(47,94,124,0.06)] px-3 py-1 font-mono text-[0.64rem] font-semibold uppercase tracking-[0.12em] text-[#244f69]">
+                  {specialistTicket}
                 </span>
               </div>
 

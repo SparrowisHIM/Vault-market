@@ -67,8 +67,8 @@ function DisabledBidButton({ label }: { label: string }) {
     <button
       type="button"
       aria-disabled="true"
-      title="Bidding requires controlled auction access."
-      className="inline-flex h-10 items-center justify-center gap-2 rounded-[6px] border border-[var(--border-soft)] bg-white/34 px-4 text-sm font-semibold text-vault-steel transition hover:bg-white/48 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
+      title="Bidding is held behind controlled auction-room access."
+      className="inline-flex h-10 items-center justify-center gap-2 rounded-[6px] border border-[rgba(166,111,31,0.24)] bg-[rgba(166,111,31,0.08)] px-4 text-sm font-semibold text-[#744e18] shadow-[inset_0_1px_0_rgba(255,255,255,0.52)] transition hover:bg-[rgba(166,111,31,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
     >
       <LockKeyhole className="h-4 w-4" aria-hidden="true" />
       {label}
@@ -328,11 +328,11 @@ export default function AuctionsPage() {
         </section>
 
         <section className="grid gap-5 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)] xl:items-start">
-          <article className="auction-lot-spotlight rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)] xl:sticky xl:top-28">
+          <article className="auction-lot-spotlight rounded-[10px] border border-[rgba(166,111,31,0.18)] bg-[linear-gradient(180deg,rgba(255,254,249,0.9),rgba(249,248,243,0.72))] p-4 shadow-[var(--shadow-card)] xl:sticky xl:top-28">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-vault-registry">
-                  Featured premier lot
+                  Presented lot
                 </p>
                 <h2 className="mt-2 text-2xl font-semibold text-vault-ink">{leadLot.title}</h2>
                 <p className="mt-2 text-sm leading-6 text-vault-steel">{leadLot.provenanceNotes}</p>
@@ -367,7 +367,15 @@ export default function AuctionsPage() {
               </div>
             </dl>
 
-            <div className="mt-4">
+            <div className="mt-4 rounded-[10px] border border-[rgba(166,111,31,0.16)] bg-[rgba(166,111,31,0.045)] p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.58)]">
+              <div className="mb-2 flex items-center justify-between gap-3 px-1">
+                <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-[#744e18]">
+                  Event room staging
+                </span>
+                <span className="rounded-full border border-[rgba(166,111,31,0.2)] bg-white/42 px-2 py-0.5 font-mono text-[0.56rem] font-semibold uppercase tracking-[0.12em] text-[#744e18]">
+                  Access reviewed
+                </span>
+              </div>
               <SlabCard listing={leadLot} sourceHref="/auctions" />
             </div>
           </article>

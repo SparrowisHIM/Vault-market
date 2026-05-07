@@ -55,27 +55,27 @@ const statusTone: Record<VaultListing["vaultStatus"], string> = {
 
 const timelineSteps = [
   {
-    label: "Intake scan",
+    label: "Intake scanned",
     value: `${intakeAssets.length}`,
-    detail: "Assets in review",
+    detail: "New slabs logged",
     tone: "amber",
   },
   {
-    label: "Custody lock",
-    value: `${vaultHeldAssets.length}`,
-    detail: "Assets held",
-    tone: "green",
-  },
-  {
-    label: "Verification",
+    label: "Cert matched",
     value: `${verifiedAssets.length}`,
-    detail: "Assets cleared",
+    detail: "Labels verified",
     tone: "blue",
   },
   {
-    label: "Portfolio value",
+    label: "Vault locked",
+    value: `${vaultHeldAssets.length}`,
+    detail: "Assets secured",
+    tone: "green",
+  },
+  {
+    label: "Transfer ready",
     value: formatCurrency(totalVaultValue),
-    detail: "Desk exposure",
+    detail: "Ledger exposure",
     tone: "dark",
   },
 ];
@@ -229,7 +229,7 @@ export default function VaultPage() {
                     <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
                       Intake rail
                     </p>
-                    <h2 className="mt-1 text-lg font-semibold text-vault-paper">Custody movement</h2>
+                    <h2 className="mt-1 text-lg font-semibold text-vault-paper">Chain of custody</h2>
                   </div>
                   <span className="grid h-10 w-10 place-items-center rounded-[8px] border border-white/10 bg-white/[0.06] text-[#a7ddc4]">
                     <CircuitBoard className="h-5 w-5" aria-hidden="true" />
@@ -348,8 +348,7 @@ export default function VaultPage() {
                 </p>
                 <h2 className="mt-1 text-lg font-semibold text-vault-ink">Status chain</h2>
                 <p className="mt-1 text-sm leading-6 text-vault-steel">
-                  Custody events show intake, verification, storage, and transfer status
-                  for each asset.
+                  Ledger rows follow intake scan, cert match, vault lock, and transfer-ready posture.
                 </p>
               </div>
 
@@ -381,6 +380,9 @@ export default function VaultPage() {
                       <CustodyPill listing={listing} />
                       <span className="rounded-full border border-[var(--border-soft)] bg-white/48 px-2.5 py-1 text-xs font-semibold text-vault-graphite">
                         {getVerificationStatusLabel(listing.verificationStatus)}
+                      </span>
+                      <span className="rounded-full border border-[rgba(47,94,124,0.16)] bg-[rgba(47,94,124,0.06)] px-2.5 py-1 text-xs font-semibold text-[#244f69]">
+                        {listing.vaultStatus === "vault_held" ? "Transfer ready" : "Intake scanned"}
                       </span>
                     </div>
                     <div className="h-1.5 overflow-hidden rounded-full bg-[rgba(17,19,15,0.07)]" aria-hidden="true">
