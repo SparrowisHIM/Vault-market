@@ -6,7 +6,6 @@ import { SlabArtImage } from "@/components/marketplace/slab-art-image";
 import { formatCertNumber, formatCurrency, formatPopulation } from "@/lib/marketplace/format";
 import type { SlabCardVariant, VaultListing } from "@/lib/marketplace/types";
 import { cn } from "@/lib/utils";
-import { GradeBadge } from "./grade-badge";
 import { ListingTypeBadge } from "./listing-type-badge";
 import { MarketDelta } from "./market-delta";
 import { QuickActions } from "./quick-actions";
@@ -164,7 +163,9 @@ export function SlabCard({
       <div
         className={cn(
           "grid min-w-0 gap-3",
-          compact ? "grid-cols-[82px_1fr]" : "grid-cols-[minmax(112px,0.8fr)_1fr] sm:grid-cols-[minmax(132px,0.72fr)_1fr]",
+          compact
+            ? "grid-cols-[82px_1fr]"
+            : "grid-cols-[minmax(112px,0.62fr)_minmax(0,1fr)] sm:grid-cols-[minmax(126px,0.58fr)_minmax(0,1fr)]",
         )}
       >
           <div
@@ -201,8 +202,8 @@ export function SlabCard({
                 </div>
                 <h2
                   className={cn(
-                    "mt-1 line-clamp-2 font-semibold leading-tight text-vault-ink",
-                    compact ? "text-sm" : "text-lg",
+                    "mt-1 font-semibold leading-tight text-vault-ink",
+                    compact ? "line-clamp-2 text-sm" : "line-clamp-3 text-lg",
                   )}
                 >
                   {listing.title}
@@ -221,16 +222,36 @@ export function SlabCard({
             <div
               ref={certBandRef}
               className={cn(
-                "slab-cert-band flex flex-wrap items-center gap-2 transition duration-200",
-                compact && "gap-1.5",
+                "slab-cert-band grid items-center gap-2 transition duration-200",
+                compact
+                  ? "grid-cols-[74px_minmax(0,1fr)] p-1.5"
+                  : "grid-cols-[92px_minmax(0,1fr)] p-2",
               )}
             >
-              <div ref={gradeRef} className="origin-center">
-                <GradeBadge
-                  company={listing.gradingCompany}
-                  grade={listing.grade}
-                  compact={compact}
-                />
+              <div
+                ref={gradeRef}
+                className={cn(
+                  "origin-center overflow-hidden rounded-[6px] border border-[rgba(154,62,53,0.2)] bg-[linear-gradient(180deg,rgba(255,255,255,0.62),rgba(154,62,53,0.055))] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]",
+                  compact ? "grid grid-cols-[28px_1fr]" : "grid grid-cols-[34px_1fr]",
+                )}
+                aria-label={`${listing.gradingCompany} grade ${listing.grade}`}
+              >
+                <span
+                  className={cn(
+                    "grid place-items-center border-r border-[rgba(154,62,53,0.16)] font-mono font-bold uppercase tracking-[0.08em] text-vault-loss",
+                    compact ? "px-1 text-[0.58rem]" : "px-1.5 text-[0.64rem]",
+                  )}
+                >
+                  {listing.gradingCompany}
+                </span>
+                <span
+                  className={cn(
+                    "grid place-items-center font-mono font-bold tabular-nums text-vault-loss",
+                    compact ? "text-base" : "text-xl",
+                  )}
+                >
+                  {listing.grade}
+                </span>
               </div>
               <div className="min-w-0">
                 <p className="truncate text-xs font-medium text-vault-graphite">
@@ -251,18 +272,23 @@ export function SlabCard({
             <div
               className={cn(
                 "grid gap-2 rounded-[7px] border border-[rgba(17,19,15,0.1)] bg-[rgba(255,255,255,0.44)]",
-                compact ? "p-2" : "grid-cols-[1fr_auto] p-3",
+                compact ? "p-2" : "grid-cols-[1fr_auto] items-start p-3",
               )}
             >
               <div>
                 <p className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
-                  Ask
+                  Ask price
                 </p>
                 <p className={cn("font-semibold text-vault-ink", compact ? "text-lg" : "text-2xl")}>
                   {formatCurrency(listing.priceCents)}
                 </p>
               </div>
-              <div className={cn("flex flex-wrap items-end gap-1.5", !compact && "justify-end")}>
+              <div className={cn("grid gap-1", !compact && "justify-items-end")}>
+                {!compact && (
+                  <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
+                    Market signal
+                  </p>
+                )}
                 <MarketDelta value={listing.marketDeltaPercent} compact={compact} />
                 <span
                   className={cn(

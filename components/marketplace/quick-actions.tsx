@@ -110,7 +110,11 @@ export function QuickActions({
     setIsWatched(nextWatched);
     pulseWatchCalm(watchRef.current);
     if (nextWatched) triggerWatchRing();
-    revealStatus(nextWatched ? "Added to watch desk" : "Removed from watch desk");
+    if (nextWatched) {
+      revealStatus("Added to watch desk");
+    } else {
+      setStatusMessage("");
+    }
   }
 
   function toggleCompare() {
@@ -131,11 +135,15 @@ export function QuickActions({
 
     pulseAction(compareRef.current);
     if (nextCompared) triggerCompareRail();
-    revealStatus(nextCompared ? "Queued for comparison" : "Removed from compare queue");
+    if (nextCompared) {
+      revealStatus("Queued for comparison");
+    } else {
+      setStatusMessage("");
+    }
   }
 
   const buttonClass = cn(
-    "relative inline-flex items-center justify-center overflow-hidden rounded-[6px] border border-[rgba(17,19,15,0.16)] bg-white/58 font-medium text-vault-graphite shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.36)] hover:bg-white/86 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]",
+    "relative inline-flex items-center justify-center overflow-hidden rounded-[6px] border border-[rgba(17,19,15,0.11)] bg-white/36 font-medium text-vault-graphite/88 shadow-[inset_0_1px_0_rgba(255,255,255,0.56)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.28)] hover:bg-white/64 hover:text-vault-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]",
     context === "inspection"
       ? "h-10 w-full px-3 text-sm"
       : compact
@@ -287,18 +295,19 @@ export function QuickActions({
         {context === "card" && primaryActionControl}
       </div>
 
-      <span
-        ref={statusRef}
-        role="status"
-        aria-live="polite"
-        className={cn(
-          "mt-2 block min-h-6 rounded-[5px] border border-[var(--border-soft)] bg-white/38 px-2 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-vault-steel",
-          !statusMessage && "invisible",
-          compact && "sr-only",
-        )}
-      >
-        {statusMessage || "Action feedback"}
-      </span>
+      {statusMessage ? (
+        <span
+          ref={statusRef}
+          role="status"
+          aria-live="polite"
+          className={cn(
+            "mt-2 block rounded-[5px] border border-[var(--border-soft)] bg-white/38 px-2 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-vault-steel",
+            compact && "sr-only",
+          )}
+        >
+          {statusMessage}
+        </span>
+      ) : null}
     </div>
   );
 }

@@ -56,7 +56,7 @@ const listingStatuses: ListingStatus[] = ["active", "reserved", "sold"];
 const sortValues: SortValue[] = ["market-signal", "price-high", "price-low", "grade-high"];
 
 const filterSelectClass =
-  "h-10 w-full rounded-[6px] border border-[var(--border-soft)] bg-[rgba(255,255,255,0.52)] px-3 text-sm font-medium text-vault-graphite shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] outline-none transition focus:border-vault-registry focus:ring-2 focus:ring-[var(--focus-ring)]";
+  "h-10 w-full rounded-[6px] border border-[rgba(17,19,15,0.095)] bg-[rgba(255,255,255,0.38)] px-3 text-sm font-medium text-vault-graphite shadow-[inset_0_1px_0_rgba(255,255,255,0.55)] outline-none transition hover:bg-[rgba(255,255,255,0.52)] focus:border-vault-registry focus:bg-white/68 focus:ring-2 focus:ring-[var(--focus-ring)]";
 
 const labelClass =
   "font-mono text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-vault-steel";
@@ -656,10 +656,10 @@ export function MarketplaceBrowser({
         </aside>
       </div>
 
-      <div className="rounded-[8px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.58)]">
+      <div className="rounded-[8px] border border-[rgba(17,19,15,0.08)] bg-[rgba(249,248,243,0.54)] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.48)]">
         <div className="flex flex-wrap items-center justify-between gap-3 lg:hidden">
           <div>
-            <p className={labelClass}>Browse controls</p>
+            <p className={labelClass}>Market refinement</p>
             <p className="mt-1 text-sm text-vault-steel">
               {activeFilters.length > 0
                 ? `${activeFilters.length} active filter${activeFilters.length === 1 ? "" : "s"}`
@@ -678,16 +678,30 @@ export function MarketplaceBrowser({
           </button>
         </div>
 
+        <div className="hidden items-end justify-between gap-3 lg:flex">
+          <div>
+            <p className={labelClass}>Market refinement</p>
+            <p className="mt-1 text-xs text-vault-steel">
+              Tune the visible book after choosing a desk preset.
+            </p>
+          </div>
+          <span className="rounded-full border border-[rgba(17,19,15,0.08)] bg-white/36 px-2.5 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-vault-steel">
+            {activeFilters.length > 0
+              ? `${activeFilters.length} tuned`
+              : "Full book"}
+          </span>
+        </div>
+
         <div
           id="marketplace-filter-panel"
           className={cn(
-            "mt-3 grid gap-3 lg:mt-0 lg:grid lg:grid-cols-[1.2fr_repeat(6,minmax(0,0.75fr))_auto] lg:items-end",
+            "mt-3 grid gap-3 lg:grid lg:grid-cols-[1.2fr_repeat(6,minmax(0,0.75fr))_auto] lg:items-end",
             filtersOpen ? "grid" : "hidden",
           )}
         >
         <div className="grid gap-1.5">
           <label className={labelClass} htmlFor="marketplace-search">
-            Search registry
+            Search book
           </label>
           <input
             id="marketplace-search"
@@ -825,7 +839,7 @@ export function MarketplaceBrowser({
           type="button"
           onClick={resetFilters}
           disabled={!hasActiveFilters && sort === "market-signal"}
-          className="inline-flex h-10 items-center justify-center gap-2 rounded-[6px] border border-[var(--border-soft)] bg-white/50 px-3 text-sm font-semibold text-vault-graphite transition hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] disabled:cursor-not-allowed disabled:opacity-45"
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-[6px] border border-[rgba(17,19,15,0.1)] bg-white/32 px-3 text-sm font-semibold text-vault-steel transition hover:bg-white/62 hover:text-vault-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] disabled:cursor-not-allowed disabled:opacity-45"
         >
           <RotateCcw className="h-4 w-4" aria-hidden="true" />
           Reset
