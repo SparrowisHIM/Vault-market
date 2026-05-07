@@ -351,8 +351,8 @@ export default function PrivateDeskPage() {
           />
         </section>
 
-        <section className="grid gap-5 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.18fr)]">
-          <article className="private-desk-spotlight rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)]">
+        <section className="grid gap-5 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.18fr)] xl:items-start">
+          <article className="private-desk-spotlight rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)] xl:sticky xl:top-28">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-vault-registry">
