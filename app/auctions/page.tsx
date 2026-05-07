@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { ListingTypeBadge } from "@/components/marketplace/listing-type-badge";
 import { MarketDelta } from "@/components/marketplace/market-delta";
+import { SlabArtImage } from "@/components/marketplace/slab-art-image";
 import { SlabCard } from "@/components/marketplace/slab-card";
 import { formatCurrency, formatEstimateRange, formatPopulation } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
@@ -205,43 +206,42 @@ export default function AuctionsPage() {
                     </p>
                   </div>
 
-                  <div className="mx-auto w-full max-w-[14rem] rounded-[13px] border border-[rgba(224,181,108,0.2)] bg-[linear-gradient(150deg,rgba(255,255,255,0.085),rgba(255,255,255,0.025)_42%,rgba(0,0,0,0.16))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_22px_45px_rgba(0,0,0,0.22)]">
-                    <div className="relative overflow-hidden rounded-[10px] border border-white/10 bg-black/[0.16] p-3">
-                      <span className="absolute inset-y-0 left-0 w-1 bg-[linear-gradient(180deg,rgba(224,181,108,0.95),rgba(166,111,31,0.35))]" />
-                      <div className="flex items-center justify-between gap-3 pl-2">
-                        <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
-                          Session lot
-                        </span>
-                        <span className="grid h-8 w-8 place-items-center rounded-[8px] border border-[rgba(224,181,108,0.26)] bg-[rgba(224,181,108,0.1)] text-[#e0b56c]">
-                          <Gavel className="h-4 w-4" aria-hidden="true" />
-                        </span>
+                  <div className="mx-auto w-full max-w-[14rem]">
+                    <div className="relative h-48 overflow-hidden rounded-[14px] border border-white/10 bg-[linear-gradient(155deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02)_42%,rgba(0,0,0,0.22))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_24px_48px_rgba(0,0,0,0.24)]">
+                      <div className="absolute inset-x-5 bottom-4 h-8 rounded-full bg-black/35 blur-xl" />
+                      <div className="absolute inset-x-4 bottom-5 h-8 rounded-[50%] border border-[rgba(224,181,108,0.18)] bg-[linear-gradient(180deg,rgba(224,181,108,0.2),rgba(0,0,0,0.08))]" />
+                      <div className="absolute right-3 top-3 rounded-full border border-[rgba(224,181,108,0.24)] bg-[rgba(224,181,108,0.1)] px-2 py-1 font-mono text-[0.52rem] font-semibold uppercase tracking-[0.13em] text-[#e0b56c]">
+                        Staged
                       </div>
-                      <div className="mt-4 pl-2">
-                        <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-[#e0b56c]">
-                          Lot 01
-                        </p>
-                        <p className="mt-1 line-clamp-2 text-sm font-semibold leading-snug text-vault-paper">
-                          {leadLot.title}
-                        </p>
+                      <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-2 py-1 font-mono text-[0.52rem] font-semibold uppercase tracking-[0.13em] text-vault-paper/54">
+                        <Gavel className="h-3 w-3 text-[#e0b56c]" aria-hidden="true" />
+                        Lot 01
                       </div>
-                      <div className="mt-4 grid gap-2 pl-2">
-                        <div className="flex items-center justify-between gap-3 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/46">
-                          <span>Estimate</span>
-                          <span className="text-vault-paper/72">
-                            {formatEstimateRange(leadLot.estimatedRangeCents)}
-                          </span>
+                      <div className="relative mx-auto mt-8 w-[7.1rem] rotate-[-3deg] rounded-[12px] border border-white/70 bg-[#f3efe6] p-1.5 shadow-[0_18px_34px_rgba(0,0,0,0.34)]">
+                        <div className="relative aspect-[5/7] overflow-hidden rounded-[8px] border border-[rgba(17,19,15,0.24)] bg-[var(--surface-inset)]">
+                          <SlabArtImage
+                            image={leadLot.image}
+                            sizes="120px"
+                            priority
+                            className="p-1"
+                          />
+                          <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.34),transparent_38%,rgba(255,255,255,0.2)_48%,transparent_58%)]" />
                         </div>
-                        <div className="h-1.5 overflow-hidden rounded-full bg-white/[0.08]">
-                          <div className="h-full w-[78%] rounded-full bg-[linear-gradient(90deg,#c9b78f,#8fb7bc)]" />
+                        <div className="mt-1.5 rounded-[6px] border border-[rgba(17,19,15,0.12)] bg-white/80 px-1.5 py-1">
+                          <p className="truncate text-[0.55rem] font-semibold leading-none text-vault-ink">
+                            {leadLot.title}
+                          </p>
+                          <p className="mt-0.5 font-mono text-[0.47rem] font-semibold uppercase tracking-[0.1em] text-vault-steel">
+                            PSA {leadLot.grade} / {formatPopulation(leadLot.population)}
+                          </p>
                         </div>
                       </div>
-                      <div className="mt-3 flex items-center justify-between gap-2 pl-2">
-                        <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(224,181,108,0.22)] bg-[rgba(224,181,108,0.08)] px-2 py-1 font-mono text-[0.56rem] font-semibold uppercase tracking-[0.11em] text-[#e0b56c]">
-                          <KeyRound className="h-3 w-3" aria-hidden="true" />
-                          Access gated
+                      <div className="absolute inset-x-3 bottom-3 grid grid-cols-[1fr_auto] items-center gap-2 rounded-[8px] border border-white/10 bg-black/25 px-2 py-1.5 backdrop-blur-sm">
+                        <span className="font-mono text-[0.52rem] font-semibold uppercase tracking-[0.13em] text-vault-paper/48">
+                          Estimate read
                         </span>
-                        <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-vault-paper/52">
-                          {formatPopulation(scarceLot.population)}
+                        <span className="font-mono text-[0.55rem] font-semibold uppercase tracking-[0.08em] text-vault-paper/72">
+                          {formatEstimateRange(leadLot.estimatedRangeCents)}
                         </span>
                       </div>
                     </div>
