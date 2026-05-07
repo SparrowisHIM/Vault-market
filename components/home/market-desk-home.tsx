@@ -229,7 +229,7 @@ export function MarketDeskHome() {
               ].map((label) => (
                 <div
                   key={label}
-                  className="rounded-[8px] border border-[rgba(17,19,15,0.16)] bg-white/52 px-3 py-2.5 text-center font-mono text-[0.65rem] font-bold uppercase tracking-[0.12em] text-vault-graphite shadow-[0_12px_28px_rgba(17,19,15,0.055),inset_0_1px_0_rgba(255,255,255,0.72)]"
+                  className="rounded-[8px] border border-[rgba(47,94,124,0.16)] bg-[rgba(255,255,255,0.48)] px-3 py-2.5 text-center font-mono text-[0.65rem] font-bold uppercase tracking-[0.12em] text-vault-graphite shadow-[0_12px_28px_rgba(47,94,124,0.055),inset_0_1px_0_rgba(255,255,255,0.72)]"
                 >
                   {label}
                 </div>
@@ -254,9 +254,23 @@ export function MarketDeskHome() {
               aria-label={`${stackLayout === "clustered" ? "Open" : "Close"} the graded slab stack`}
               aria-pressed={stackLayout === "spread"}
             >
+              <div className="hero-inspection-frame pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[78%] w-[86%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[28px] border border-[rgba(47,94,124,0.18)] bg-[linear-gradient(145deg,rgba(249,248,243,0.18),rgba(255,255,255,0.06)_42%,rgba(47,94,124,0.075))] shadow-[inset_0_1px_0_rgba(255,255,255,0.42),0_28px_90px_rgba(47,94,124,0.12)]" aria-hidden="true">
+                <div className="absolute inset-5 rounded-[22px] border border-[rgba(47,94,124,0.12)]" />
+                <div className="absolute inset-x-12 top-1/2 h-px bg-[linear-gradient(90deg,transparent,rgba(47,94,124,0.25),transparent)]" />
+                <div className="absolute inset-y-12 left-1/2 w-px bg-[linear-gradient(180deg,transparent,rgba(47,94,124,0.18),transparent)]" />
+                <div className="hero-inspection-sweep absolute inset-y-[-20%] left-[-32%] w-[34%] rotate-12 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.34),rgba(155,194,220,0.16),transparent)] opacity-0" />
+              </div>
               <div className="absolute left-1/2 top-1/2 -z-10 h-[72%] w-[84%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.5),rgba(111,158,172,0.16)_36%,rgba(166,111,31,0.1)_58%,transparent_74%)] blur-2xl" aria-hidden="true" />
               <div className="absolute inset-x-8 bottom-[2.4rem] -z-10 h-28 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(17,19,15,0.32),rgba(17,19,15,0.15)_42%,transparent_72%)] blur-xl" aria-hidden="true" />
               <div className="absolute inset-x-16 bottom-[4.7rem] -z-10 h-px bg-[linear-gradient(90deg,transparent,rgba(17,19,15,0.22),transparent)]" aria-hidden="true" />
+              <div className="pointer-events-none absolute left-[52%] top-[16%] z-50 hidden -translate-x-1/2 rounded-[9px] border border-[rgba(47,94,124,0.22)] bg-[rgba(249,248,243,0.84)] px-3 py-2 text-vault-ink shadow-[0_18px_42px_rgba(17,19,15,0.14),inset_0_1px_0_rgba(255,255,255,0.78)] backdrop-blur-md sm:block">
+                <span className="block font-mono text-[0.58rem] font-bold uppercase tracking-[0.16em] text-vault-registry">
+                  Active slab
+                </span>
+                <span className="mt-1 block text-xs font-semibold text-vault-graphite">
+                  PSA 10 / +4.6% signal
+                </span>
+              </div>
 
               {heroStackListings.map((listing, index) => {
                 const position = heroStackLayouts[stackLayout][index] ?? heroStackLayouts.clustered[0];
@@ -265,6 +279,7 @@ export function MarketDeskHome() {
                     key={listing.id}
                     className={cn(
                       "hero-stack-card absolute left-1/2 top-[49%] block w-[clamp(214px,31vw,330px)] rounded-[18px] border border-[rgba(17,19,15,0.26)] bg-[rgba(249,248,243,0.94)] p-2 shadow-[0_38px_90px_rgba(17,19,15,0.34),inset_0_2px_0_rgba(255,255,255,0.72)] will-change-transform",
+                      index === 0 && "front-slab-focus",
                       shouldReduceMotion ? "" : "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
                     )}
                     style={{
