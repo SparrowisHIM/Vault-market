@@ -95,16 +95,23 @@ export function ResearchCompFeed({ listings, maxAbsDelta }: ResearchCompFeedProp
       <div className="grid gap-3 p-3 sm:p-4">
         {listings.map((listing, index) => {
           const compSpread = compSpreadPercent(listing);
+          const isTopSignal = index < 3;
 
           return (
             <article
               key={listing.id}
               className={cn(
                 "group relative overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-white/[0.46] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.68)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-white/72",
+                isTopSignal && "border-[rgba(47,94,124,0.2)] p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.76),0_12px_32px_rgba(17,19,15,0.055)]",
                 index % 2 === 0 ? "research-comp-band-a" : "research-comp-band-b",
               )}
             >
-              <div className="pointer-events-none absolute inset-y-3 left-0 w-1 rounded-r-full bg-[linear-gradient(180deg,rgba(47,94,124,0.38),rgba(47,113,88,0.42))]" />
+              <div
+                className={cn(
+                  "pointer-events-none absolute inset-y-3 left-0 w-1 rounded-r-full bg-[linear-gradient(180deg,rgba(47,94,124,0.38),rgba(47,113,88,0.42))]",
+                  isTopSignal && "w-1.5 bg-[linear-gradient(180deg,rgba(47,94,124,0.58),rgba(47,113,88,0.62))]",
+                )}
+              />
               <div className="grid gap-4 lg:grid-cols-[minmax(0,1.2fr)_minmax(300px,0.95fr)_minmax(190px,0.58fr)] lg:items-center">
                 <div className="min-w-0 pl-2">
                   <div className="flex flex-wrap items-center gap-2">
@@ -114,8 +121,13 @@ export function ResearchCompFeed({ listings, maxAbsDelta }: ResearchCompFeedProp
                     <span className="rounded-full border border-[rgba(47,94,124,0.16)] bg-[rgba(47,94,124,0.07)] px-2 py-1 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-[#244f69]">
                       {listing.gradingCompany} {listing.grade}
                     </span>
+                    {isTopSignal ? (
+                      <span className="rounded-full border border-[rgba(47,113,88,0.2)] bg-[rgba(47,113,88,0.08)] px-2 py-1 font-mono text-[0.56rem] font-semibold uppercase tracking-[0.12em] text-[#235844]">
+                        Top signal
+                      </span>
+                    ) : null}
                   </div>
-                  <h3 className="mt-2 text-base font-semibold leading-snug text-vault-ink">
+                  <h3 className={cn("mt-2 font-semibold leading-snug text-vault-ink", isTopSignal ? "text-lg" : "text-base")}>
                     <AssetLink listing={listing} />
                   </h3>
                   <p className="mt-1 text-xs leading-5 text-vault-steel">

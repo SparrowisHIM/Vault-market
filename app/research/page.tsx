@@ -73,20 +73,27 @@ const bandTopAsk = Math.min(
 const popN = lowestPopulation.population ?? 200;
 const bandRarestPop = Math.min(100, Math.round(32 + (720 / Math.min(Math.max(popN, 1), 720)) * 26));
 
-function shortenTitle(title: string, length: number) {
-  return `${title.slice(0, length)}${title.length > length ? "..." : ""}`;
-}
-
 const tickerItems = [
-  `ASK BOOK ${formatCurrency(totalAskBook)}`,
-  `NET SIGNAL ${formatSignedPercent(averageDelta)}`,
-  `LEAD ASK ${shortenTitle(highestValue.title, 32)} / ${formatCurrency(highestValue.priceCents)}`,
-  `STRONGEST MOVE ${shortenTitle(strongestSignal.title, 28)} / ${formatSignedPercent(strongestSignal.marketDeltaPercent ?? 0)}`,
-  `RARITY ANCHOR ${shortenTitle(lowestPopulation.title, 28)} / ${formatPopulation(lowestPopulation.population)}`,
-  ...mockListings.slice(0, 4).map(
-    (listing) =>
-      `${listing.gradingCompany} ${listing.grade} / ${shortenTitle(listing.title, 26)} / ${formatCurrency(listing.priceCents)}`,
-  ),
+  `ASK BOOK / ${formatCurrency(totalAskBook)}`,
+  `NET SIGNAL / ${formatSignedPercent(averageDelta)}`,
+  `LEAD ASK / ${formatCurrency(highestValue.priceCents)}`,
+  `STRONGEST MOVE / ${formatSignedPercent(strongestSignal.marketDeltaPercent ?? 0)}`,
+  `RARITY ANCHOR / ${formatPopulation(lowestPopulation.population)}`,
+];
+
+const confidenceArcSignals = [
+  {
+    label: "Momentum",
+    value: bandAverageSignal,
+  },
+  {
+    label: "Ask weight",
+    value: bandTopAsk,
+  },
+  {
+    label: "Scarcity",
+    value: bandRarestPop,
+  },
 ];
 
 export default function ResearchPage() {
@@ -122,19 +129,29 @@ export default function ResearchPage() {
                       and momentum signals using the current marketplace listings.
                     </p>
                   </div>
-                  <div className="grid gap-2 rounded-[9px] border border-white/10 bg-white/[0.045] p-3">
+                  <div className="grid gap-3 rounded-[9px] border border-white/10 bg-white/[0.045] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
                     <div className="flex items-center justify-between gap-3">
                       <span className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
                         Confidence arc
                       </span>
                       <ScanLine className="h-4 w-4 text-vault-paper/54" aria-hidden="true" />
                     </div>
-                    {[bandAverageSignal, bandTopAsk, bandRarestPop].map((value, index) => (
-                      <div key={index} className="h-1.5 overflow-hidden rounded-full bg-white/[0.08]" aria-hidden="true">
-                        <div
-                          className="h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.55),rgba(130,199,169,0.72))]"
-                          style={{ width: `${value}%` }}
-                        />
+                    {confidenceArcSignals.map((signal) => (
+                      <div key={signal.label} className="grid gap-1.5">
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="font-mono text-[0.56rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/46">
+                            {signal.label}
+                          </span>
+                          <span className="font-mono text-[0.58rem] font-semibold tabular-nums text-vault-paper/58">
+                            {signal.value}%
+                          </span>
+                        </div>
+                        <div className="h-1.5 overflow-hidden rounded-full bg-white/[0.08]" aria-hidden="true">
+                          <div
+                            className="h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.52),rgba(130,199,169,0.72))]"
+                            style={{ width: `${signal.value}%` }}
+                          />
+                        </div>
                       </div>
                     ))}
                   </div>

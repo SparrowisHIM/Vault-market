@@ -105,8 +105,8 @@ export function ResearchIntelligenceSidebar({
         </ul>
       </section>
 
-      <section className="overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] shadow-[var(--shadow-card)]">
-        <div className="flex items-start justify-between gap-3 border-b border-[var(--border-soft)] bg-[linear-gradient(90deg,rgba(166,111,31,0.08),rgba(47,94,124,0.04),transparent)] px-4 py-4">
+      <section className="overflow-hidden rounded-[10px] border border-[rgba(166,111,31,0.18)] bg-[linear-gradient(180deg,rgba(252,249,241,0.76),rgba(249,248,243,0.56))] shadow-[var(--shadow-card)]">
+        <div className="flex items-start justify-between gap-3 border-b border-[rgba(166,111,31,0.14)] bg-[linear-gradient(135deg,rgba(166,111,31,0.12),rgba(47,94,124,0.035),transparent)] px-4 py-4">
           <div>
             <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-registry">
               Rarity intelligence
@@ -114,18 +114,22 @@ export function ResearchIntelligenceSidebar({
             <h2 className="mt-1 text-lg font-semibold text-vault-ink">Rarity watch</h2>
             <p className="mt-1 text-sm text-vault-steel">Low-population lines flagged for inspection priority.</p>
           </div>
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[8px] border border-[var(--border-soft)] bg-white/54 text-vault-registry">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[8px] border border-[rgba(166,111,31,0.2)] bg-[rgba(166,111,31,0.08)] text-vault-amber">
             <Search className="h-5 w-5" aria-hidden="true" />
           </span>
         </div>
 
-        <ul className="grid gap-2 p-3">
+        <ul className="grid gap-2.5 p-3">
           {rarityWatch.slice(0, 5).map((listing, index) => (
             <li key={listing.id}>
               <div
                 className={cn(
                   "rounded-[9px] border border-[var(--border-soft)] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.62)]",
-                  index % 2 === 0 ? "bg-white/[0.42]" : "bg-white/[0.28]",
+                  index === 0
+                    ? "border-[rgba(166,111,31,0.22)] bg-[rgba(255,255,255,0.58)]"
+                    : index % 2 === 0
+                      ? "bg-white/[0.38]"
+                      : "bg-white/[0.25]",
                 )}
               >
                 <div className="flex items-start justify-between gap-3">
