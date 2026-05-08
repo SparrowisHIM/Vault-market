@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { ListingTypeBadge } from "@/components/marketplace/listing-type-badge";
 import { MarketDelta } from "@/components/marketplace/market-delta";
-import { SlabArtImage } from "@/components/marketplace/slab-art-image";
 import { SlabCard } from "@/components/marketplace/slab-card";
 import { formatCurrency, formatEstimateRange, formatPopulation } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
@@ -207,36 +206,31 @@ export default function AuctionsPage() {
                   </div>
 
                   <div className="mx-auto w-full max-w-[14rem]">
-                    <div className="relative h-48 overflow-hidden rounded-[14px] border border-white/10 bg-[linear-gradient(155deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02)_46%,rgba(0,0,0,0.24))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_22px_44px_rgba(0,0,0,0.24)]">
-                      <div className="absolute inset-3 rounded-[11px] border border-[rgba(224,181,108,0.16)]" />
-                      <div className="absolute inset-x-8 top-5 h-28 rounded-full bg-[rgba(224,181,108,0.12)] blur-2xl" />
-                      <div className="absolute inset-x-5 top-9 h-24 overflow-hidden rounded-[10px] border border-white/12 bg-black/25">
-                        <div className="absolute inset-[-18%] scale-125 opacity-35 blur-[1.5px]">
-                          <SlabArtImage image={leadLot.image} sizes="180px" priority className="object-cover" />
-                        </div>
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,transparent_0%,rgba(0,0,0,0.18)_48%,rgba(0,0,0,0.72)_100%)]" />
-                        <div className="absolute inset-x-4 top-1/2 h-px bg-[rgba(224,181,108,0.46)]" />
-                        <div className="absolute inset-y-4 left-1/2 w-px bg-[rgba(224,181,108,0.32)]" />
-                        <div className="absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[rgba(224,181,108,0.5)] shadow-[0_0_24px_rgba(224,181,108,0.16)]" />
-                      </div>
+                    <div className="relative h-48 overflow-hidden rounded-[14px] border border-[rgba(224,181,108,0.18)] bg-[linear-gradient(155deg,rgba(255,255,255,0.08),rgba(255,255,255,0.022)_46%,rgba(0,0,0,0.24))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_22px_44px_rgba(0,0,0,0.24)]">
+                      <div className="absolute inset-3 rounded-[11px] border border-white/10" />
+                      <div className="absolute inset-x-8 top-7 h-24 rounded-full bg-[rgba(224,181,108,0.12)] blur-2xl" />
                       <div className="relative flex items-center justify-between gap-2">
                         <span className="font-mono text-[0.56rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/50">
-                          Lot spotlight
+                          Room pass
                         </span>
                         <span className="rounded-full border border-[rgba(224,181,108,0.24)] bg-[rgba(224,181,108,0.1)] px-2 py-1 font-mono text-[0.52rem] font-semibold uppercase tracking-[0.12em] text-[#e0b56c]">
-                          Live read
+                          Review only
                         </span>
                       </div>
+                      <div className="relative mx-auto mt-6 grid h-20 w-20 place-items-center rounded-full border border-[rgba(224,181,108,0.28)] bg-[radial-gradient(circle,rgba(224,181,108,0.18),rgba(0,0,0,0.12)_68%,rgba(255,255,255,0.04))] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_0_34px_rgba(224,181,108,0.12)]">
+                        <div className="absolute inset-2 rounded-full border border-dashed border-[rgba(224,181,108,0.28)]" />
+                        <div className="grid h-11 w-11 place-items-center rounded-full border border-[rgba(224,181,108,0.28)] bg-[rgba(224,181,108,0.1)] text-[#e0b56c]">
+                          <KeyRound className="h-5 w-5" aria-hidden="true" />
+                        </div>
+                      </div>
                       <div className="absolute inset-x-3 bottom-3 rounded-[9px] border border-white/10 bg-black/35 px-3 py-2 backdrop-blur-sm">
-                        <p className="truncate text-sm font-semibold text-vault-paper">
-                          {leadLot.title}
-                        </p>
+                        <p className="text-sm font-semibold text-vault-paper">Bidding access gated</p>
                         <div className="mt-1 flex items-center justify-between gap-3">
                           <span className="font-mono text-[0.52rem] font-semibold uppercase tracking-[0.12em] text-vault-paper/48">
-                            Lead estimate
+                            Custody + estimate review
                           </span>
-                          <span className="font-mono text-[0.55rem] font-semibold uppercase tracking-[0.08em] text-vault-paper/74">
-                            {formatEstimateRange(leadLot.estimatedRangeCents)}
+                          <span className="font-mono text-[0.55rem] font-semibold uppercase tracking-[0.08em] text-[#e0b56c]">
+                            Cleared room
                           </span>
                         </div>
                       </div>
