@@ -72,6 +72,7 @@ const tapeItems = mockListings.map((listing) => ({
 }));
 
 const heroHeadlineWords = "Built For Slabs Worth Slowing Down For.".split(" ");
+const workflowHeadingWords = "A slower path for faster conviction.".split(" ");
 
 export function MarketDeskHome() {
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -117,6 +118,8 @@ export function MarketDeskHome() {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setShouldReduceMotion(reduceMotion);
     if (reduceMotion) return;
+
+    let workflowObserver: IntersectionObserver | null = null;
 
     const scope = createScope({ root }).add(() => {
       const timeline = createTimeline({
@@ -220,7 +223,91 @@ export function MarketDeskHome() {
       });
     });
 
-    return () => scope.revert();
+    const workflowSection = root.querySelector<HTMLElement>(".workflow-section");
+    if (workflowSection) {
+      let hasPlayedWorkflow = false;
+
+      workflowObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry?.isIntersecting || hasPlayedWorkflow) return;
+
+          hasPlayedWorkflow = true;
+
+          const workflowTimeline = createTimeline({
+            defaults: {
+              ease: "outExpo",
+            },
+          });
+
+          workflowTimeline
+            .add(workflowSection.querySelectorAll(".workflow-kicker"), {
+              opacity: [0, 1],
+              y: [10, 0],
+              filter: ["blur(5px)", "blur(0px)"],
+              duration: 460,
+            })
+            .add(
+              workflowSection.querySelectorAll(".workflow-heading-word"),
+              {
+                opacity: [0, 1],
+                y: [24, 0],
+                filter: ["blur(7px)", "blur(0px)"],
+                delay: stagger(46),
+                duration: 660,
+              },
+              "-=220",
+            )
+            .add(
+              workflowSection.querySelectorAll(".workflow-support-copy"),
+              {
+                opacity: [0, 1],
+                y: [12, 0],
+                duration: 520,
+              },
+              "-=360",
+            )
+            .add(
+              workflowSection.querySelectorAll(".workflow-step-card"),
+              {
+                opacity: [0, 1],
+                filter: ["blur(8px)", "blur(0px)"],
+                delay: stagger(95),
+                duration: 620,
+              },
+              "-=300",
+            )
+            .add(
+              workflowSection.querySelectorAll(".workflow-step-icon"),
+              {
+                scale: [0.88, 1],
+                delay: stagger(95),
+                duration: 540,
+              },
+              "<",
+            )
+            .add(
+              workflowSection.querySelectorAll(".workflow-step-arrow"),
+              {
+                opacity: [0, 1],
+                x: [-8, 0],
+                delay: stagger(80),
+                duration: 420,
+              },
+              "-=430",
+            );
+
+          workflowObserver?.disconnect();
+        },
+        { threshold: 0.32, rootMargin: "0px 0px -12% 0px" },
+      );
+
+      workflowObserver.observe(workflowSection);
+    }
+
+    return () => {
+      workflowObserver?.disconnect();
+      scope.revert();
+    };
   }, []);
 
   useEffect(() => {
@@ -388,16 +475,21 @@ export function MarketDeskHome() {
         </div>
       </section>
 
-      <section className="px-4 py-12 sm:px-6 lg:px-8">
+      <section className="workflow-section px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.64fr_1.36fr] lg:items-start">
-          <div className="desk-reveal">
-            <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
+          <div>
+            <p className="workflow-kicker font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-vault-steel motion-safe:opacity-0">
               How VaultMarket is read
             </p>
             <h2 className="mt-3 max-w-md text-3xl font-semibold leading-tight text-vault-ink sm:text-4xl">
-              A slower path for faster conviction.
+              {workflowHeadingWords.map((word, index) => (
+                <span key={`${word}-${index}`} className="workflow-heading-word inline-block motion-safe:opacity-0">
+                  {word}
+                  {index < workflowHeadingWords.length - 1 ? "\u00a0" : ""}
+                </span>
+              ))}
             </h2>
-            <p className="mt-4 max-w-md text-sm leading-6 text-vault-steel">
+            <p className="workflow-support-copy mt-4 max-w-md text-sm leading-6 text-vault-steel motion-safe:opacity-0">
               The desk is organized around a simple collector workflow: inspect the slab,
               read the market, and reserve specialist attention for the cards that need it.
             </p>
@@ -412,16 +504,15 @@ export function MarketDeskHome() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "desk-reveal group grid gap-4 rounded-[10px] border p-5 transition duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:grid-cols-[auto_1fr_auto] sm:items-center",
+                    "workflow-step-card group grid gap-4 rounded-[10px] border p-5 transition duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] motion-safe:opacity-0 sm:grid-cols-[auto_1fr_auto] sm:items-center",
                     item.exclusive
                       ? "border-[rgba(17,19,15,0.34)] bg-[rgba(17,19,15,0.92)] text-vault-paper shadow-[0_26px_70px_rgba(17,19,15,0.22)]"
                       : "border-[var(--border-soft)] bg-white/42 text-vault-ink shadow-[inset_0_1px_0_rgba(255,255,255,0.62)] hover:bg-white/64",
                   )}
-                  style={{ animationDelay: `${index * 50}ms` }}
                 >
                   <span
                     className={cn(
-                      "grid h-11 w-11 place-items-center rounded-[8px] border",
+                      "workflow-step-icon grid h-11 w-11 place-items-center rounded-[8px] border will-change-transform",
                       item.exclusive
                         ? "border-white/12 bg-white/[0.07] text-vault-paper"
                         : "border-[var(--border-soft)] bg-white/54 text-vault-registry",
@@ -450,7 +541,7 @@ export function MarketDeskHome() {
                   </span>
                   <ArrowRight
                     className={cn(
-                      "h-4 w-4 shrink-0 transition group-hover:translate-x-0.5",
+                      "workflow-step-arrow h-4 w-4 shrink-0 transition group-hover:translate-x-0.5 motion-safe:opacity-0",
                       item.exclusive ? "text-vault-paper/58" : "text-vault-registry",
                     )}
                     aria-hidden="true"
