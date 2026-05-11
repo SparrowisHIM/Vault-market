@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { animate, createScope, stagger } from "animejs";
+import { animate, createScope, createTimeline, stagger } from "animejs";
 import { BadgeCheck, ScanLine, ShieldCheck } from "lucide-react";
 import { MarketDelta } from "@/components/marketplace/market-delta";
 import { QuickActions } from "@/components/marketplace/quick-actions";
@@ -38,13 +38,48 @@ export function InspectionRoomHero({ listing }: InspectionRoomHeroProps) {
     if (reduceMotion) return;
 
     const scope = createScope({ root }).add(() => {
-      animate(".inspection-reveal", {
-        opacity: [0, 1],
-        translateY: [18, 0],
-        delay: stagger(65),
-        duration: 620,
-        ease: "outExpo",
+      const timeline = createTimeline({
+        defaults: {
+          ease: "outExpo",
+        },
       });
+
+      timeline
+        .add(".inspection-shell", {
+          opacity: [0, 1],
+          y: [18, 0],
+          filter: ["blur(8px)", "blur(0px)"],
+          duration: 680,
+        })
+        .add(
+          ".inspection-header-line",
+          {
+            opacity: [0, 1],
+            y: [10, 0],
+            delay: stagger(58),
+            duration: 480,
+          },
+          "-=440",
+        )
+        .add(
+          ".inspection-slab-plane",
+          {
+            opacity: [0, 1],
+            filter: ["blur(7px)", "blur(0px)"],
+            duration: 680,
+          },
+          "-=340",
+        )
+        .add(
+          ".inspection-info-panel",
+          {
+            opacity: [0, 1],
+            y: [12, 0],
+            delay: stagger(76),
+            duration: 560,
+          },
+          "-=320",
+        );
 
       animate(".inspection-pulse", {
         opacity: [0.26, 0.62, 0.26],
@@ -110,7 +145,7 @@ export function InspectionRoomHero({ listing }: InspectionRoomHeroProps) {
 
   return (
     <aside ref={rootRef} className="lg:sticky lg:top-32 lg:self-start">
-      <div className="inspection-reveal relative overflow-hidden rounded-[12px] border border-[var(--border-medium)] bg-[rgba(17,19,15,0.92)] p-3 text-vault-paper shadow-[0_32px_90px_rgba(17,19,15,0.28)] sm:p-4">
+      <div className="inspection-shell relative overflow-hidden rounded-[12px] border border-[var(--border-medium)] bg-[rgba(17,19,15,0.92)] p-3 text-vault-paper shadow-[0_32px_90px_rgba(17,19,15,0.28)] motion-safe:opacity-0 sm:p-4">
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           <div className="inspection-pulse absolute -right-16 top-10 h-44 w-44 rounded-full border border-white/10" />
           <div className="inspection-pulse absolute -bottom-20 left-8 h-56 w-56 rounded-full border border-white/10" />
@@ -119,7 +154,7 @@ export function InspectionRoomHero({ listing }: InspectionRoomHeroProps) {
 
         <div className="relative z-10 grid gap-3">
           <div className="flex items-center justify-between gap-3">
-            <div>
+            <div className="inspection-header-line motion-safe:opacity-0">
               <p className="font-mono text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/62">
                 Inspection room
               </p>
@@ -139,7 +174,7 @@ export function InspectionRoomHero({ listing }: InspectionRoomHeroProps) {
             onPointerMove={handlePointerMove}
             onPointerLeave={resetTilt}
             onFocusCapture={runSweep}
-            className="inspection-slab-plane relative mx-auto aspect-[5/7] w-full max-w-[500px] overflow-hidden rounded-[10px] border border-white/15 bg-[rgba(244,241,233,0.08)] shadow-[inset_0_1px_18px_rgba(255,255,255,0.08),0_18px_50px_rgba(0,0,0,0.3)]"
+            className="inspection-slab-plane relative mx-auto aspect-[5/7] w-full max-w-[500px] overflow-hidden rounded-[10px] border border-white/15 bg-[rgba(244,241,233,0.08)] shadow-[inset_0_1px_18px_rgba(255,255,255,0.08),0_18px_50px_rgba(0,0,0,0.3)] motion-safe:opacity-0"
           >
             <SlabArtImage
               image={listing.image}
@@ -167,7 +202,7 @@ export function InspectionRoomHero({ listing }: InspectionRoomHeroProps) {
             </div>
           </div>
 
-          <div className="grid gap-2 rounded-[10px] border border-white/10 bg-white/[0.06] p-3">
+          <div className="inspection-info-panel grid gap-2 rounded-[10px] border border-white/10 bg-white/[0.06] p-3 motion-safe:opacity-0">
             <div className="grid grid-cols-[1fr_auto] gap-3">
               <div>
                 <p className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/58">
@@ -198,7 +233,7 @@ export function InspectionRoomHero({ listing }: InspectionRoomHeroProps) {
             </div>
           </div>
 
-          <div className="rounded-[10px] border border-white/10 bg-[rgba(244,241,233,0.92)] p-3 text-vault-ink">
+          <div className="inspection-info-panel rounded-[10px] border border-white/10 bg-[rgba(244,241,233,0.92)] p-3 text-vault-ink motion-safe:opacity-0">
             <div className="mb-3 flex items-center gap-2">
               <BadgeCheck className="h-4 w-4 text-vault-registry" aria-hidden="true" />
               <p className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">

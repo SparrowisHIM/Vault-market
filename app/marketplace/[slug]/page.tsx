@@ -11,6 +11,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { GradeBadge } from "@/components/marketplace/grade-badge";
 import { InspectionRoomHero } from "@/components/marketplace/inspection-room-hero";
+import { ListingDetailMotion } from "@/components/marketplace/listing-detail-motion";
 import { ListingTypeBadge } from "@/components/marketplace/listing-type-badge";
 import { MarketDelta } from "@/components/marketplace/market-delta";
 import { SellerTrustBadge } from "@/components/marketplace/seller-trust-badge";
@@ -54,7 +55,7 @@ function DecisionChip({
   value: string;
 }) {
   return (
-    <div className="rounded-[8px] border border-[var(--border-soft)] bg-white/42 px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.62)]">
+    <div className="detail-decision-card rounded-[8px] border border-[var(--border-soft)] bg-white/42 px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.62)] motion-safe:opacity-0">
       <div className="flex items-center gap-2">
         <Icon className="h-3.5 w-3.5 shrink-0 text-vault-registry" aria-hidden="true" />
         <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
@@ -117,14 +118,15 @@ export default async function ListingDetailPage({
   const sourcePath = getSafeInternalPath(resolvedSearchParams?.from);
   const backTarget = getListingBackTarget(sourcePath);
   const backLabel = getListingBackLabel(backTarget);
+  const listingTitleWords = listing.title.split(" ");
 
   return (
     <main className="min-h-screen px-4 py-5 sm:px-6 lg:px-8">
-      <div className="mx-auto grid w-full max-w-7xl gap-5">
+      <ListingDetailMotion>
         <SmartBackButton
           fallbackHref={backTarget}
           preferFallback={Boolean(sourcePath)}
-          className="inline-flex w-fit items-center gap-2 rounded-[6px] border border-[var(--border-soft)] bg-white/46 px-3 py-2 text-sm font-semibold text-vault-graphite transition hover:bg-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+          className="detail-back-link inline-flex w-fit items-center gap-2 rounded-[6px] border border-[var(--border-soft)] bg-white/46 px-3 py-2 text-sm font-semibold text-vault-graphite transition hover:bg-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] motion-safe:opacity-0"
         >
           {backLabel}
         </SmartBackButton>
@@ -133,7 +135,7 @@ export default async function ListingDetailPage({
           <InspectionRoomHero listing={listing} />
 
           <div className="grid gap-4">
-            <header className="relative overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] sm:p-5">
+            <header className="detail-dossier-panel relative overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] motion-safe:opacity-0 sm:p-5">
               <div
                 className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(47,94,124,0.45),transparent)]"
                 aria-hidden="true"
@@ -141,13 +143,18 @@ export default async function ListingDetailPage({
               <div className="grid gap-4">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-vault-registry">
+                    <p className="detail-kicker font-mono text-xs font-semibold uppercase tracking-[0.18em] text-vault-registry motion-safe:opacity-0">
                       Inspection dossier / {listing.year} / {listing.franchise}
                     </p>
                     <h1 className="mt-2 max-w-3xl text-3xl font-semibold leading-tight text-vault-ink sm:text-4xl">
-                      {listing.title}
+                      {listingTitleWords.map((word, index) => (
+                        <span key={`${word}-${index}`} className="detail-title-word inline-block motion-safe:opacity-0">
+                          {word}
+                          {index < listingTitleWords.length - 1 ? "\u00a0" : ""}
+                        </span>
+                      ))}
                     </h1>
-                    <p className="mt-2 text-sm font-medium text-vault-steel">
+                    <p className="detail-meta-line mt-2 text-sm font-medium text-vault-steel motion-safe:opacity-0">
                       {listing.setName}
                       {listing.cardNumber ? ` / ${listing.cardNumber}` : ""}
                     </p>
@@ -195,7 +202,7 @@ export default async function ListingDetailPage({
 
             <section
               aria-labelledby="market-context-heading"
-              className="overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] shadow-[var(--shadow-card)]"
+              className="detail-context-panel overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] shadow-[var(--shadow-card)] motion-safe:opacity-0"
             >
               <div className="border-b border-[var(--border-soft)] bg-[linear-gradient(90deg,rgba(47,94,124,0.08),rgba(47,113,88,0.04),transparent)] px-4 py-3">
                 <div className="flex flex-wrap items-center justify-between gap-3">
@@ -215,7 +222,7 @@ export default async function ListingDetailPage({
               </div>
 
               <div className="grid gap-2 p-3 sm:grid-cols-2 xl:grid-cols-4">
-                <div className="rounded-[8px] border border-[var(--border-soft)] bg-white/44 p-4">
+                <div className="detail-context-card rounded-[8px] border border-[var(--border-soft)] bg-white/44 p-4 motion-safe:opacity-0">
                   <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-vault-registry">
                     Current ask
                   </p>
@@ -223,7 +230,7 @@ export default async function ListingDetailPage({
                     {formatCurrency(listing.priceCents)}
                   </p>
                 </div>
-                <div className="rounded-[8px] border border-[var(--border-soft)] bg-white/44 p-4">
+                <div className="detail-context-card rounded-[8px] border border-[var(--border-soft)] bg-white/44 p-4 motion-safe:opacity-0">
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
                     Desk estimate
                   </p>
@@ -231,7 +238,7 @@ export default async function ListingDetailPage({
                     {formatEstimateRange(listing.estimatedRangeCents)}
                   </p>
                 </div>
-                <div className="rounded-[8px] border border-[rgba(17,19,15,0.2)] bg-[rgba(17,19,15,0.9)] p-4 text-vault-paper shadow-[0_18px_46px_rgba(17,19,15,0.16)]">
+                <div className="detail-context-card rounded-[8px] border border-[rgba(17,19,15,0.2)] bg-[rgba(17,19,15,0.9)] p-4 text-vault-paper shadow-[0_18px_46px_rgba(17,19,15,0.16)] motion-safe:opacity-0">
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/60">
                     Market context
                   </p>
@@ -245,7 +252,7 @@ export default async function ListingDetailPage({
                       : "pending"}
                   </p>
                 </div>
-                <div className="rounded-[8px] border border-[var(--border-soft)] bg-white/44 p-4">
+                <div className="detail-context-card rounded-[8px] border border-[var(--border-soft)] bg-white/44 p-4 motion-safe:opacity-0">
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
                     Population
                   </p>
@@ -442,7 +449,7 @@ export default async function ListingDetailPage({
             </div>
           </section>
         )}
-      </div>
+      </ListingDetailMotion>
     </main>
   );
 }
