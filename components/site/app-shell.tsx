@@ -74,7 +74,7 @@ export function AppShell({ children }: AppShellProps) {
           className="pointer-events-none absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-[linear-gradient(90deg,var(--vault-registry),var(--vault-amber),var(--vault-verified))] opacity-0"
           aria-hidden="true"
         />
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:gap-5 lg:px-8 lg:py-2.5">
+        <div className="mx-auto flex w-full max-w-[92rem] flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:gap-5 lg:px-8 lg:py-2.5">
           <div className="flex items-center justify-between gap-3">
             <Link
               href="/"

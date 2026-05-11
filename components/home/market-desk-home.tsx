@@ -166,7 +166,7 @@ export function MarketDeskHome() {
 
   return (
     <main ref={rootRef} className="overflow-hidden">
-      <section className="relative px-3 py-8 sm:px-5 sm:py-10 lg:min-h-[calc(100svh-108px)] lg:px-4 lg:py-0">
+      <section className="relative px-3 py-8 sm:px-5 sm:py-10 lg:min-h-[calc(100svh-154px)] lg:px-4 lg:py-0">
         <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
           <div className="vault-orbit vault-orbit-one" />
           <div className="vault-orbit vault-orbit-two" />
@@ -176,8 +176,8 @@ export function MarketDeskHome() {
           <div className="signal-node absolute bottom-[18%] left-[41%] h-2 w-2 rounded-full bg-vault-verified" />
         </div>
 
-        <div className="mx-auto grid w-full max-w-[92rem] gap-8 lg:min-h-[calc(100svh-108px)] lg:grid-cols-[minmax(0,0.72fr)_minmax(520px,0.88fr)] lg:items-center">
-          <div className="desk-reveal flex flex-col gap-5 lg:-translate-y-4">
+        <div className="mx-auto grid w-full max-w-[92rem] gap-8 lg:min-h-[calc(100svh-154px)] lg:grid-cols-[minmax(0,0.72fr)_minmax(520px,0.88fr)] lg:items-center">
+          <div className="desk-reveal flex flex-col gap-5">
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(17,19,15,0.16)] bg-white/42 px-3 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
               <Sparkles className="h-4 w-4 text-vault-registry" aria-hidden="true" />
               <span className="font-mono text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
@@ -186,8 +186,8 @@ export function MarketDeskHome() {
             </div>
 
             <div>
-              <h1 className="max-w-[45rem] text-[clamp(3.05rem,5.9vw,5.75rem)] font-semibold leading-[0.96] tracking-normal text-vault-ink">
-                Built For Slabs Worth A Slower Look.
+              <h1 className="max-w-[45rem] text-[clamp(3.05rem,5.7vw,5.55rem)] font-semibold leading-[0.96] tracking-normal text-vault-ink">
+                Built For Slabs Worth Slowing Down For.
               </h1>
               <p className="mt-5 max-w-[39rem] text-base leading-7 text-vault-steel sm:text-lg">
                 VaultMarket is a trust-first market desk for graded cards where
@@ -214,25 +214,25 @@ export function MarketDeskHome() {
               <div className="hidden h-px bg-[linear-gradient(90deg,rgba(17,19,15,0.16),transparent)] sm:block" />
             </div>
 
-            <div className="desk-reveal grid max-w-[39rem] gap-2 sm:grid-cols-3">
+            <div className="desk-reveal flex max-w-[39rem] flex-wrap items-center gap-x-4 gap-y-2 border-y border-[rgba(17,19,15,0.08)] py-3">
               {[
                 "Cert-backed",
                 "Market signal",
                 "Specialist review",
               ].map((label) => (
-                <div
+                <span
                   key={label}
-                  className="rounded-[8px] border border-[rgba(47,94,124,0.13)] bg-[rgba(255,255,255,0.38)] px-3 py-2.5 text-center font-mono text-[0.64rem] font-bold uppercase tracking-[0.12em] text-vault-graphite shadow-[inset_0_1px_0_rgba(255,255,255,0.68)]"
+                  className="font-mono text-[0.64rem] font-bold uppercase tracking-[0.16em] text-vault-graphite"
                 >
                   {label}
-                </div>
+                </span>
               ))}
             </div>
           </div>
 
           <div className="desk-reveal">
             <div
-              className="hero-slab-motion relative mx-auto h-[440px] max-w-[700px] cursor-pointer overflow-visible rounded-[24px] transition-transform duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:h-[540px] lg:h-[560px] lg:-translate-y-2"
+              className="hero-slab-motion relative mx-auto h-[440px] max-w-[700px] cursor-pointer overflow-visible rounded-[24px] transition-transform duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:h-[540px] lg:h-[540px]"
               style={tiltStyle}
               onPointerMove={handlePointerMove}
               onPointerLeave={() => setTiltStyle({ transform: "perspective(1100px)" })}
