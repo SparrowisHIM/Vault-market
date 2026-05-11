@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { animate, stagger } from "animejs";
+import { animate, createScope, createTimeline, stagger } from "animejs";
 import { formatCurrency, formatPopulation } from "@/lib/marketplace/format";
 import type {
   Franchise,
@@ -178,6 +178,7 @@ export function MarketplaceBrowser({
   const [compareNotice, setCompareNotice] = useState<string | null>(null);
   const [compareNoticeTone, setCompareNoticeTone] = useState<"limit" | "neutral" | null>(null);
   const compareIdsRef = useRef<string[]>([]);
+  const rootRef = useRef<HTMLElement | null>(null);
   const resultsGridRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -346,6 +347,70 @@ export function MarketplaceBrowser({
   ].filter(Boolean) as Array<{ key: string; label: string; clear: () => void }>;
 
   useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+
+    const scope = createScope({ root }).add(() => {
+      const timeline = createTimeline({
+        defaults: {
+          ease: "outExpo",
+        },
+      });
+
+      timeline
+        .add(".marketplace-preset-panel", {
+          opacity: [0, 1],
+          y: [16, 0],
+          filter: ["blur(8px)", "blur(0px)"],
+          duration: 620,
+        })
+        .add(
+          ".marketplace-preset-card",
+          {
+            opacity: [0, 1],
+            y: [12, 0],
+            delay: stagger(54),
+            duration: 480,
+          },
+          "-=380",
+        )
+        .add(
+          ".marketplace-brief-panel",
+          {
+            opacity: [0, 1],
+            y: [14, 0],
+            filter: ["blur(7px)", "blur(0px)"],
+            duration: 560,
+          },
+          "-=420",
+        )
+        .add(
+          ".marketplace-filter-shell",
+          {
+            opacity: [0, 1],
+            y: [12, 0],
+            duration: 520,
+          },
+          "-=260",
+        )
+        .add(
+          ".marketplace-results-heading-row",
+          {
+            opacity: [0, 1],
+            y: [10, 0],
+            duration: 460,
+          },
+          "-=220",
+        );
+    });
+
+    return () => scope.revert();
+  }, []);
+
+  useEffect(() => {
     const grid = resultsGridRef.current;
     if (!grid) return;
 
@@ -356,8 +421,9 @@ export function MarketplaceBrowser({
     animate(cards, {
       opacity: [0, 1],
       translateY: [14, 0],
+      filter: ["blur(7px)", "blur(0px)"],
       delay: stagger(42),
-      duration: 420,
+      duration: 500,
       ease: "outExpo",
     });
   }, [filteredListings]);
@@ -510,9 +576,9 @@ export function MarketplaceBrowser({
   }, [franchise, gradingCompany, listingType, query, sellerTrust, sort, status]);
 
   return (
-    <section aria-labelledby="marketplace-results-heading" className="grid gap-4">
+    <section ref={rootRef} aria-labelledby="marketplace-results-heading" className="grid gap-4">
       <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_360px]">
-        <div className="relative overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[rgba(17,19,15,0.9)] p-3 text-vault-paper shadow-[0_24px_70px_rgba(17,19,15,0.2)]">
+        <div className="marketplace-preset-panel relative overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[rgba(17,19,15,0.9)] p-3 text-vault-paper shadow-[0_24px_70px_rgba(17,19,15,0.2)] motion-safe:opacity-0">
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent,rgba(255,255,255,0.08)_48%,transparent_58%)]" />
           <div className="relative grid gap-3">
             <div className="flex flex-wrap items-start justify-between gap-3">
@@ -568,7 +634,7 @@ export function MarketplaceBrowser({
                     onClick={() => applyDeskPreset(preset.id)}
                     aria-pressed={isActive}
                     className={cn(
-                      "group min-h-24 rounded-[8px] border p-3 text-left transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45",
+                      "marketplace-preset-card group min-h-24 rounded-[8px] border p-3 text-left transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 motion-safe:opacity-0",
                       isActive
                         ? "border-white/30 bg-white/[0.14] text-vault-paper shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]"
                         : "border-white/10 bg-white/[0.055] text-vault-paper/72 hover:-translate-y-0.5 hover:bg-white/[0.09] hover:text-vault-paper",
@@ -594,7 +660,7 @@ export function MarketplaceBrowser({
           </div>
         </div>
 
-        <aside className="rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-3 shadow-[var(--shadow-card)]">
+        <aside className="marketplace-brief-panel rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-3 shadow-[var(--shadow-card)] motion-safe:opacity-0">
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className={labelClass}>Live desk brief</p>
@@ -656,7 +722,7 @@ export function MarketplaceBrowser({
         </aside>
       </div>
 
-      <div className="rounded-[8px] border border-[rgba(17,19,15,0.08)] bg-[rgba(249,248,243,0.54)] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.48)]">
+      <div className="marketplace-filter-shell rounded-[8px] border border-[rgba(17,19,15,0.08)] bg-[rgba(249,248,243,0.54)] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.48)] motion-safe:opacity-0">
         <div className="flex flex-wrap items-center justify-between gap-3 lg:hidden">
           <div>
             <p className={labelClass}>Market refinement</p>
@@ -867,7 +933,7 @@ export function MarketplaceBrowser({
         </div>
       ) : null}
 
-      <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[var(--border-soft)] pb-3">
+      <div className="marketplace-results-heading-row flex flex-wrap items-end justify-between gap-3 border-b border-[var(--border-soft)] pb-3 motion-safe:opacity-0">
         <div>
           <div className="flex items-center gap-2">
             <SlidersHorizontal className="h-4 w-4 text-vault-registry" aria-hidden="true" />
@@ -902,7 +968,7 @@ export function MarketplaceBrowser({
           {filteredListings.map((listing) => (
             <div
               key={listing.id}
-              className="marketplace-result-card"
+              className="marketplace-result-card motion-safe:opacity-0"
               onPointerEnter={() => setSpotlightListingId(listing.id)}
               onFocusCapture={() => setSpotlightListingId(listing.id)}
             >

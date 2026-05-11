@@ -3,6 +3,7 @@ import {
   MarketplaceBrowser,
   type MarketplaceQueryParams,
 } from "@/components/marketplace/marketplace-browser";
+import { MarketplacePageHero } from "@/components/marketplace/marketplace-page-hero";
 import { mockListings } from "@/lib/marketplace/mock-listings";
 import { formatCurrency } from "@/lib/marketplace/format";
 
@@ -43,43 +44,11 @@ export default async function MarketplacePage({ searchParams }: MarketplacePageP
   return (
     <main className="min-h-screen px-4 py-5 sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-5">
-        <header className="grid gap-4 border-b border-[var(--border-soft)] pb-5 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div>
-            <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-vault-registry">
-              VaultMarket / Graded cards only
-            </p>
-            <h1 className="mt-2 max-w-3xl text-3xl font-semibold tracking-normal text-vault-ink sm:text-4xl">
-              Inspection-grade marketplace browse
-            </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-vault-steel sm:text-base">
-              Serious listings with grade, cert, seller trust, market context, and
-              watch actions visible before opening the full inspection view.
-            </p>
-          </div>
-
-          <dl className="grid grid-cols-3 gap-2 rounded-[8px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.58)]">
-            <div className="rounded-[6px] bg-white/40 p-3">
-              <dt className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
-                Active
-              </dt>
-              <dd className="mt-1 text-xl font-semibold text-vault-ink">{activeCount}</dd>
-            </div>
-            <div className="rounded-[6px] bg-white/40 p-3">
-              <dt className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
-                Vault
-              </dt>
-              <dd className="mt-1 text-xl font-semibold text-vault-ink">{vaultHeldCount}</dd>
-            </div>
-            <div className="rounded-[6px] bg-white/40 p-3">
-              <dt className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
-                Ask book
-              </dt>
-              <dd className="mt-1 text-xl font-semibold text-vault-ink">
-                {formatCurrency(totalMarketValue)}
-              </dd>
-            </div>
-          </dl>
-        </header>
+        <MarketplacePageHero
+          activeCount={activeCount}
+          vaultHeldCount={vaultHeldCount}
+          totalMarketValue={formatCurrency(totalMarketValue)}
+        />
 
         <MarketplaceBrowser listings={mockListings} initialQueryParams={initialQueryParams} />
       </div>
