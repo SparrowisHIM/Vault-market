@@ -13,6 +13,7 @@ import {
 import type { Metadata } from "next";
 import Link from "next/link";
 import { VaultAssetCard } from "@/components/vault/vault-asset-card";
+import { VaultPageMotion } from "@/components/vault/vault-page-motion";
 import {
   formatCurrency,
   getVaultStatusLabel,
@@ -80,6 +81,8 @@ const timelineSteps = [
   },
 ];
 
+const vaultTitleWords = "Vault custody and asset value desk".split(" ");
+
 function metricPercent(value: number, total: number) {
   if (total <= 0) return 8;
   return Math.min(100, Math.max(8, Math.round((value / total) * 100)));
@@ -101,7 +104,7 @@ function StatCard({
   const ticks = Array.from({ length: 10 }, (_, index) => index);
 
   return (
-    <div className="group relative overflow-hidden rounded-[10px] border border-[rgba(17,19,15,0.12)] bg-[rgba(249,248,243,0.82)] p-4 shadow-[var(--shadow-slab)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-[rgba(255,254,249,0.92)] hover:shadow-[var(--shadow-slab-hover)]">
+    <div className="vault-summary-card group relative overflow-hidden rounded-[10px] border border-[rgba(17,19,15,0.12)] bg-[rgba(249,248,243,0.82)] p-4 shadow-[var(--shadow-slab)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-[rgba(255,254,249,0.92)] hover:shadow-[var(--shadow-slab-hover)] motion-safe:opacity-0">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(47,94,124,0.34),rgba(47,113,88,0.25),transparent)]" />
       <div className="flex items-start justify-between gap-3">
         <div>
@@ -152,21 +155,21 @@ function CustodyPill({ listing }: { listing: VaultListing }) {
 export default function VaultPage() {
   return (
     <main className="min-h-screen px-4 py-5 sm:px-6 lg:px-8">
-      <div className="mx-auto grid w-full max-w-7xl gap-5">
-        <header className="overflow-hidden rounded-[12px] border border-[rgba(17,19,15,0.22)] shadow-[0_22px_70px_rgba(17,19,15,0.14)]">
+      <VaultPageMotion>
+        <header className="vault-console-shell overflow-hidden rounded-[12px] border border-[rgba(17,19,15,0.22)] shadow-[0_22px_70px_rgba(17,19,15,0.14)] motion-safe:opacity-0">
           <div className="vault-custody-console relative overflow-hidden bg-[linear-gradient(135deg,rgba(13,15,12,0.98)_0%,rgba(25,29,24,0.99)_52%,rgba(12,14,11,0.98)_100%)] text-vault-paper">
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(244,241,233,0.033)_1px,transparent_1px),linear-gradient(rgba(244,241,233,0.026)_1px,transparent_1px)] bg-[length:46px_46px]" />
             <div className="vault-custody-sweep pointer-events-none absolute inset-0" />
             <div className="relative grid gap-5 p-4 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.42fr)] lg:items-stretch">
               <div className="grid min-h-[23rem] gap-5 rounded-[10px] border border-white/10 bg-black/10 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5">
+                  <div className="vault-console-kicker inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 motion-safe:opacity-0">
                     <Vault className="h-4 w-4 text-[#a7ddc4]" aria-hidden="true" />
                     <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-vault-paper/62">
                       VaultMarket / Custody desk
                     </span>
                   </div>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-[rgba(130,199,169,0.22)] bg-[rgba(47,113,88,0.1)] px-3 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#a7ddc4]">
+                  <span className="vault-console-kicker inline-flex items-center gap-2 rounded-full border border-[rgba(130,199,169,0.22)] bg-[rgba(47,113,88,0.1)] px-3 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#a7ddc4] motion-safe:opacity-0">
                     <span className="vault-status-pulse h-1.5 w-1.5 rounded-full bg-[#82c7a9]" />
                     Custody aligned
                   </span>
@@ -174,16 +177,21 @@ export default function VaultPage() {
 
                 <div>
                   <h1 className="max-w-3xl text-3xl font-semibold leading-[1.03] text-vault-paper sm:text-5xl">
-                    Vault custody and asset value desk
+                    {vaultTitleWords.map((word, index) => (
+                      <span key={`${word}-${index}`} className="vault-title-word inline-block motion-safe:opacity-0">
+                        {word}
+                        {index < vaultTitleWords.length - 1 ? "\u00a0" : ""}
+                      </span>
+                    ))}
                   </h1>
-                  <p className="mt-4 max-w-2xl text-sm leading-relaxed text-vault-paper/64 sm:text-[0.95rem]">
+                  <p className="vault-console-copy mt-4 max-w-2xl text-sm leading-relaxed text-vault-paper/64 motion-safe:opacity-0 sm:text-[0.95rem]">
                     A custody and portfolio desk for vaulted and intake-pending graded cards,
                     shaped around trust, custody, and market-value context.
                   </p>
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="vault-console-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Portfolio value
                     </p>
@@ -194,7 +202,7 @@ export default function VaultPage() {
                       <div className="h-full w-[86%] rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.58),rgba(130,199,169,0.72))]" />
                     </div>
                   </div>
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="vault-console-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Intake value
                     </p>
@@ -208,7 +216,7 @@ export default function VaultPage() {
                       />
                     </div>
                   </div>
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="vault-console-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Coverage
                     </p>
@@ -223,7 +231,7 @@ export default function VaultPage() {
                 </div>
               </div>
 
-              <div className="grid gap-3 rounded-[10px] border border-white/10 bg-white/[0.045] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+              <div className="vault-chain-panel grid gap-3 rounded-[10px] border border-white/10 bg-white/[0.045] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] motion-safe:opacity-0">
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
@@ -237,7 +245,7 @@ export default function VaultPage() {
                 </div>
                 <div className="grid gap-3">
                   {timelineSteps.map((step, index) => (
-                    <div key={step.label} className="grid grid-cols-[auto_1fr_auto] items-center gap-3">
+                    <div key={step.label} className="vault-chain-row grid grid-cols-[auto_1fr_auto] items-center gap-3 motion-safe:opacity-0">
                       <span
                         className={cn(
                           "grid h-8 w-8 place-items-center rounded-full border font-mono text-[0.62rem] font-semibold",
@@ -260,7 +268,7 @@ export default function VaultPage() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-1 rounded-[8px] border border-white/10 bg-black/[0.12] p-3">
+                <div className="vault-chain-row mt-1 rounded-[8px] border border-white/10 bg-black/[0.12] p-3 motion-safe:opacity-0">
                   <div className="flex items-center justify-between gap-3">
                     <span className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
                       Intake progress
@@ -421,7 +429,7 @@ export default function VaultPage() {
             </section>
           </aside>
         </section>
-      </div>
+      </VaultPageMotion>
     </main>
   );
 }
