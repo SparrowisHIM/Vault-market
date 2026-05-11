@@ -14,6 +14,7 @@ import {
 import { ListingTypeBadge } from "@/components/marketplace/listing-type-badge";
 import { MarketDelta } from "@/components/marketplace/market-delta";
 import { SlabCard } from "@/components/marketplace/slab-card";
+import { PrivateDeskPageMotion } from "@/components/private-desk/private-desk-page-motion";
 import { SpecialistReviewHandoff } from "@/components/private-desk/specialist-review-handoff";
 import {
   formatCurrency,
@@ -45,6 +46,8 @@ const vaultReadyCandidates = deskCandidates.filter(
   (listing) => listing.vaultStatus === "vault_held",
 );
 const specialistTicket = `VM-SR-${leadCandidate.certNumber.replace(/\D/g, "").slice(-4)}`;
+const privateDeskTitleWords =
+  "Discreet specialist review for rare expensive relationship-led deals".split(" ");
 
 const serviceTracks = [
   {
@@ -121,7 +124,7 @@ function SummaryCard({
   fill: number;
 }) {
   return (
-    <div className="group relative overflow-hidden rounded-[10px] border border-[rgba(17,19,15,0.12)] bg-[rgba(249,248,243,0.82)] p-4 shadow-[var(--shadow-slab)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-[rgba(255,254,249,0.92)] hover:shadow-[var(--shadow-slab-hover)]">
+    <div className="private-desk-summary-card group relative overflow-hidden rounded-[10px] border border-[rgba(17,19,15,0.12)] bg-[rgba(249,248,243,0.82)] p-4 shadow-[var(--shadow-slab)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-[rgba(255,254,249,0.92)] hover:shadow-[var(--shadow-slab-hover)] motion-safe:opacity-0">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
@@ -146,7 +149,7 @@ function SummaryCard({
 
 function CandidateCard({ listing, index }: { listing: VaultListing; index: number }) {
   return (
-    <li>
+    <li className="private-desk-row motion-safe:opacity-0">
       <Link
         href={buildListingHref(listing.slug, "/private-desk")}
         className="group grid gap-3 rounded-[10px] border border-[var(--border-soft)] bg-white/[0.42] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] transition hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-white/72 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
@@ -217,21 +220,21 @@ function CandidateCard({ listing, index }: { listing: VaultListing; index: numbe
 export default function PrivateDeskPage() {
   return (
     <main className="min-h-screen px-4 py-5 sm:px-6 lg:px-8">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-5">
-        <header className="overflow-hidden rounded-[12px] border border-[rgba(17,19,15,0.22)] shadow-[0_22px_70px_rgba(17,19,15,0.14)]">
+      <PrivateDeskPageMotion>
+        <header className="private-desk-shell overflow-hidden rounded-[12px] border border-[rgba(17,19,15,0.22)] shadow-[0_22px_70px_rgba(17,19,15,0.14)] motion-safe:opacity-0">
           <div className="private-desk-console relative overflow-hidden bg-[linear-gradient(135deg,rgba(13,15,12,0.98)_0%,rgba(25,27,30,0.99)_50%,rgba(13,15,12,0.98)_100%)] text-vault-paper">
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(244,241,233,0.03)_1px,transparent_1px),linear-gradient(rgba(244,241,233,0.024)_1px,transparent_1px)] bg-[length:44px_44px]" />
             <div className="private-desk-sweep pointer-events-none absolute inset-0" />
             <div className="relative grid gap-5 p-4 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.43fr)] lg:items-stretch">
               <div className="grid min-h-[23rem] gap-5 rounded-[10px] border border-white/10 bg-black/10 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5">
+                  <div className="private-desk-kicker inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 motion-safe:opacity-0">
                     <Landmark className="h-4 w-4 text-[#9bc2dc]" aria-hidden="true" />
                     <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-vault-paper/62">
                       VaultMarket / Private desk
                     </span>
                   </div>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-[rgba(155,194,220,0.24)] bg-[rgba(47,94,124,0.14)] px-3 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#9bc2dc]">
+                  <span className="private-desk-kicker inline-flex items-center gap-2 rounded-full border border-[rgba(155,194,220,0.24)] bg-[rgba(47,94,124,0.14)] px-3 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#9bc2dc] motion-safe:opacity-0">
                     <span className="private-desk-pulse h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
                     Specialist queue
                   </span>
@@ -239,16 +242,21 @@ export default function PrivateDeskPage() {
 
                 <div>
                   <h1 className="max-w-3xl text-3xl font-semibold leading-[1.03] text-vault-paper sm:text-5xl">
-                    Discreet specialist review for rare, expensive, relationship-led deals
+                    {privateDeskTitleWords.map((word, index) => (
+                      <span key={`${word}-${index}`} className="private-desk-title-word inline-block motion-safe:opacity-0">
+                        {word}
+                        {index < privateDeskTitleWords.length - 1 ? "\u00a0" : ""}
+                      </span>
+                    ))}
                   </h1>
-                  <p className="mt-4 max-w-2xl text-sm leading-relaxed text-vault-paper/64 sm:text-[0.95rem]">
+                  <p className="private-desk-copy mt-4 max-w-2xl text-sm leading-relaxed text-vault-paper/64 motion-safe:opacity-0 sm:text-[0.95rem]">
                     A high-touch desk for cards that need specialist context, vault
                     confidence, and discreet buyer matching.
                   </p>
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="private-desk-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Lead candidate
                     </p>
@@ -256,7 +264,7 @@ export default function PrivateDeskPage() {
                       {leadCandidate.title}
                     </p>
                   </div>
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="private-desk-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Desk book
                     </p>
@@ -264,7 +272,7 @@ export default function PrivateDeskPage() {
                       {formatCurrency(deskValue)}
                     </p>
                   </div>
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="private-desk-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Specialist ticket
                     </p>
@@ -275,7 +283,7 @@ export default function PrivateDeskPage() {
                 </div>
               </div>
 
-              <div className="grid gap-3 rounded-[10px] border border-white/10 bg-white/[0.045] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+              <div className="private-desk-review-panel grid gap-3 rounded-[10px] border border-white/10 bg-white/[0.045] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] motion-safe:opacity-0">
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
@@ -289,7 +297,7 @@ export default function PrivateDeskPage() {
                 </div>
                 <div className="grid gap-3">
                   {reviewPath.map((step, index) => (
-                    <div key={step.label} className="grid grid-cols-[auto_1fr] items-start gap-3">
+                    <div key={step.label} className="private-desk-review-row grid grid-cols-[auto_1fr] items-start gap-3 motion-safe:opacity-0">
                       <span
                         className={cn(
                           "grid h-8 w-8 place-items-center rounded-full border font-mono text-[0.62rem] font-semibold",
@@ -311,7 +319,7 @@ export default function PrivateDeskPage() {
                     </div>
                   ))}
                 </div>
-                <div className="rounded-[8px] border border-white/10 bg-black/[0.12] p-3">
+                <div className="private-desk-review-row rounded-[8px] border border-white/10 bg-black/[0.12] p-3 motion-safe:opacity-0">
                   <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
                     Locked desk module
                   </p>
@@ -351,10 +359,10 @@ export default function PrivateDeskPage() {
           />
         </section>
 
-        <section className="grid gap-5 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.18fr)] xl:items-start">
-          <article className="private-desk-spotlight rounded-[10px] border border-[rgba(47,94,124,0.14)] bg-[linear-gradient(180deg,rgba(255,254,249,0.86),rgba(249,248,243,0.64))] p-4 shadow-[var(--shadow-card)] xl:sticky xl:top-28">
+        <section className="private-desk-lower-section grid gap-5 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.18fr)] xl:items-start">
+          <article className="private-desk-spotlight rounded-[10px] border border-[rgba(47,94,124,0.14)] bg-[linear-gradient(180deg,rgba(255,254,249,0.86),rgba(249,248,243,0.64))] p-4 shadow-[var(--shadow-card)] motion-safe:opacity-0 xl:sticky xl:top-28">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div>
+              <div className="private-desk-spotlight-detail motion-safe:opacity-0">
                 <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-vault-registry">
                   Lead desk candidate
                 </p>
@@ -363,11 +371,13 @@ export default function PrivateDeskPage() {
                   {leadCandidate.provenanceNotes}
                 </p>
               </div>
-              <SpecialistReviewHandoff ticketId={specialistTicket} />
+              <div className="private-desk-spotlight-detail motion-safe:opacity-0">
+                <SpecialistReviewHandoff ticketId={specialistTicket} />
+              </div>
             </div>
 
             <dl className="mt-4 grid gap-2 sm:grid-cols-3">
-              <div className="rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3">
+              <div className="private-desk-spotlight-detail rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3 motion-safe:opacity-0">
                 <dt className="font-mono text-[0.63rem] font-semibold uppercase tracking-[0.13em] text-vault-steel">
                   Valuation range
                 </dt>
@@ -375,7 +385,7 @@ export default function PrivateDeskPage() {
                   {formatEstimateRange(leadCandidate.estimatedRangeCents)}
                 </dd>
               </div>
-              <div className="rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3">
+              <div className="private-desk-spotlight-detail rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3 motion-safe:opacity-0">
                 <dt className="font-mono text-[0.63rem] font-semibold uppercase tracking-[0.13em] text-vault-steel">
                   Rarity
                 </dt>
@@ -383,7 +393,7 @@ export default function PrivateDeskPage() {
                   {formatPopulation(leadCandidate.population)}
                 </dd>
               </div>
-              <div className="rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3">
+              <div className="private-desk-spotlight-detail rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3 motion-safe:opacity-0">
                 <dt className="font-mono text-[0.63rem] font-semibold uppercase tracking-[0.13em] text-vault-steel">
                   Transfer path
                 </dt>
@@ -393,13 +403,13 @@ export default function PrivateDeskPage() {
               </div>
             </dl>
 
-            <div className="mt-4">
+            <div className="private-desk-spotlight-detail mt-4 motion-safe:opacity-0">
               <SlabCard listing={leadCandidate} sourceHref="/private-desk" />
             </div>
           </article>
 
           <section className="grid gap-5">
-            <article className="rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)]">
+            <article className="private-desk-panel rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)] motion-safe:opacity-0">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-registry">
@@ -420,7 +430,7 @@ export default function PrivateDeskPage() {
                   return (
                     <li
                       key={track.label}
-                      className="grid grid-cols-[auto_1fr] gap-3 rounded-[9px] border border-[rgba(47,94,124,0.1)] bg-white/[0.34] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.52)]"
+                      className="private-desk-row grid grid-cols-[auto_1fr] gap-3 rounded-[9px] border border-[rgba(47,94,124,0.1)] bg-white/[0.34] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.52)] motion-safe:opacity-0"
                     >
                       <span className="grid h-9 w-9 place-items-center rounded-[7px] border border-[var(--border-soft)] bg-white/56 text-vault-registry">
                         <Icon className="h-4 w-4" aria-hidden="true" />
@@ -440,7 +450,7 @@ export default function PrivateDeskPage() {
               </ul>
             </article>
 
-            <article className="rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)]">
+            <article className="private-desk-panel rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)] motion-safe:opacity-0">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                   <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-registry">
@@ -463,7 +473,7 @@ export default function PrivateDeskPage() {
               </ul>
             </article>
 
-            <article className="rounded-[10px] border border-[rgba(17,19,15,0.18)] bg-[rgba(17,19,15,0.9)] p-4 text-vault-paper shadow-[0_24px_70px_rgba(17,19,15,0.2)]">
+            <article className="private-desk-panel rounded-[10px] border border-[rgba(17,19,15,0.18)] bg-[rgba(17,19,15,0.9)] p-4 text-vault-paper shadow-[0_24px_70px_rgba(17,19,15,0.2)] motion-safe:opacity-0">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/50">
@@ -486,7 +496,7 @@ export default function PrivateDeskPage() {
             </article>
           </section>
         </section>
-      </div>
+      </PrivateDeskPageMotion>
     </main>
   );
 }

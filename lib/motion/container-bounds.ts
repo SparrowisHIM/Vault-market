@@ -24,6 +24,11 @@ const DEFAULT_BOUND_SELECTOR = [
   ".research-summary-card",
   ".research-comp-panel",
   ".research-sidebar-panel",
+  ".private-desk-shell",
+  ".private-desk-review-panel",
+  ".private-desk-summary-card",
+  ".private-desk-spotlight",
+  ".private-desk-panel",
   ".auction-console-shell",
   ".auction-review-panel",
   ".auction-summary-card",
@@ -31,7 +36,7 @@ const DEFAULT_BOUND_SELECTOR = [
 ].join(",");
 
 const DARK_BOUND_PATTERN =
-  /(console|terminal|inspection|preset-panel|control-panel|auction-review-panel)/;
+  /(console|terminal|inspection|preset-panel|control-panel|auction-review-panel|private-desk-shell|private-desk-review-panel)/;
 
 type BoundTarget = {
   element: HTMLElement;
