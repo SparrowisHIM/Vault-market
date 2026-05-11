@@ -166,7 +166,7 @@ export function MarketDeskHome() {
 
   return (
     <main ref={rootRef} className="overflow-hidden">
-      <section className="relative min-h-[calc(100svh-118px)] px-3 py-6 sm:px-5 lg:px-4">
+      <section className="relative px-3 py-8 sm:px-5 sm:py-10 lg:min-h-[calc(100svh-108px)] lg:px-4 lg:py-0">
         <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
           <div className="vault-orbit vault-orbit-one" />
           <div className="vault-orbit vault-orbit-two" />
@@ -176,8 +176,8 @@ export function MarketDeskHome() {
           <div className="signal-node absolute bottom-[18%] left-[41%] h-2 w-2 rounded-full bg-vault-verified" />
         </div>
 
-        <div className="mx-auto grid min-h-[calc(100svh-166px)] w-full max-w-[92rem] gap-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(520px,0.88fr)] lg:items-center">
-          <div className="desk-reveal flex flex-col gap-5">
+        <div className="mx-auto grid w-full max-w-[92rem] gap-8 lg:min-h-[calc(100svh-108px)] lg:grid-cols-[minmax(0,0.72fr)_minmax(520px,0.88fr)] lg:items-center">
+          <div className="desk-reveal flex flex-col gap-5 lg:-translate-y-4">
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(17,19,15,0.16)] bg-white/42 px-3 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
               <Sparkles className="h-4 w-4 text-vault-registry" aria-hidden="true" />
               <span className="font-mono text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
@@ -232,7 +232,7 @@ export function MarketDeskHome() {
 
           <div className="desk-reveal">
             <div
-              className="hero-slab-motion relative mx-auto h-[500px] max-w-[720px] cursor-pointer overflow-visible rounded-[24px] transition-transform duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:h-[590px] lg:h-[620px]"
+              className="hero-slab-motion relative mx-auto h-[440px] max-w-[700px] cursor-pointer overflow-visible rounded-[24px] transition-transform duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:h-[540px] lg:h-[560px] lg:-translate-y-2"
               style={tiltStyle}
               onPointerMove={handlePointerMove}
               onPointerLeave={() => setTiltStyle({ transform: "perspective(1100px)" })}
@@ -247,7 +247,7 @@ export function MarketDeskHome() {
               aria-label={`${stackLayout === "clustered" ? "Open" : "Close"} the graded slab stack`}
               aria-pressed={stackLayout === "spread"}
             >
-              <div className="hero-inspection-frame pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[70%] w-[76%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[26px] border border-[rgba(47,94,124,0.12)] bg-[linear-gradient(145deg,rgba(249,248,243,0.14),rgba(255,255,255,0.04)_48%,rgba(47,94,124,0.05))] shadow-[inset_0_1px_0_rgba(255,255,255,0.34),0_22px_72px_rgba(47,94,124,0.08)]" aria-hidden="true">
+              <div className="hero-inspection-frame pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[72%] w-[78%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[26px] border border-[rgba(47,94,124,0.12)] bg-[linear-gradient(145deg,rgba(249,248,243,0.14),rgba(255,255,255,0.04)_48%,rgba(47,94,124,0.05))] shadow-[inset_0_1px_0_rgba(255,255,255,0.34),0_22px_72px_rgba(47,94,124,0.08)]" aria-hidden="true">
                 <div className="absolute inset-6 rounded-[20px] border border-[rgba(47,94,124,0.08)]" />
                 <div className="absolute inset-x-16 top-1/2 h-px bg-[linear-gradient(90deg,transparent,rgba(47,94,124,0.16),transparent)]" />
                 <div className="hero-inspection-sweep absolute inset-y-[-20%] left-[-32%] w-[28%] rotate-12 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.26),rgba(155,194,220,0.1),transparent)] opacity-0" />
@@ -261,7 +261,7 @@ export function MarketDeskHome() {
                   <div
                     key={listing.id}
                     className={cn(
-                      "hero-stack-card absolute left-1/2 top-[49%] block w-[clamp(224px,29vw,318px)] rounded-[18px] drop-shadow-[0_34px_42px_rgba(17,19,15,0.28)] will-change-transform",
+                      "hero-stack-card absolute left-1/2 top-[49%] block w-[clamp(214px,28vw,300px)] rounded-[18px] drop-shadow-[0_32px_40px_rgba(17,19,15,0.28)] will-change-transform",
                       shouldReduceMotion ? "" : "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
                     )}
                     style={{
@@ -273,7 +273,7 @@ export function MarketDeskHome() {
                     <div className="relative aspect-[5/7] overflow-hidden rounded-[14px]">
                       <SlabArtImage
                         image={listing.image}
-                        sizes="(min-width: 1024px) 318px, 72vw"
+                        sizes="(min-width: 1024px) 300px, 72vw"
                         priority={index === 0}
                       />
                       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.16),transparent_33%,rgba(255,255,255,0.1)_43%,transparent_54%)]" aria-hidden="true" />
@@ -286,7 +286,7 @@ export function MarketDeskHome() {
         </div>
       </section>
 
-      <section aria-label="Market tape" className="border-y border-[var(--border-soft)] bg-vault-ink py-3 text-vault-paper">
+      <section aria-label="Market tape" className="relative z-10 border-y border-[rgba(244,241,233,0.08)] bg-vault-ink py-3 text-vault-paper shadow-[0_-18px_48px_rgba(17,19,15,0.08)]">
         <div className="vault-tape-track flex gap-3 whitespace-nowrap">
           {[...tapeItems, ...tapeItems].map((item, index) => (
             <div
@@ -307,7 +307,7 @@ export function MarketDeskHome() {
       </section>
 
       <section className="px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:items-start">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.64fr_1.36fr] lg:items-start">
           <div className="desk-reveal">
             <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
               How VaultMarket is read
