@@ -260,8 +260,11 @@ export default function PrivateDeskPage() {
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Lead candidate
                     </p>
-                    <p className="mt-2 truncate text-2xl font-semibold text-vault-paper">
+                    <p className="mt-2 line-clamp-2 min-h-[3.2rem] text-xl font-semibold leading-tight text-vault-paper">
                       {leadCandidate.title}
+                    </p>
+                    <p className="mt-2 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-vault-paper/42">
+                      {leadCandidate.gradingCompany} {leadCandidate.grade} / {formatPopulation(leadCandidate.population)}
                     </p>
                   </div>
                   <div className="private-desk-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
