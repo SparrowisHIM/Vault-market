@@ -318,9 +318,9 @@ export default function VaultPage() {
           />
         </section>
 
-        <section className="grid gap-5 lg:grid-cols-[1fr_0.72fr]">
+        <section className="vault-lower-section grid gap-5 lg:grid-cols-[1fr_0.72fr]">
           <div className="grid gap-3">
-            <div className="flex flex-col gap-3 rounded-[10px] border border-[var(--border-soft)] bg-[rgba(249,248,243,0.72)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] sm:flex-row sm:items-end sm:justify-between">
+            <div className="vault-asset-header flex flex-col gap-3 rounded-[10px] border border-[var(--border-soft)] bg-[rgba(249,248,243,0.72)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] motion-safe:opacity-0 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-vault-registry">
                   Asset bay
@@ -343,13 +343,15 @@ export default function VaultPage() {
             </div>
             <div className="grid gap-3">
               {vaultAssets.map((listing) => (
-                <VaultAssetCard key={listing.id} listing={listing} />
+                <div key={listing.id} className="vault-asset-card-reveal motion-safe:opacity-0">
+                  <VaultAssetCard listing={listing} />
+                </div>
               ))}
             </div>
           </div>
 
           <aside className="grid gap-3 self-start">
-            <section className="overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] shadow-[var(--shadow-card)]">
+            <section className="vault-ledger-panel overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] shadow-[var(--shadow-card)] motion-safe:opacity-0">
               <div className="border-b border-[var(--border-soft)] bg-[linear-gradient(90deg,rgba(47,94,124,0.08),rgba(47,113,88,0.04),transparent)] px-4 py-4">
                 <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-registry">
                   Custody ledger
@@ -365,7 +367,7 @@ export default function VaultPage() {
                   <Link
                     key={`${listing.id}-ledger`}
                     href={buildListingHref(listing.slug, "/vault")}
-                    className="group grid gap-3 rounded-[9px] border border-[var(--border-soft)] bg-white/[0.42] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] transition hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-white/72 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                    className="vault-ledger-row group grid gap-3 rounded-[9px] border border-[var(--border-soft)] bg-white/[0.42] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] transition hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-white/72 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] motion-safe:opacity-0"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
@@ -409,7 +411,7 @@ export default function VaultPage() {
               </div>
             </section>
 
-            <section className="rounded-[10px] border border-[var(--border-soft)] bg-[rgba(17,19,15,0.9)] p-4 text-vault-paper shadow-[0_24px_70px_rgba(17,19,15,0.2)]">
+            <section className="vault-control-panel rounded-[10px] border border-[var(--border-soft)] bg-[rgba(17,19,15,0.9)] p-4 text-vault-paper shadow-[0_24px_70px_rgba(17,19,15,0.2)] motion-safe:opacity-0">
               <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/50">
                 Custody controls
               </p>
@@ -420,7 +422,7 @@ export default function VaultPage() {
                     type="button"
                     aria-disabled="true"
                     title={`${action} requires verified collector access`}
-                    className="inline-flex h-10 items-center justify-center rounded-[6px] border border-white/12 bg-white/[0.06] px-3 text-sm font-semibold text-vault-paper/68 transition hover:bg-white/[0.09] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                    className="vault-control-action inline-flex h-10 items-center justify-center rounded-[6px] border border-white/12 bg-white/[0.06] px-3 text-sm font-semibold text-vault-paper/68 transition hover:bg-white/[0.09] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 motion-safe:opacity-0"
                   >
                     {action}
                   </button>

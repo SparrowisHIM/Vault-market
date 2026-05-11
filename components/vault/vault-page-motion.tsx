@@ -17,6 +17,8 @@ export function VaultPageMotion({ children }: VaultPageMotionProps) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) return;
 
+    let lowerVaultObserver: IntersectionObserver | null = null;
+
     const scope = createScope({ root }).add(() => {
       const timeline = createTimeline({
         defaults: {
@@ -103,9 +105,95 @@ export function VaultPageMotion({ children }: VaultPageMotionProps) {
           },
           "-=180",
         );
+
+      const lowerVaultSection = root.querySelector<HTMLElement>(".vault-lower-section");
+      if (lowerVaultSection) {
+        let hasPlayedLowerVault = false;
+
+        lowerVaultObserver = new IntersectionObserver(
+          ([entry]) => {
+            if (!entry?.isIntersecting || hasPlayedLowerVault) return;
+
+            hasPlayedLowerVault = true;
+
+            const lowerTimeline = createTimeline({
+              defaults: {
+                ease: "outExpo",
+              },
+            });
+
+            lowerTimeline
+              .add(lowerVaultSection.querySelectorAll(".vault-asset-header"), {
+                opacity: [0, 1],
+                y: [14, 0],
+                filter: ["blur(7px)", "blur(0px)"],
+                duration: 560,
+              })
+              .add(
+                lowerVaultSection.querySelectorAll(".vault-asset-card-reveal"),
+                {
+                  opacity: [0, 1],
+                  y: [14, 0],
+                  filter: ["blur(7px)", "blur(0px)"],
+                  delay: stagger(64),
+                  duration: 540,
+                },
+                "-=280",
+              )
+              .add(
+                lowerVaultSection.querySelectorAll(".vault-ledger-panel"),
+                {
+                  opacity: [0, 1],
+                  x: [16, 0],
+                  filter: ["blur(7px)", "blur(0px)"],
+                  duration: 560,
+                },
+                "-=560",
+              )
+              .add(
+                lowerVaultSection.querySelectorAll(".vault-ledger-row"),
+                {
+                  opacity: [0, 1],
+                  y: [10, 0],
+                  delay: stagger(58),
+                  duration: 460,
+                },
+                "-=320",
+              )
+              .add(
+                lowerVaultSection.querySelectorAll(".vault-control-panel"),
+                {
+                  opacity: [0, 1],
+                  y: [12, 0],
+                  filter: ["blur(6px)", "blur(0px)"],
+                  duration: 520,
+                },
+                "-=260",
+              )
+              .add(
+                lowerVaultSection.querySelectorAll(".vault-control-action"),
+                {
+                  opacity: [0, 1],
+                  y: [8, 0],
+                  delay: stagger(58),
+                  duration: 420,
+                },
+                "-=300",
+              );
+
+            lowerVaultObserver?.disconnect();
+          },
+          { threshold: 0.18, rootMargin: "0px 0px -10% 0px" },
+        );
+
+        lowerVaultObserver.observe(lowerVaultSection);
+      }
     });
 
-    return () => scope.revert();
+    return () => {
+      lowerVaultObserver?.disconnect();
+      scope.revert();
+    };
   }, []);
 
   return (
