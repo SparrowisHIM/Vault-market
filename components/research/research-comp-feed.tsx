@@ -71,7 +71,7 @@ function SignalBar({
 
 export function ResearchCompFeed({ listings, maxAbsDelta }: ResearchCompFeedProps) {
   return (
-    <div className="overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] shadow-[var(--shadow-card)]">
+    <div className="research-comp-panel overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] shadow-[var(--shadow-card)] motion-safe:opacity-0">
       <div className="border-b border-white/10 bg-[linear-gradient(180deg,rgba(17,19,15,0.94)_0%,rgba(24,26,22,0.97)_100%)] px-4 py-4 text-vault-paper">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -101,7 +101,7 @@ export function ResearchCompFeed({ listings, maxAbsDelta }: ResearchCompFeedProp
             <article
               key={listing.id}
               className={cn(
-                "group relative overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-white/[0.46] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.68)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-white/72",
+                "research-comp-row group relative overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-white/[0.46] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.68)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-white/72 motion-safe:opacity-0",
                 isTopSignal && "border-[rgba(47,94,124,0.2)] p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.76),0_12px_32px_rgba(17,19,15,0.055)]",
                 index % 2 === 0 ? "research-comp-band-a" : "research-comp-band-b",
               )}

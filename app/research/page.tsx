@@ -278,7 +278,7 @@ export default function ResearchPage() {
           </div>
         </section>
 
-        <section className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(340px,0.78fr)]">
+        <section className="research-lower-section grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(340px,0.78fr)]">
           <ResearchCompFeed listings={recentComps} maxAbsDelta={maxAbsDelta} />
           <ResearchIntelligenceSidebar
             marketMovers={marketMovers}

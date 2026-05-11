@@ -17,6 +17,8 @@ export function ResearchPageMotion({ children }: ResearchPageMotionProps) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) return;
 
+    let lowerResearchObserver: IntersectionObserver | null = null;
+
     const scope = createScope({ root }).add(() => {
       const timeline = createTimeline({
         defaults: {
@@ -113,9 +115,76 @@ export function ResearchPageMotion({ children }: ResearchPageMotionProps) {
           },
           "-=160",
         );
+
+      const lowerResearchSection = root.querySelector<HTMLElement>(".research-lower-section");
+      if (lowerResearchSection) {
+        let hasPlayedLowerResearch = false;
+
+        lowerResearchObserver = new IntersectionObserver(
+          ([entry]) => {
+            if (!entry?.isIntersecting || hasPlayedLowerResearch) return;
+
+            hasPlayedLowerResearch = true;
+
+            const lowerTimeline = createTimeline({
+              defaults: {
+                ease: "outExpo",
+              },
+            });
+
+            lowerTimeline
+              .add(lowerResearchSection.querySelectorAll(".research-comp-panel"), {
+                opacity: [0, 1],
+                y: [16, 0],
+                filter: ["blur(8px)", "blur(0px)"],
+                duration: 600,
+              })
+              .add(
+                lowerResearchSection.querySelectorAll(".research-comp-row"),
+                {
+                  opacity: [0, 1],
+                  y: [14, 0],
+                  filter: ["blur(7px)", "blur(0px)"],
+                  delay: stagger(58),
+                  duration: 520,
+                },
+                "-=340",
+              )
+              .add(
+                lowerResearchSection.querySelectorAll(".research-sidebar-panel"),
+                {
+                  opacity: [0, 1],
+                  x: [16, 0],
+                  filter: ["blur(7px)", "blur(0px)"],
+                  delay: stagger(90),
+                  duration: 560,
+                },
+                "-=520",
+              )
+              .add(
+                lowerResearchSection.querySelectorAll(".research-sidebar-row"),
+                {
+                  opacity: [0, 1],
+                  y: [10, 0],
+                  delay: stagger(52),
+                  duration: 440,
+                },
+                "-=360",
+              );
+
+            lowerResearchObserver?.disconnect();
+          },
+          { threshold: 0.18, rootMargin: "0px 0px -10% 0px" },
+        );
+
+        lowerResearchObserver.observe(lowerResearchSection);
+      }
     });
 
-    return () => scope.revert();
+    return () => {
+      lowerResearchObserver?.disconnect();
+      scope.revert();
+    };
   }, []);
 
   return (
