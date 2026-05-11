@@ -11,6 +11,7 @@ import {
 import { ResearchCompFeed } from "@/components/research/research-comp-feed";
 import { ResearchConfidenceTile } from "@/components/research/research-confidence-tile";
 import { ResearchIntelligenceSidebar } from "@/components/research/research-intelligence-sidebar";
+import { ResearchPageMotion } from "@/components/research/research-page-motion";
 import { ResearchTicker } from "@/components/research/research-ticker";
 import { formatCurrency, formatPopulation } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
@@ -96,24 +97,26 @@ const confidenceArcSignals = [
   },
 ];
 
+const researchTitleWords = "Market context before a collector opens the slab".split(" ");
+
 export default function ResearchPage() {
   return (
     <main className="min-h-screen px-4 py-5 sm:px-6 lg:px-8">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
-        <section className="overflow-hidden rounded-[12px] border border-[rgba(17,19,15,0.22)] shadow-[0_22px_70px_rgba(17,19,15,0.14)]">
+      <ResearchPageMotion>
+        <section className="research-terminal-shell overflow-hidden rounded-[12px] border border-[rgba(17,19,15,0.22)] shadow-[0_22px_70px_rgba(17,19,15,0.14)] motion-safe:opacity-0">
           <div className="research-terminal relative overflow-hidden bg-[linear-gradient(135deg,rgba(13,15,12,0.98)_0%,rgba(24,28,23,0.99)_48%,rgba(12,14,11,0.98)_100%)] text-vault-paper">
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(244,241,233,0.035)_1px,transparent_1px),linear-gradient(rgba(244,241,233,0.028)_1px,transparent_1px)] bg-[length:42px_42px]" />
             <div className="research-terminal-sweep pointer-events-none absolute inset-0" />
             <div className="relative grid gap-5 p-4 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.46fr)] lg:items-stretch">
               <div className="grid min-h-[25rem] gap-5 rounded-[10px] border border-white/10 bg-black/10 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5">
+                  <div className="research-terminal-kicker inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 motion-safe:opacity-0">
                     <Radio className="h-4 w-4 text-[#82c7a9]" aria-hidden="true" />
                     <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-vault-paper/62">
                       Signal terminal / RV-1
                     </span>
                   </div>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-[rgba(130,199,169,0.22)] bg-[rgba(47,113,88,0.1)] px-3 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#a7ddc4]">
+                  <span className="research-terminal-kicker inline-flex items-center gap-2 rounded-full border border-[rgba(130,199,169,0.22)] bg-[rgba(47,113,88,0.1)] px-3 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#a7ddc4] motion-safe:opacity-0">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#82c7a9] shadow-[0_0_16px_rgba(130,199,169,0.8)]" />
                     Feed aligned
                   </span>
@@ -122,14 +125,19 @@ export default function ResearchPage() {
                 <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px] lg:items-end">
                   <div>
                     <h1 className="max-w-3xl text-3xl font-semibold leading-[1.03] text-vault-paper sm:text-5xl">
-                      Market context before a collector opens the slab
+                      {researchTitleWords.map((word, index) => (
+                        <span key={`${word}-${index}`} className="research-title-word inline-block motion-safe:opacity-0">
+                          {word}
+                          {index < researchTitleWords.length - 1 ? "\u00a0" : ""}
+                        </span>
+                      ))}
                     </h1>
-                    <p className="mt-4 max-w-2xl text-sm leading-relaxed text-vault-paper/64 sm:text-[0.95rem]">
+                    <p className="research-terminal-copy mt-4 max-w-2xl text-sm leading-relaxed text-vault-paper/64 motion-safe:opacity-0 sm:text-[0.95rem]">
                       A focused readout of asking prices, last comps, rarity, custody status,
                       and momentum signals using the current marketplace listings.
                     </p>
                   </div>
-                  <div className="grid gap-3 rounded-[9px] border border-white/10 bg-white/[0.045] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+                  <div className="research-confidence-panel grid gap-3 rounded-[9px] border border-white/10 bg-white/[0.045] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] motion-safe:opacity-0">
                     <div className="flex items-center justify-between gap-3">
                       <span className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
                         Confidence arc
@@ -158,7 +166,7 @@ export default function ResearchPage() {
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="research-hero-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Lead ask
                     </p>
@@ -167,7 +175,7 @@ export default function ResearchPage() {
                     </p>
                     <p className="mt-1 truncate text-xs text-vault-paper/50">{highestValue.title}</p>
                   </div>
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="research-hero-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Net signal
                     </p>
@@ -176,7 +184,7 @@ export default function ResearchPage() {
                     </p>
                     <p className="mt-1 truncate text-xs text-vault-paper/50">{strongestSignal.title}</p>
                   </div>
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="research-hero-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Rarity anchor
                     </p>
@@ -188,7 +196,7 @@ export default function ResearchPage() {
                 </div>
               </div>
 
-              <div className="grid gap-3 rounded-[10px] border border-white/10 bg-white/[0.045] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+              <div className="research-scan-panel grid gap-3 rounded-[10px] border border-white/10 bg-white/[0.045] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] motion-safe:opacity-0">
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
@@ -206,7 +214,7 @@ export default function ResearchPage() {
                   {marketMovers.slice(0, 4).map((listing, index) => (
                     <div
                       key={listing.id}
-                      className="grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-[8px] border border-white/10 bg-black/[0.12] p-2.5"
+                      className="research-scan-row grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-[8px] border border-white/10 bg-black/[0.12] p-2.5 motion-safe:opacity-0"
                     >
                       <span className="grid h-7 w-7 place-items-center rounded-[6px] border border-white/10 bg-white/[0.055] font-mono text-[0.62rem] font-semibold text-vault-paper/54">
                         {String(index + 1).padStart(2, "0")}
@@ -232,34 +240,42 @@ export default function ResearchPage() {
         </section>
 
         <section aria-label="Research summary" className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          <ResearchConfidenceTile
-            icon={BarChart3}
-            label="Ask book"
-            value={formatCurrency(totalAskBook)}
-            detail={`${mockListings.length} graded card listings in the current market set.`}
-            bandPercent={bandAskBook}
-          />
-          <ResearchConfidenceTile
-            icon={Activity}
-            label="Average signal"
-            value={formatSignedPercent(averageDelta)}
-            detail={`Strongest current read: ${strongestSignal.title}.`}
-            bandPercent={bandAverageSignal}
-          />
-          <ResearchConfidenceTile
-            icon={Gem}
-            label="Top ask"
-            value={formatCurrency(highestValue.priceCents)}
-            detail={`${highestValue.title} leads the premium desk inventory.`}
-            bandPercent={bandTopAsk}
-          />
-          <ResearchConfidenceTile
-            icon={Gauge}
-            label="Rarest pop"
-            value={formatPopulation(lowestPopulation.population)}
-            detail={`${lowestPopulation.title} has the lowest listed population count.`}
-            bandPercent={bandRarestPop}
-          />
+          <div className="research-summary-card motion-safe:opacity-0">
+            <ResearchConfidenceTile
+              icon={BarChart3}
+              label="Ask book"
+              value={formatCurrency(totalAskBook)}
+              detail={`${mockListings.length} graded card listings in the current market set.`}
+              bandPercent={bandAskBook}
+            />
+          </div>
+          <div className="research-summary-card motion-safe:opacity-0">
+            <ResearchConfidenceTile
+              icon={Activity}
+              label="Average signal"
+              value={formatSignedPercent(averageDelta)}
+              detail={`Strongest current read: ${strongestSignal.title}.`}
+              bandPercent={bandAverageSignal}
+            />
+          </div>
+          <div className="research-summary-card motion-safe:opacity-0">
+            <ResearchConfidenceTile
+              icon={Gem}
+              label="Top ask"
+              value={formatCurrency(highestValue.priceCents)}
+              detail={`${highestValue.title} leads the premium desk inventory.`}
+              bandPercent={bandTopAsk}
+            />
+          </div>
+          <div className="research-summary-card motion-safe:opacity-0">
+            <ResearchConfidenceTile
+              icon={Gauge}
+              label="Rarest pop"
+              value={formatPopulation(lowestPopulation.population)}
+              detail={`${lowestPopulation.title} has the lowest listed population count.`}
+              bandPercent={bandRarestPop}
+            />
+          </div>
         </section>
 
         <section className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(340px,0.78fr)]">
@@ -272,7 +288,7 @@ export default function ResearchPage() {
             maxPop={rarityMaxPop}
           />
         </section>
-      </div>
+      </ResearchPageMotion>
     </main>
   );
 }
