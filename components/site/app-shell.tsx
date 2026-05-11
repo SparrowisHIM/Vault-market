@@ -68,13 +68,13 @@ export function AppShell({ children }: AppShellProps) {
       >
         Skip to content
       </a>
-      <header className="sticky top-0 z-40 border-b border-[var(--border-soft)] bg-[rgba(235,230,220,0.86)] backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-[var(--border-soft)] bg-[rgba(235,230,220,0.82)] backdrop-blur-xl">
         <div
           ref={progressRef}
           className="pointer-events-none absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-[linear-gradient(90deg,var(--vault-registry),var(--vault-amber),var(--vault-verified))] opacity-0"
           aria-hidden="true"
         />
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6 lg:px-8">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:gap-5 lg:px-8 lg:py-2.5">
           <div className="flex items-center justify-between gap-3">
             <Link
               href="/"
@@ -94,14 +94,14 @@ export function AppShell({ children }: AppShellProps) {
               </span>
             </Link>
 
-            <div className="hidden items-center gap-2 lg:flex">
+            <div className="hidden items-center gap-2 xl:flex">
               <span className="rounded-full border border-[var(--border-soft)] bg-white/44 px-3 py-1.5 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
                 Graded cards live
               </span>
             </div>
           </div>
 
-          <nav aria-label="Primary navigation" className="-mx-1 overflow-x-auto pb-1">
+          <nav aria-label="Primary navigation" className="-mx-1 overflow-x-auto pb-1 lg:mx-0 lg:pb-0">
             <ul className="flex min-w-max items-center gap-2 px-1">
               <li>
                 <Link

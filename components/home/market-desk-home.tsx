@@ -27,18 +27,14 @@ type HeroStackPosition = {
 
 const heroStackLayouts: Record<HeroStackLayout, HeroStackPosition[]> = {
   clustered: [
-    { x: "0px", y: "0px", rotate: 0, zIndex: 40 },
-    { x: "clamp(-86px,-7vw,-54px)", y: "clamp(4px,1vw,10px)", rotate: -8, zIndex: 30 },
-    { x: "clamp(54px,7vw,86px)", y: "clamp(4px,1vw,10px)", rotate: 8, zIndex: 20 },
-    { x: "clamp(-148px,-11vw,-96px)", y: "clamp(16px,2vw,28px)", rotate: -15, zIndex: 10 },
-    { x: "clamp(96px,11vw,148px)", y: "clamp(16px,2vw,28px)", rotate: 15, zIndex: 0 },
+    { x: "0px", y: "-4px", rotate: 0, zIndex: 40 },
+    { x: "clamp(-118px,-9vw,-72px)", y: "clamp(12px,2vw,24px)", rotate: -10, zIndex: 24 },
+    { x: "clamp(72px,9vw,118px)", y: "clamp(12px,2vw,24px)", rotate: 10, zIndex: 18 },
   ],
   spread: [
-    { x: "0px", y: "-2px", rotate: 0, zIndex: 40 },
-    { x: "clamp(-206px,-14vw,-112px)", y: "clamp(4px,1.5vw,18px)", rotate: -16, zIndex: 30 },
-    { x: "clamp(112px,14vw,206px)", y: "clamp(4px,1.5vw,18px)", rotate: 16, zIndex: 20 },
-    { x: "clamp(-350px,-23vw,-188px)", y: "clamp(26px,4vw,58px)", rotate: -30, zIndex: 10 },
-    { x: "clamp(188px,23vw,350px)", y: "clamp(26px,4vw,58px)", rotate: 30, zIndex: 0 },
+    { x: "0px", y: "-8px", rotate: 0, zIndex: 40 },
+    { x: "clamp(-214px,-15vw,-122px)", y: "clamp(14px,2.5vw,32px)", rotate: -16, zIndex: 24 },
+    { x: "clamp(122px,15vw,214px)", y: "clamp(14px,2.5vw,32px)", rotate: 16, zIndex: 18 },
   ],
 };
 
@@ -87,8 +83,6 @@ export function MarketDeskHome() {
       "2021-pokemon-umbreon-vmax-alt-art-psa-10",
       "1999-pokemon-base-charizard-psa-9",
       "2000-pokemon-neo-genesis-lugia-holo-psa-9",
-      "2002-yugioh-blue-eyes-white-dragon-psa-9",
-      "2003-pokemon-skyridge-crystal-ho-oh-psa-10",
     ];
 
     return heroSlugs
@@ -182,8 +176,8 @@ export function MarketDeskHome() {
           <div className="signal-node absolute bottom-[18%] left-[41%] h-2 w-2 rounded-full bg-vault-verified" />
         </div>
 
-        <div className="mx-auto grid min-h-[calc(100svh-166px)] w-full max-w-[94rem] gap-8 lg:grid-cols-[minmax(0,0.76fr)_minmax(560px,0.86fr)] lg:items-center">
-          <div className="desk-reveal flex flex-col gap-6">
+        <div className="mx-auto grid min-h-[calc(100svh-166px)] w-full max-w-[92rem] gap-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(520px,0.88fr)] lg:items-center">
+          <div className="desk-reveal flex flex-col gap-5">
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(17,19,15,0.16)] bg-white/42 px-3 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
               <Sparkles className="h-4 w-4 text-vault-registry" aria-hidden="true" />
               <span className="font-mono text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
@@ -192,17 +186,17 @@ export function MarketDeskHome() {
             </div>
 
             <div>
-              <h1 className="max-w-4xl text-[clamp(3.25rem,8vw,7.1rem)] font-semibold leading-[0.86] tracking-normal text-vault-ink">
-                Built for the slabs worth slowing down for.
+              <h1 className="max-w-[45rem] text-[clamp(3.2rem,6.45vw,6.35rem)] font-semibold leading-[0.92] tracking-normal text-vault-ink">
+                Built for slabs worth a slower look.
               </h1>
-              <p className="mt-6 max-w-2xl text-base leading-7 text-vault-steel sm:text-lg">
+              <p className="mt-5 max-w-[39rem] text-base leading-7 text-vault-steel sm:text-lg">
                 VaultMarket is a trust-first market desk for graded cards where
                 collectors inspect, compare, and route exceptional slabs through
                 specialist review.
               </p>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-[auto_auto_1fr] sm:items-center">
+            <div className="grid max-w-[39rem] gap-3 sm:grid-cols-[auto_auto_1fr] sm:items-center">
               <Link
                 href="/marketplace"
                 className="group inline-flex h-12 items-center justify-center gap-2 rounded-[7px] border border-vault-graphite bg-vault-ink px-5 text-sm font-semibold text-vault-paper shadow-[0_18px_44px_rgba(17,19,15,0.22)] transition duration-200 hover:-translate-y-0.5 hover:bg-vault-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
@@ -217,19 +211,18 @@ export function MarketDeskHome() {
                 Private desk access
                 <Landmark className="h-4 w-4" aria-hidden="true" />
               </Link>
-              <div className="hidden h-px bg-[linear-gradient(90deg,rgba(17,19,15,0.22),transparent)] sm:block" />
+              <div className="hidden h-px bg-[linear-gradient(90deg,rgba(17,19,15,0.16),transparent)] sm:block" />
             </div>
 
-            <div className="desk-reveal grid max-w-2xl gap-2 sm:grid-cols-4">
+            <div className="desk-reveal grid max-w-[39rem] gap-2 sm:grid-cols-3">
               {[
                 "Cert-backed",
                 "Market signal",
-                "Seller trust",
                 "Specialist review",
               ].map((label) => (
                 <div
                   key={label}
-                  className="rounded-[8px] border border-[rgba(47,94,124,0.16)] bg-[rgba(255,255,255,0.48)] px-3 py-2.5 text-center font-mono text-[0.65rem] font-bold uppercase tracking-[0.12em] text-vault-graphite shadow-[0_12px_28px_rgba(47,94,124,0.055),inset_0_1px_0_rgba(255,255,255,0.72)]"
+                  className="rounded-[8px] border border-[rgba(47,94,124,0.13)] bg-[rgba(255,255,255,0.38)] px-3 py-2.5 text-center font-mono text-[0.64rem] font-bold uppercase tracking-[0.12em] text-vault-graphite shadow-[inset_0_1px_0_rgba(255,255,255,0.68)]"
                 >
                   {label}
                 </div>
@@ -239,7 +232,7 @@ export function MarketDeskHome() {
 
           <div className="desk-reveal">
             <div
-              className="hero-slab-motion relative mx-auto h-[500px] max-w-[760px] cursor-pointer overflow-visible rounded-[24px] transition-transform duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:h-[590px] lg:h-[640px]"
+              className="hero-slab-motion relative mx-auto h-[500px] max-w-[720px] cursor-pointer overflow-visible rounded-[24px] transition-transform duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:h-[590px] lg:h-[620px]"
               style={tiltStyle}
               onPointerMove={handlePointerMove}
               onPointerLeave={() => setTiltStyle({ transform: "perspective(1100px)" })}
@@ -254,16 +247,15 @@ export function MarketDeskHome() {
               aria-label={`${stackLayout === "clustered" ? "Open" : "Close"} the graded slab stack`}
               aria-pressed={stackLayout === "spread"}
             >
-              <div className="hero-inspection-frame pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[78%] w-[86%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[28px] border border-[rgba(47,94,124,0.18)] bg-[linear-gradient(145deg,rgba(249,248,243,0.18),rgba(255,255,255,0.06)_42%,rgba(47,94,124,0.075))] shadow-[inset_0_1px_0_rgba(255,255,255,0.42),0_28px_90px_rgba(47,94,124,0.12)]" aria-hidden="true">
-                <div className="absolute inset-5 rounded-[22px] border border-[rgba(47,94,124,0.12)]" />
-                <div className="absolute inset-x-12 top-1/2 h-px bg-[linear-gradient(90deg,transparent,rgba(47,94,124,0.25),transparent)]" />
-                <div className="absolute inset-y-12 left-1/2 w-px bg-[linear-gradient(180deg,transparent,rgba(47,94,124,0.18),transparent)]" />
-                <div className="hero-inspection-sweep absolute inset-y-[-20%] left-[-32%] w-[34%] rotate-12 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.34),rgba(155,194,220,0.16),transparent)] opacity-0" />
+              <div className="hero-inspection-frame pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[70%] w-[76%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[26px] border border-[rgba(47,94,124,0.12)] bg-[linear-gradient(145deg,rgba(249,248,243,0.14),rgba(255,255,255,0.04)_48%,rgba(47,94,124,0.05))] shadow-[inset_0_1px_0_rgba(255,255,255,0.34),0_22px_72px_rgba(47,94,124,0.08)]" aria-hidden="true">
+                <div className="absolute inset-6 rounded-[20px] border border-[rgba(47,94,124,0.08)]" />
+                <div className="absolute inset-x-16 top-1/2 h-px bg-[linear-gradient(90deg,transparent,rgba(47,94,124,0.16),transparent)]" />
+                <div className="hero-inspection-sweep absolute inset-y-[-20%] left-[-32%] w-[28%] rotate-12 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.26),rgba(155,194,220,0.1),transparent)] opacity-0" />
               </div>
-              <div className="absolute left-1/2 top-1/2 -z-10 h-[72%] w-[84%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.5),rgba(111,158,172,0.16)_36%,rgba(166,111,31,0.1)_58%,transparent_74%)] blur-2xl" aria-hidden="true" />
-              <div className="absolute inset-x-8 bottom-[2.4rem] -z-10 h-28 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(17,19,15,0.32),rgba(17,19,15,0.15)_42%,transparent_72%)] blur-xl" aria-hidden="true" />
-              <div className="absolute inset-x-16 bottom-[4.7rem] -z-10 h-px bg-[linear-gradient(90deg,transparent,rgba(17,19,15,0.22),transparent)]" aria-hidden="true" />
-              <div className="pointer-events-none absolute left-[52%] top-[16%] z-50 hidden -translate-x-1/2 rounded-[9px] border border-[rgba(47,94,124,0.22)] bg-[rgba(249,248,243,0.84)] px-3 py-2 text-vault-ink shadow-[0_18px_42px_rgba(17,19,15,0.14),inset_0_1px_0_rgba(255,255,255,0.78)] backdrop-blur-md sm:block">
+              <div className="absolute left-1/2 top-1/2 -z-10 h-[62%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.46),rgba(111,158,172,0.12)_38%,rgba(166,111,31,0.06)_58%,transparent_74%)] blur-2xl" aria-hidden="true" />
+              <div className="absolute inset-x-12 bottom-[3.1rem] -z-10 h-24 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(17,19,15,0.26),rgba(17,19,15,0.1)_44%,transparent_72%)] blur-xl" aria-hidden="true" />
+              <div className="absolute inset-x-20 bottom-[5.2rem] -z-10 h-px bg-[linear-gradient(90deg,transparent,rgba(17,19,15,0.16),transparent)]" aria-hidden="true" />
+              <div className="pointer-events-none absolute left-[52%] top-[17%] z-50 hidden -translate-x-1/2 rounded-[9px] border border-[rgba(47,94,124,0.18)] bg-[rgba(249,248,243,0.88)] px-3 py-2 text-vault-ink shadow-[0_14px_34px_rgba(17,19,15,0.1),inset_0_1px_0_rgba(255,255,255,0.78)] backdrop-blur-md sm:block">
                 <span className="block font-mono text-[0.58rem] font-bold uppercase tracking-[0.16em] text-vault-registry">
                   Active slab
                 </span>
@@ -278,7 +270,7 @@ export function MarketDeskHome() {
                   <div
                     key={listing.id}
                     className={cn(
-                      "hero-stack-card absolute left-1/2 top-[49%] block w-[clamp(214px,31vw,330px)] rounded-[18px] border border-[rgba(17,19,15,0.26)] bg-[rgba(249,248,243,0.94)] p-2 shadow-[0_38px_90px_rgba(17,19,15,0.34),inset_0_2px_0_rgba(255,255,255,0.72)] will-change-transform",
+                      "hero-stack-card absolute left-1/2 top-[49%] block w-[clamp(224px,30vw,326px)] rounded-[18px] border border-[rgba(17,19,15,0.22)] bg-[rgba(249,248,243,0.95)] p-2 shadow-[0_34px_78px_rgba(17,19,15,0.28),inset_0_2px_0_rgba(255,255,255,0.72)] will-change-transform",
                       index === 0 && "front-slab-focus",
                       shouldReduceMotion ? "" : "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
                     )}
