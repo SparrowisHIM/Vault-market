@@ -176,7 +176,7 @@ export function MarketDeskHome() {
           ".hero-frame-reveal",
           {
             opacity: [0, 1],
-            scale: [0.96, 1],
+            filter: ["blur(6px)", "blur(0px)"],
             duration: 700,
           },
           "-=920",
@@ -186,11 +186,19 @@ export function MarketDeskHome() {
           {
             opacity: [0, 1],
             filter: ["blur(7px)", "blur(0px)"],
-            scale: [0.94, 1],
             delay: stagger(92),
             duration: 720,
           },
           "-=620",
+        )
+        .add(
+          ".hero-stack-card-art",
+          {
+            scale: [0.965, 1],
+            delay: stagger(92),
+            duration: 680,
+          },
+          "<",
         )
         .add(
           ".hero-tape-reveal",
@@ -247,7 +255,7 @@ export function MarketDeskHome() {
 
         <div className="mx-auto grid w-full max-w-[92rem] gap-8 lg:min-h-[calc(100svh-154px)] lg:grid-cols-[minmax(0,0.72fr)_minmax(520px,0.88fr)] lg:items-center">
           <div className="desk-reveal flex flex-col gap-5">
-            <div className="hero-eyebrow inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(17,19,15,0.16)] bg-white/42 px-3 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
+            <div className="hero-eyebrow inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(17,19,15,0.16)] bg-white/42 px-3 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] motion-safe:opacity-0">
               <Sparkles className="h-4 w-4 text-vault-registry" aria-hidden="true" />
               <span className="font-mono text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
                 Cert-backed collector desk
@@ -257,13 +265,13 @@ export function MarketDeskHome() {
             <div>
               <h1 className="max-w-[45rem] text-[clamp(3.05rem,5.7vw,5.55rem)] font-semibold leading-[0.96] tracking-normal text-vault-ink">
                 {heroHeadlineWords.map((word, index) => (
-                  <span key={`${word}-${index}`} className="hero-headline-word inline-block will-change-transform">
+                  <span key={`${word}-${index}`} className="hero-headline-word inline-block will-change-transform motion-safe:opacity-0">
                     {word}
                     {index < heroHeadlineWords.length - 1 ? "\u00a0" : ""}
                   </span>
                 ))}
               </h1>
-              <p className="hero-support-copy mt-5 max-w-[39rem] text-base leading-7 text-vault-steel sm:text-lg">
+              <p className="hero-support-copy mt-5 max-w-[39rem] text-base leading-7 text-vault-steel motion-safe:opacity-0 sm:text-lg">
                 VaultMarket is a trust-first market desk for graded cards where
                 collectors inspect, compare, and route exceptional slabs through
                 specialist review.
@@ -273,19 +281,19 @@ export function MarketDeskHome() {
             <div className="hero-cta-row grid max-w-[39rem] gap-3 sm:grid-cols-[auto_auto_1fr] sm:items-center">
               <Link
                 href="/marketplace"
-                className="group inline-flex h-12 items-center justify-center gap-2 rounded-[7px] border border-vault-graphite bg-vault-ink px-5 text-sm font-semibold text-vault-paper shadow-[0_18px_44px_rgba(17,19,15,0.22)] transition duration-200 hover:-translate-y-0.5 hover:bg-vault-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
+                className="group inline-flex h-12 items-center justify-center gap-2 rounded-[7px] border border-vault-graphite bg-vault-ink px-5 text-sm font-semibold text-vault-paper shadow-[0_18px_44px_rgba(17,19,15,0.22)] transition duration-200 hover:-translate-y-0.5 hover:bg-vault-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] motion-safe:opacity-0"
               >
                 Browse graded cards
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" aria-hidden="true" />
               </Link>
               <Link
                 href="/private-desk"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-[7px] border border-[var(--border-soft)] bg-white/46 px-5 text-sm font-semibold text-vault-graphite transition duration-200 hover:-translate-y-0.5 hover:bg-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-[7px] border border-[var(--border-soft)] bg-white/46 px-5 text-sm font-semibold text-vault-graphite transition duration-200 hover:-translate-y-0.5 hover:bg-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] motion-safe:opacity-0"
               >
                 Private desk access
                 <Landmark className="h-4 w-4" aria-hidden="true" />
               </Link>
-              <div className="hidden h-px bg-[linear-gradient(90deg,rgba(17,19,15,0.16),transparent)] sm:block" />
+              <div className="hidden h-px bg-[linear-gradient(90deg,rgba(17,19,15,0.16),transparent)] motion-safe:opacity-0 sm:block" />
             </div>
 
             <div className="desk-reveal flex max-w-[39rem] flex-wrap items-center gap-x-4 gap-y-2 border-y border-[rgba(17,19,15,0.08)] py-3">
@@ -296,7 +304,7 @@ export function MarketDeskHome() {
               ].map((label) => (
                 <span
                   key={label}
-                  className="hero-proof-item font-mono text-[0.64rem] font-bold uppercase tracking-[0.16em] text-vault-graphite"
+                  className="hero-proof-item font-mono text-[0.64rem] font-bold uppercase tracking-[0.16em] text-vault-graphite motion-safe:opacity-0"
                 >
                   {label}
                 </span>
@@ -321,7 +329,7 @@ export function MarketDeskHome() {
               aria-label={`${stackLayout === "clustered" ? "Open" : "Close"} the graded slab stack`}
               aria-pressed={stackLayout === "spread"}
             >
-              <div className="hero-frame-reveal hero-inspection-frame pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[72%] w-[78%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[26px] border border-[rgba(47,94,124,0.12)] bg-[linear-gradient(145deg,rgba(249,248,243,0.14),rgba(255,255,255,0.04)_48%,rgba(47,94,124,0.05))] shadow-[inset_0_1px_0_rgba(255,255,255,0.34),0_22px_72px_rgba(47,94,124,0.08)]" aria-hidden="true">
+              <div className="hero-frame-reveal hero-inspection-frame pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[72%] w-[78%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[26px] border border-[rgba(47,94,124,0.12)] bg-[linear-gradient(145deg,rgba(249,248,243,0.14),rgba(255,255,255,0.04)_48%,rgba(47,94,124,0.05))] shadow-[inset_0_1px_0_rgba(255,255,255,0.34),0_22px_72px_rgba(47,94,124,0.08)] motion-safe:opacity-0" aria-hidden="true">
                 <div className="absolute inset-6 rounded-[20px] border border-[rgba(47,94,124,0.08)]" />
                 <div className="absolute inset-x-16 top-1/2 h-px bg-[linear-gradient(90deg,transparent,rgba(47,94,124,0.16),transparent)]" />
                 <div className="hero-inspection-sweep absolute inset-y-[-20%] left-[-32%] w-[28%] rotate-12 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.26),rgba(155,194,220,0.1),transparent)] opacity-0" />
@@ -335,7 +343,7 @@ export function MarketDeskHome() {
                   <div
                     key={listing.id}
                     className={cn(
-                      "hero-stack-card absolute left-1/2 top-[49%] block w-[clamp(214px,28vw,300px)] rounded-[18px] drop-shadow-[0_32px_40px_rgba(17,19,15,0.28)] will-change-transform",
+                      "hero-stack-card absolute left-1/2 top-[49%] block w-[clamp(214px,28vw,300px)] rounded-[18px] drop-shadow-[0_32px_40px_rgba(17,19,15,0.28)] will-change-[opacity,filter] motion-safe:opacity-0",
                       shouldReduceMotion ? "" : "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
                     )}
                     style={{
@@ -344,7 +352,7 @@ export function MarketDeskHome() {
                     }}
                     aria-label={listing.title}
                   >
-                    <div className="relative aspect-[5/7] overflow-hidden rounded-[14px]">
+                    <div className="hero-stack-card-art relative aspect-[5/7] overflow-hidden rounded-[14px] will-change-transform">
                       <SlabArtImage
                         image={listing.image}
                         sizes="(min-width: 1024px) 300px, 72vw"
@@ -360,7 +368,7 @@ export function MarketDeskHome() {
         </div>
       </section>
 
-      <section aria-label="Market tape" className="hero-tape-reveal relative z-10 border-y border-[rgba(244,241,233,0.08)] bg-vault-ink py-3 text-vault-paper shadow-[0_-18px_48px_rgba(17,19,15,0.08)]">
+      <section aria-label="Market tape" className="hero-tape-reveal relative z-10 border-y border-[rgba(244,241,233,0.08)] bg-vault-ink py-3 text-vault-paper shadow-[0_-18px_48px_rgba(17,19,15,0.08)] motion-safe:opacity-0">
         <div className="vault-tape-track flex gap-3 whitespace-nowrap">
           {[...tapeItems, ...tapeItems].map((item, index) => (
             <div
