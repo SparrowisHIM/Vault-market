@@ -265,26 +265,26 @@ export default async function ListingDetailPage({
 
             <section
               aria-labelledby="vault-verification-heading"
-              className="rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)]"
+              className="detail-scroll-section rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)] motion-safe:opacity-0"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <h2
                     id="vault-verification-heading"
-                    className="text-lg font-semibold text-vault-ink"
+                    className="detail-scroll-copy text-lg font-semibold text-vault-ink motion-safe:opacity-0"
                   >
                     Vault & verification
                   </h2>
-                  <p className="mt-1 text-sm text-vault-steel">
+                  <p className="detail-scroll-copy mt-1 text-sm text-vault-steel motion-safe:opacity-0">
                     Custody, review state, and presentation signals for this lot.
                   </p>
                 </div>
-                <p className="rounded-[6px] border border-[var(--border-soft)] bg-white/42 px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-vault-graphite">
+                <p className="detail-scroll-card rounded-[6px] border border-[var(--border-soft)] bg-white/42 px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-vault-graphite motion-safe:opacity-0">
                   {getEyeAppealLabel(listing.eyeAppeal)}
                 </p>
               </div>
 
-              <div className="mt-4 rounded-[9px] border border-[var(--border-soft)] bg-[rgba(17,19,15,0.88)] p-3 text-vault-paper shadow-[0_18px_44px_rgba(17,19,15,0.14)]">
+              <div className="detail-scroll-card mt-4 rounded-[9px] border border-[var(--border-soft)] bg-[rgba(17,19,15,0.88)] p-3 text-vault-paper shadow-[0_18px_44px_rgba(17,19,15,0.14)] motion-safe:opacity-0">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/50">
@@ -305,7 +305,7 @@ export default async function ListingDetailPage({
                   ].map(([step, label, value]) => (
                     <div
                       key={label}
-                      className="rounded-[7px] border border-white/10 bg-white/[0.055] p-2.5"
+                      className="detail-scroll-card rounded-[7px] border border-white/10 bg-white/[0.055] p-2.5 motion-safe:opacity-0"
                     >
                       <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/42">
                         {step} / {label}
@@ -319,19 +319,19 @@ export default async function ListingDetailPage({
               </div>
 
               <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                <div className="rounded-[7px] border border-[var(--border-soft)] bg-white/40 p-3">
+                <div className="detail-scroll-card rounded-[7px] border border-[var(--border-soft)] bg-white/40 p-3 motion-safe:opacity-0">
                   <Warehouse className="h-4 w-4 text-vault-registry" aria-hidden="true" />
                   <p className="mt-2 text-sm font-semibold text-vault-graphite">
                     {getVaultStatusLabel(listing.vaultStatus)}
                   </p>
                 </div>
-                <div className="rounded-[7px] border border-[var(--border-soft)] bg-white/40 p-3">
+                <div className="detail-scroll-card rounded-[7px] border border-[var(--border-soft)] bg-white/40 p-3 motion-safe:opacity-0">
                   <ClipboardCheck className="h-4 w-4 text-vault-verified" aria-hidden="true" />
                   <p className="mt-2 text-sm font-semibold text-vault-graphite">
                     {getVerificationStatusLabel(listing.verificationStatus)}
                   </p>
                 </div>
-                <div className="rounded-[7px] border border-[var(--border-soft)] bg-white/40 p-3">
+                <div className="detail-scroll-card rounded-[7px] border border-[var(--border-soft)] bg-white/40 p-3 motion-safe:opacity-0">
                   <BadgeCheck className="h-4 w-4 text-vault-amber" aria-hidden="true" />
                   <p className="mt-2 text-sm font-semibold text-vault-graphite">
                     {listing.inspectionHighlights.length} inspection notes
@@ -341,7 +341,7 @@ export default async function ListingDetailPage({
 
               <div className="mt-4 grid gap-3 lg:grid-cols-[0.95fr_1.05fr]">
                 {listing.provenanceNotes && (
-                  <div className="rounded-[7px] border border-[var(--border-soft)] bg-white/36 p-3">
+                  <div className="detail-scroll-card rounded-[7px] border border-[var(--border-soft)] bg-white/36 p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
                       Provenance notes
                     </p>
@@ -350,7 +350,7 @@ export default async function ListingDetailPage({
                     </p>
                   </div>
                 )}
-                <div className="rounded-[7px] border border-[var(--border-soft)] bg-white/36 p-3">
+                <div className="detail-scroll-card rounded-[7px] border border-[var(--border-soft)] bg-white/36 p-3 motion-safe:opacity-0">
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
                     Inspection highlights
                   </p>
@@ -368,36 +368,38 @@ export default async function ListingDetailPage({
 
             <section
               aria-labelledby="seller-trust-heading"
-              className="rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)]"
+              className="detail-scroll-section rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)] motion-safe:opacity-0"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <h2 id="seller-trust-heading" className="text-lg font-semibold text-vault-ink">
+                  <h2 id="seller-trust-heading" className="detail-scroll-copy text-lg font-semibold text-vault-ink motion-safe:opacity-0">
                     Seller trust
                   </h2>
-                  <p className="mt-1 text-sm text-vault-steel">
+                  <p className="detail-scroll-copy mt-1 text-sm text-vault-steel motion-safe:opacity-0">
                     {listing.seller.name} / {listing.seller.location}
                   </p>
                 </div>
-                <SellerTrustBadge
-                  tier={listing.seller.trustTier}
-                  completedSales={listing.seller.completedSales}
-                />
+                <span className="detail-scroll-card motion-safe:opacity-0">
+                  <SellerTrustBadge
+                    tier={listing.seller.trustTier}
+                    completedSales={listing.seller.completedSales}
+                  />
+                </span>
               </div>
               <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                <div className="rounded-[7px] border border-[var(--border-soft)] bg-white/40 p-3">
+                <div className="detail-scroll-card rounded-[7px] border border-[var(--border-soft)] bg-white/40 p-3 motion-safe:opacity-0">
                   <BadgeCheck className="h-4 w-4 text-vault-registry" aria-hidden="true" />
                   <p className="mt-2 text-sm font-semibold text-vault-graphite">
                     Cert visible
                   </p>
                 </div>
-                <div className="rounded-[7px] border border-[var(--border-soft)] bg-white/40 p-3">
+                <div className="detail-scroll-card rounded-[7px] border border-[var(--border-soft)] bg-white/40 p-3 motion-safe:opacity-0">
                   <ShieldCheck className="h-4 w-4 text-vault-verified" aria-hidden="true" />
                   <p className="mt-2 text-sm font-semibold text-vault-graphite">
                     Seller checked
                   </p>
                 </div>
-                <div className="rounded-[7px] border border-[var(--border-soft)] bg-white/40 p-3">
+                <div className="detail-scroll-card rounded-[7px] border border-[var(--border-soft)] bg-white/40 p-3 motion-safe:opacity-0">
                   <p className="font-mono text-xl font-semibold text-vault-ink">
                     {listing.seller.completedSales}
                   </p>
@@ -406,7 +408,7 @@ export default async function ListingDetailPage({
                   </p>
                 </div>
               </div>
-              <div className="mt-4 rounded-[9px] border border-[rgba(47,94,124,0.18)] bg-[linear-gradient(90deg,rgba(47,94,124,0.08),rgba(47,113,88,0.05))] p-3">
+              <div className="detail-scroll-card mt-4 rounded-[9px] border border-[rgba(47,94,124,0.18)] bg-[linear-gradient(90deg,rgba(47,94,124,0.08),rgba(47,113,88,0.05))] p-3 motion-safe:opacity-0">
                 <div className="flex items-start gap-3">
                   <ScanLine className="mt-0.5 h-5 w-5 shrink-0 text-vault-registry" aria-hidden="true" />
                   <div>
@@ -427,24 +429,25 @@ export default async function ListingDetailPage({
         {relatedListings.length > 0 && (
           <section
             aria-labelledby="related-listings-heading"
-            className="grid gap-3 border-t border-[var(--border-soft)] pt-5"
+            className="detail-scroll-section grid gap-3 border-t border-[var(--border-soft)] pt-5 motion-safe:opacity-0"
           >
             <div>
-              <h2 id="related-listings-heading" className="text-lg font-semibold text-vault-ink">
+              <h2 id="related-listings-heading" className="detail-scroll-copy text-lg font-semibold text-vault-ink motion-safe:opacity-0">
                 Related slabs
               </h2>
-              <p className="mt-1 text-sm text-vault-steel">
+              <p className="detail-scroll-copy mt-1 text-sm text-vault-steel motion-safe:opacity-0">
                 Same franchise or grader from the current market set.
               </p>
             </div>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
               {relatedListings.map((item) => (
-                <SlabCard
-                  key={item.id}
-                  listing={item}
-                  variant="compact"
-                  sourceHref={backTarget}
-                />
+                <div key={item.id} className="detail-scroll-card motion-safe:opacity-0">
+                  <SlabCard
+                    listing={item}
+                    variant="compact"
+                    sourceHref={backTarget}
+                  />
+                </div>
               ))}
             </div>
           </section>

@@ -17,6 +17,8 @@ export function ListingDetailMotion({ children }: ListingDetailMotionProps) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) return;
 
+    const scrollObservers: IntersectionObserver[] = [];
+
     const scope = createScope({ root }).add(() => {
       const timeline = createTimeline({
         defaults: {
@@ -99,9 +101,63 @@ export function ListingDetailMotion({ children }: ListingDetailMotionProps) {
           },
           "-=320",
         );
+
+      root.querySelectorAll<HTMLElement>(".detail-scroll-section").forEach((section) => {
+        let hasPlayed = false;
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (!entry?.isIntersecting || hasPlayed) return;
+            hasPlayed = true;
+
+            const sectionTimeline = createTimeline({
+              defaults: {
+                ease: "outExpo",
+              },
+            });
+
+            sectionTimeline
+              .add(section, {
+                opacity: [0, 1],
+                y: [18, 0],
+                filter: ["blur(8px)", "blur(0px)"],
+                duration: 620,
+              })
+              .add(
+                section.querySelectorAll(".detail-scroll-copy"),
+                {
+                  opacity: [0, 1],
+                  y: [8, 0],
+                  delay: stagger(45),
+                  duration: 420,
+                },
+                "-=360",
+              )
+              .add(
+                section.querySelectorAll(".detail-scroll-card"),
+                {
+                  opacity: [0, 1],
+                  y: [12, 0],
+                  filter: ["blur(6px)", "blur(0px)"],
+                  delay: stagger(62),
+                  duration: 500,
+                },
+                "-=260",
+              );
+
+            observer.disconnect();
+          },
+          { threshold: 0.24, rootMargin: "0px 0px -10% 0px" },
+        );
+
+        observer.observe(section);
+        scrollObservers.push(observer);
+      });
     });
 
-    return () => scope.revert();
+    return () => {
+      scrollObservers.forEach((observer) => observer.disconnect());
+      scope.revert();
+    };
   }, []);
 
   return (
