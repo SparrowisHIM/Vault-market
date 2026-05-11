@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { createScope, createTimeline, stagger } from "animejs";
+import { installContainerBoundMotion } from "@/lib/motion/container-bounds";
 
 type ListingDetailMotionProps = {
   children: React.ReactNode;
@@ -18,8 +19,11 @@ export function ListingDetailMotion({ children }: ListingDetailMotionProps) {
     if (reduceMotion) return;
 
     const scrollObservers: IntersectionObserver[] = [];
+    let cleanupContainerBounds: (() => void) | null = null;
 
     const scope = createScope({ root }).add(() => {
+      cleanupContainerBounds = installContainerBoundMotion(root);
+
       const timeline = createTimeline({
         defaults: {
           ease: "outExpo",
@@ -156,6 +160,7 @@ export function ListingDetailMotion({ children }: ListingDetailMotionProps) {
 
     return () => {
       scrollObservers.forEach((observer) => observer.disconnect());
+      cleanupContainerBounds?.();
       scope.revert();
     };
   }, []);

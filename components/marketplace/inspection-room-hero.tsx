@@ -17,6 +17,7 @@ import {
   getVerificationStatusLabel,
 } from "@/lib/marketplace/format";
 import type { VaultListing } from "@/lib/marketplace/types";
+import { installContainerBoundMotion } from "@/lib/motion/container-bounds";
 
 type InspectionRoomHeroProps = {
   listing: VaultListing;
@@ -37,7 +38,11 @@ export function InspectionRoomHero({ listing }: InspectionRoomHeroProps) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) return;
 
+    let cleanupContainerBounds: (() => void) | null = null;
+
     const scope = createScope({ root }).add(() => {
+      cleanupContainerBounds = installContainerBoundMotion(root);
+
       const timeline = createTimeline({
         defaults: {
           ease: "outExpo",
@@ -91,7 +96,10 @@ export function InspectionRoomHero({ listing }: InspectionRoomHeroProps) {
       });
     });
 
-    return () => scope.revert();
+    return () => {
+      cleanupContainerBounds?.();
+      scope.revert();
+    };
   }, []);
 
   function prefersReducedMotion() {

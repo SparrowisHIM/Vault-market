@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { createScope, createTimeline, stagger } from "animejs";
+import { installContainerBoundMotion } from "@/lib/motion/container-bounds";
 
 type AuctionsPageMotionProps = {
   children: React.ReactNode;
@@ -17,7 +18,11 @@ export function AuctionsPageMotion({ children }: AuctionsPageMotionProps) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) return;
 
+    let cleanupContainerBounds: (() => void) | null = null;
+
     const scope = createScope({ root }).add(() => {
+      cleanupContainerBounds = installContainerBoundMotion(root);
+
       const timeline = createTimeline({
         defaults: {
           ease: "outExpo",
@@ -105,7 +110,10 @@ export function AuctionsPageMotion({ children }: AuctionsPageMotionProps) {
         );
     });
 
-    return () => scope.revert();
+    return () => {
+      cleanupContainerBounds?.();
+      scope.revert();
+    };
   }, []);
 
   return (

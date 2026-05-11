@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { createScope, createTimeline, stagger } from "animejs";
+import { installContainerBoundMotion } from "@/lib/motion/container-bounds";
 
 type MarketplacePageHeroProps = {
   activeCount: number;
@@ -25,7 +26,11 @@ export function MarketplacePageHero({
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) return;
 
+    let cleanupContainerBounds: (() => void) | null = null;
+
     const scope = createScope({ root }).add(() => {
+      cleanupContainerBounds = installContainerBoundMotion(root, ".marketplace-hero-stat");
+
       const timeline = createTimeline({
         defaults: {
           ease: "outExpo",
@@ -72,7 +77,10 @@ export function MarketplacePageHero({
         );
     });
 
-    return () => scope.revert();
+    return () => {
+      cleanupContainerBounds?.();
+      scope.revert();
+    };
   }, []);
 
   return (

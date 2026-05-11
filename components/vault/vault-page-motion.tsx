@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { createScope, createTimeline, stagger } from "animejs";
+import { installContainerBoundMotion } from "@/lib/motion/container-bounds";
 
 type VaultPageMotionProps = {
   children: React.ReactNode;
@@ -18,8 +19,11 @@ export function VaultPageMotion({ children }: VaultPageMotionProps) {
     if (reduceMotion) return;
 
     let lowerVaultObserver: IntersectionObserver | null = null;
+    let cleanupContainerBounds: (() => void) | null = null;
 
     const scope = createScope({ root }).add(() => {
+      cleanupContainerBounds = installContainerBoundMotion(root);
+
       const timeline = createTimeline({
         defaults: {
           ease: "outExpo",
@@ -192,6 +196,7 @@ export function VaultPageMotion({ children }: VaultPageMotionProps) {
 
     return () => {
       lowerVaultObserver?.disconnect();
+      cleanupContainerBounds?.();
       scope.revert();
     };
   }, []);

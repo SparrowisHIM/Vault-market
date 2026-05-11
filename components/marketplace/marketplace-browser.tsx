@@ -23,6 +23,7 @@ import type {
   SellerTrustTier,
   VaultListing,
 } from "@/lib/marketplace/types";
+import { installContainerBoundMotion } from "@/lib/motion/container-bounds";
 import { cn } from "@/lib/utils";
 import { CompareDrawer } from "./compare-drawer";
 import { SlabCard } from "./slab-card";
@@ -353,7 +354,11 @@ export function MarketplaceBrowser({
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) return;
 
+    let cleanupContainerBounds: (() => void) | null = null;
+
     const scope = createScope({ root }).add(() => {
+      cleanupContainerBounds = installContainerBoundMotion(root);
+
       const timeline = createTimeline({
         defaults: {
           ease: "outExpo",
@@ -407,7 +412,10 @@ export function MarketplaceBrowser({
         );
     });
 
-    return () => scope.revert();
+    return () => {
+      cleanupContainerBounds?.();
+      scope.revert();
+    };
   }, []);
 
   useEffect(() => {

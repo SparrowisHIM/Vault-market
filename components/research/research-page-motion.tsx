@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { createScope, createTimeline, stagger } from "animejs";
+import { installContainerBoundMotion } from "@/lib/motion/container-bounds";
 
 type ResearchPageMotionProps = {
   children: React.ReactNode;
@@ -18,8 +19,11 @@ export function ResearchPageMotion({ children }: ResearchPageMotionProps) {
     if (reduceMotion) return;
 
     let lowerResearchObserver: IntersectionObserver | null = null;
+    let cleanupContainerBounds: (() => void) | null = null;
 
     const scope = createScope({ root }).add(() => {
+      cleanupContainerBounds = installContainerBoundMotion(root);
+
       const timeline = createTimeline({
         defaults: {
           ease: "outExpo",
@@ -183,6 +187,7 @@ export function ResearchPageMotion({ children }: ResearchPageMotionProps) {
 
     return () => {
       lowerResearchObserver?.disconnect();
+      cleanupContainerBounds?.();
       scope.revert();
     };
   }, []);

@@ -14,6 +14,7 @@ import { SlabArtImage } from "@/components/marketplace/slab-art-image";
 import { formatCurrency } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
 import type { VaultListing } from "@/lib/marketplace/types";
+import { installContainerBoundMotion } from "@/lib/motion/container-bounds";
 import { cn } from "@/lib/utils";
 
 type HeroStackLayout = "clustered" | "spread";
@@ -120,8 +121,11 @@ export function MarketDeskHome() {
     if (reduceMotion) return;
 
     let workflowObserver: IntersectionObserver | null = null;
+    let cleanupContainerBounds: (() => void) | null = null;
 
     const scope = createScope({ root }).add(() => {
+      cleanupContainerBounds = installContainerBoundMotion(root);
+
       const timeline = createTimeline({
         defaults: {
           ease: "outExpo",
@@ -306,6 +310,7 @@ export function MarketDeskHome() {
 
     return () => {
       workflowObserver?.disconnect();
+      cleanupContainerBounds?.();
       scope.revert();
     };
   }, []);
