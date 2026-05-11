@@ -186,8 +186,8 @@ export function MarketDeskHome() {
             </div>
 
             <div>
-              <h1 className="max-w-[45rem] text-[clamp(3.2rem,6.45vw,6.35rem)] font-semibold leading-[0.92] tracking-normal text-vault-ink">
-                Built for slabs worth a slower look.
+              <h1 className="max-w-[45rem] text-[clamp(3.05rem,5.9vw,5.75rem)] font-semibold leading-[0.96] tracking-normal text-vault-ink">
+                Built For Slabs Worth A Slower Look.
               </h1>
               <p className="mt-5 max-w-[39rem] text-base leading-7 text-vault-steel sm:text-lg">
                 VaultMarket is a trust-first market desk for graded cards where
@@ -255,23 +255,13 @@ export function MarketDeskHome() {
               <div className="absolute left-1/2 top-1/2 -z-10 h-[62%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.46),rgba(111,158,172,0.12)_38%,rgba(166,111,31,0.06)_58%,transparent_74%)] blur-2xl" aria-hidden="true" />
               <div className="absolute inset-x-12 bottom-[3.1rem] -z-10 h-24 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(17,19,15,0.26),rgba(17,19,15,0.1)_44%,transparent_72%)] blur-xl" aria-hidden="true" />
               <div className="absolute inset-x-20 bottom-[5.2rem] -z-10 h-px bg-[linear-gradient(90deg,transparent,rgba(17,19,15,0.16),transparent)]" aria-hidden="true" />
-              <div className="pointer-events-none absolute left-[52%] top-[17%] z-50 hidden -translate-x-1/2 rounded-[9px] border border-[rgba(47,94,124,0.18)] bg-[rgba(249,248,243,0.88)] px-3 py-2 text-vault-ink shadow-[0_14px_34px_rgba(17,19,15,0.1),inset_0_1px_0_rgba(255,255,255,0.78)] backdrop-blur-md sm:block">
-                <span className="block font-mono text-[0.58rem] font-bold uppercase tracking-[0.16em] text-vault-registry">
-                  Active slab
-                </span>
-                <span className="mt-1 block text-xs font-semibold text-vault-graphite">
-                  PSA 10 / +4.6% signal
-                </span>
-              </div>
-
               {heroStackListings.map((listing, index) => {
                 const position = heroStackLayouts[stackLayout][index] ?? heroStackLayouts.clustered[0];
                 return (
                   <div
                     key={listing.id}
                     className={cn(
-                      "hero-stack-card absolute left-1/2 top-[49%] block w-[clamp(224px,30vw,326px)] rounded-[18px] border border-[rgba(17,19,15,0.22)] bg-[rgba(249,248,243,0.95)] p-2 shadow-[0_34px_78px_rgba(17,19,15,0.28),inset_0_2px_0_rgba(255,255,255,0.72)] will-change-transform",
-                      index === 0 && "front-slab-focus",
+                      "hero-stack-card absolute left-1/2 top-[49%] block w-[clamp(224px,29vw,318px)] rounded-[18px] drop-shadow-[0_34px_42px_rgba(17,19,15,0.28)] will-change-transform",
                       shouldReduceMotion ? "" : "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
                     )}
                     style={{
@@ -280,28 +270,13 @@ export function MarketDeskHome() {
                     }}
                     aria-label={listing.title}
                   >
-                    <div className="rounded-[14px] border border-[rgba(17,19,15,0.16)] bg-vault-ink p-2">
-                      <div className="relative aspect-[5/7] overflow-hidden rounded-[10px] border border-[rgba(255,255,255,0.18)] bg-[var(--surface-inset)]">
-                        <SlabArtImage
-                          image={listing.image}
-                          sizes="(min-width: 1024px) 330px, 72vw"
-                          priority={index === 0}
-                        />
-                        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.18),transparent_34%,rgba(255,255,255,0.12)_42%,transparent_52%)]" aria-hidden="true" />
-                      </div>
-                      <div className="mt-2 grid gap-1 rounded-[9px] bg-vault-paper px-2.5 py-2 text-vault-ink">
-                        <div className="flex items-center justify-between gap-2">
-                          <p className="truncate text-sm font-semibold leading-tight">{listing.title}</p>
-                          <span className="shrink-0 rounded-[5px] border border-[rgba(154,62,53,0.22)] bg-[rgba(154,62,53,0.08)] px-2 py-0.5 font-mono text-[0.68rem] font-bold text-vault-loss">
-                            {listing.grade}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-vault-steel">
-                            {listing.gradingCompany} / {listing.franchise}
-                          </span>
-                        </div>
-                      </div>
+                    <div className="relative aspect-[5/7] overflow-hidden rounded-[14px]">
+                      <SlabArtImage
+                        image={listing.image}
+                        sizes="(min-width: 1024px) 318px, 72vw"
+                        priority={index === 0}
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.16),transparent_33%,rgba(255,255,255,0.1)_43%,transparent_54%)]" aria-hidden="true" />
                     </div>
                   </div>
                 );
