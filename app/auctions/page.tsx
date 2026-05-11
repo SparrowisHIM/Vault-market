@@ -11,6 +11,7 @@ import {
   Sparkles,
   TrendingUp,
 } from "lucide-react";
+import { AuctionsPageMotion } from "@/components/auctions/auctions-page-motion";
 import { ListingTypeBadge } from "@/components/marketplace/listing-type-badge";
 import { MarketDelta } from "@/components/marketplace/market-delta";
 import { SlabCard } from "@/components/marketplace/slab-card";
@@ -62,6 +63,8 @@ const reviewRail = [
   },
 ];
 
+const auctionTitleWords = "Curated auction and premier-lot review".split(" ");
+
 function DisabledBidButton({ label }: { label: string }) {
   return (
     <button
@@ -90,7 +93,7 @@ function SummaryCard({
   fill: number;
 }) {
   return (
-    <div className="group relative overflow-hidden rounded-[10px] border border-[rgba(17,19,15,0.12)] bg-[rgba(249,248,243,0.82)] p-4 shadow-[var(--shadow-slab)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-[rgba(255,254,249,0.92)] hover:shadow-[var(--shadow-slab-hover)]">
+    <div className="auction-summary-card group relative overflow-hidden rounded-[10px] border border-[rgba(17,19,15,0.12)] bg-[rgba(249,248,243,0.82)] p-4 shadow-[var(--shadow-slab)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-[rgba(255,254,249,0.92)] hover:shadow-[var(--shadow-slab-hover)] motion-safe:opacity-0">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
@@ -174,21 +177,21 @@ function AuctionRow({ listing, index }: { listing: VaultListing; index: number }
 export default function AuctionsPage() {
   return (
     <main className="min-h-screen px-4 py-5 sm:px-6 lg:px-8">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-5">
-        <header className="overflow-hidden rounded-[12px] border border-[rgba(17,19,15,0.22)] shadow-[0_22px_70px_rgba(17,19,15,0.14)]">
+      <AuctionsPageMotion>
+        <header className="auction-console-shell overflow-hidden rounded-[12px] border border-[rgba(17,19,15,0.22)] shadow-[0_22px_70px_rgba(17,19,15,0.14)] motion-safe:opacity-0">
           <div className="auction-session-console relative overflow-hidden bg-[linear-gradient(135deg,rgba(14,15,12,0.98)_0%,rgba(30,27,22,0.99)_50%,rgba(13,15,12,0.98)_100%)] text-vault-paper">
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(244,241,233,0.03)_1px,transparent_1px),linear-gradient(rgba(244,241,233,0.024)_1px,transparent_1px)] bg-[length:44px_44px]" />
             <div className="auction-session-sweep pointer-events-none absolute inset-0" />
             <div className="relative grid gap-5 p-4 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.43fr)] lg:items-stretch">
               <div className="grid min-h-[23rem] gap-5 rounded-[10px] border border-white/10 bg-black/10 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5">
+                  <div className="auction-console-kicker inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 motion-safe:opacity-0">
                     <Gavel className="h-4 w-4 text-[#e0b56c]" aria-hidden="true" />
                     <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-vault-paper/62">
                       VaultMarket / Auction room
                     </span>
                   </div>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-[rgba(224,181,108,0.24)] bg-[rgba(166,111,31,0.12)] px-3 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#e0b56c]">
+                  <span className="auction-console-kicker inline-flex items-center gap-2 rounded-full border border-[rgba(224,181,108,0.24)] bg-[rgba(166,111,31,0.12)] px-3 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#e0b56c] motion-safe:opacity-0">
                     <span className="auction-access-pulse h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
                     Access review
                   </span>
@@ -197,15 +200,20 @@ export default function AuctionsPage() {
                 <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px] lg:items-end">
                   <div>
                     <h1 className="max-w-3xl text-3xl font-semibold leading-[1.03] text-vault-paper sm:text-5xl">
-                      Curated auction and premier-lot review
+                      {auctionTitleWords.map((word, index) => (
+                        <span key={`${word}-${index}`} className="auction-title-word inline-block motion-safe:opacity-0">
+                          {word}
+                          {index < auctionTitleWords.length - 1 ? "\u00a0" : ""}
+                        </span>
+                      ))}
                     </h1>
-                    <p className="mt-4 max-w-2xl text-sm leading-relaxed text-vault-paper/64 sm:text-[0.95rem]">
+                    <p className="auction-console-copy mt-4 max-w-2xl text-sm leading-relaxed text-vault-paper/64 motion-safe:opacity-0 sm:text-[0.95rem]">
                       A curated room for auction and premier inventory, focused on custody,
                       estimate context, scarce populations, and inspection links.
                     </p>
                   </div>
 
-                  <div className="mx-auto w-full max-w-[14rem]">
+                  <div className="auction-room-pass mx-auto w-full max-w-[14rem] motion-safe:opacity-0">
                     <div className="relative h-48 overflow-hidden rounded-[14px] border border-[rgba(224,181,108,0.18)] bg-[linear-gradient(155deg,rgba(255,255,255,0.08),rgba(255,255,255,0.022)_46%,rgba(0,0,0,0.24))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_22px_44px_rgba(0,0,0,0.24)]">
                       <div className="absolute inset-3 rounded-[11px] border border-white/10" />
                       <div className="absolute inset-x-8 top-7 h-24 rounded-full bg-[rgba(224,181,108,0.12)] blur-2xl" />
@@ -239,7 +247,7 @@ export default function AuctionsPage() {
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="auction-hero-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Lead lot
                     </p>
@@ -247,7 +255,7 @@ export default function AuctionsPage() {
                       {leadLot.title}
                     </p>
                   </div>
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="auction-hero-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Lot book
                     </p>
@@ -255,7 +263,7 @@ export default function AuctionsPage() {
                       {formatCurrency(totalAuctionAsk)}
                     </p>
                   </div>
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="auction-hero-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Scarcity mark
                     </p>
@@ -266,7 +274,7 @@ export default function AuctionsPage() {
                 </div>
               </div>
 
-              <div className="grid gap-3 rounded-[10px] border border-white/10 bg-white/[0.045] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+              <div className="auction-review-panel grid gap-3 rounded-[10px] border border-white/10 bg-white/[0.045] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] motion-safe:opacity-0">
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
@@ -280,7 +288,7 @@ export default function AuctionsPage() {
                 </div>
                 <div className="grid gap-3">
                   {reviewRail.map((step, index) => (
-                    <div key={step.label} className="grid grid-cols-[auto_1fr] items-start gap-3">
+                    <div key={step.label} className="auction-review-row grid grid-cols-[auto_1fr] items-start gap-3 motion-safe:opacity-0">
                       <span
                         className={cn(
                           "grid h-8 w-8 place-items-center rounded-full border font-mono text-[0.62rem] font-semibold",
@@ -302,7 +310,7 @@ export default function AuctionsPage() {
                     </div>
                   ))}
                 </div>
-                <div className="rounded-[8px] border border-white/10 bg-black/[0.12] p-3">
+                <div className="auction-review-row rounded-[8px] border border-white/10 bg-black/[0.12] p-3 motion-safe:opacity-0">
                   <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
                     Locked room
                   </p>
@@ -469,7 +477,7 @@ export default function AuctionsPage() {
             </article>
           </section>
         </section>
-      </div>
+      </AuctionsPageMotion>
     </main>
   );
 }
