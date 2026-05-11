@@ -112,6 +112,7 @@ function Field({
         name={id}
         defaultValue={value}
         readOnly
+        suppressHydrationWarning
         aria-describedby={help ? helpId : undefined}
         autoComplete="off"
         className="mt-2 h-11 w-full rounded-[6px] border border-[var(--border-soft)] bg-[rgba(17,19,15,0.045)] px-3 text-sm font-semibold text-vault-ink outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
