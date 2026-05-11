@@ -183,7 +183,7 @@ export default function AuctionsPage() {
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(244,241,233,0.03)_1px,transparent_1px),linear-gradient(rgba(244,241,233,0.024)_1px,transparent_1px)] bg-[length:44px_44px]" />
             <div className="auction-session-sweep pointer-events-none absolute inset-0" />
             <div className="relative grid gap-5 p-4 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.43fr)] lg:items-stretch">
-              <div className="grid min-h-[23rem] gap-5 rounded-[10px] border border-white/10 bg-black/10 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-5">
+              <div className="grid min-h-[23rem] content-between gap-6 rounded-[10px] border border-white/10 bg-black/10 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="auction-console-kicker inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 motion-safe:opacity-0">
                     <Gavel className="h-4 w-4 text-[#e0b56c]" aria-hidden="true" />
@@ -197,67 +197,23 @@ export default function AuctionsPage() {
                   </span>
                 </div>
 
-                <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_260px] lg:items-end">
-                  <div>
-                    <h1 className="max-w-3xl text-3xl font-semibold leading-[1.03] text-vault-paper sm:text-5xl">
+                <div>
+                  <h1 className="max-w-3xl text-3xl font-semibold leading-[1.03] text-vault-paper sm:text-5xl">
                       {auctionTitleWords.map((word, index) => (
                         <span key={`${word}-${index}`} className="auction-title-word inline-block motion-safe:opacity-0">
                           {word}
                           {index < auctionTitleWords.length - 1 ? "\u00a0" : ""}
                         </span>
                       ))}
-                    </h1>
-                    <p className="auction-console-copy mt-4 max-w-2xl text-sm leading-relaxed text-vault-paper/64 motion-safe:opacity-0 sm:text-[0.95rem]">
-                      A curated room for auction and premier inventory, focused on custody,
-                      estimate context, scarce populations, and inspection links.
-                    </p>
-                  </div>
-
-                  <div className="auction-room-pass mx-auto w-full max-w-[16.25rem] motion-safe:opacity-0">
-                    <div className="relative overflow-hidden rounded-[14px] border border-[rgba(224,181,108,0.18)] bg-[linear-gradient(155deg,rgba(255,255,255,0.08),rgba(255,255,255,0.022)_46%,rgba(0,0,0,0.24))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_22px_44px_rgba(0,0,0,0.24)]">
-                      <div className="pointer-events-none absolute inset-3 rounded-[11px] border border-white/10" />
-                      <div className="pointer-events-none absolute inset-x-8 top-7 h-24 rounded-full bg-[rgba(224,181,108,0.12)] blur-2xl" />
-                      <div className="relative flex items-center justify-between gap-2">
-                        <span className="font-mono text-[0.56rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/50">
-                          Lead lot
-                        </span>
-                        <span className="rounded-full border border-[rgba(224,181,108,0.24)] bg-[rgba(224,181,108,0.1)] px-2 py-1 font-mono text-[0.52rem] font-semibold uppercase tracking-[0.12em] text-[#e0b56c]">
-                          Review only
-                        </span>
-                      </div>
-                      <div className="relative mt-6 rounded-[10px] border border-white/10 bg-black/24 p-3">
-                        <p className="line-clamp-2 text-base font-semibold leading-tight text-vault-paper">
-                          {leadLot.title}
-                        </p>
-                        <p className="mt-2 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.13em] text-vault-paper/48">
-                          {leadLot.gradingCompany} {leadLot.grade} / {leadLot.franchise}
-                        </p>
-                        <div className="mt-3 grid gap-2 rounded-[8px] border border-white/10 bg-white/[0.055] p-2">
-                          <div className="flex items-center justify-between gap-3">
-                            <span className="font-mono text-[0.56rem] font-semibold uppercase tracking-[0.13em] text-vault-paper/44">
-                              Estimate
-                            </span>
-                            <span className="text-sm font-semibold text-[#e0b56c]">
-                              {formatEstimateRange(leadLot.estimatedRangeCents)}
-                            </span>
-                          </div>
-                          <div className="h-1.5 overflow-hidden rounded-full bg-white/[0.08]" aria-hidden="true">
-                            <div className="h-full w-[86%] rounded-full bg-[linear-gradient(90deg,rgba(166,111,31,0.46),rgba(224,181,108,0.72))]" />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="relative mt-3 flex items-center justify-between gap-3 rounded-[9px] border border-white/10 bg-black/35 px-3 py-2 backdrop-blur-sm">
-                        <span className="font-mono text-[0.52rem] font-semibold uppercase tracking-[0.12em] text-vault-paper/48">
-                          Access gated
-                        </span>
-                        <KeyRound className="h-4 w-4 text-[#e0b56c]" aria-hidden="true" />
-                      </div>
-                    </div>
-                  </div>
+                  </h1>
+                  <p className="auction-console-copy mt-4 max-w-2xl text-sm leading-relaxed text-vault-paper/64 motion-safe:opacity-0 sm:text-[0.95rem]">
+                    A curated room for auction and premier inventory, focused on custody,
+                    estimate context, scarce populations, and inspection links.
+                  </p>
                 </div>
 
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="auction-hero-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
+                <div className="grid gap-3 sm:grid-cols-[1.35fr_0.8fr_0.8fr]">
+                  <div className="auction-hero-stat rounded-[9px] border border-[rgba(224,181,108,0.2)] bg-[rgba(224,181,108,0.075)] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Lead lot
                     </p>

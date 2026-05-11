@@ -62,16 +62,6 @@ export function AuctionsPageMotion({ children }: AuctionsPageMotionProps) {
           "-=360",
         )
         .add(
-          ".auction-room-pass",
-          {
-            opacity: [0, 1],
-            x: [14, 0],
-            filter: ["blur(7px)", "blur(0px)"],
-            duration: 560,
-          },
-          "-=500",
-        )
-        .add(
           ".auction-hero-stat",
           {
             opacity: [0, 1],
