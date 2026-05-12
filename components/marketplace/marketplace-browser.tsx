@@ -42,6 +42,7 @@ export type MarketplaceQueryParams = {
   grader?: string;
   trust?: string;
   status?: string;
+  signal?: string;
   sort?: string;
 };
 
@@ -57,6 +58,7 @@ const gradingCompanies: GradingCompany[] = ["PSA", "BGS", "CGC", "SGC"];
 const sellerTrustTiers: SellerTrustTier[] = ["vault", "verified", "new"];
 const listingStatuses: ListingStatus[] = ["active", "reserved", "sold"];
 const sortValues: SortValue[] = ["market-signal", "price-high", "price-low", "grade-high"];
+const HIGH_SIGNAL_DELTA_PERCENT = 4;
 
 const filterControlClass =
   "h-11 w-full rounded-[7px] border border-[rgba(17,19,15,0.105)] bg-[rgba(255,254,249,0.58)] px-3 text-sm font-medium text-vault-graphite shadow-[inset_0_1px_0_rgba(255,255,255,0.68)] outline-none transition hover:border-[rgba(47,94,124,0.2)] hover:bg-[rgba(255,254,249,0.82)] focus:border-vault-registry focus:bg-white/86 focus:ring-2 focus:ring-[var(--focus-ring)]";
@@ -276,6 +278,9 @@ export function MarketplaceBrowser({
   const [status, setStatus] = useState<FilterValue<ListingStatus>>(() =>
     getFilterParam(initialQueryParams.status ?? null, listingStatuses),
   );
+  const [highSignalOnly, setHighSignalOnly] = useState(
+    () => initialQueryParams.signal === "high",
+  );
   const [sort, setSort] = useState<SortValue>(() =>
     getSortParam(initialQueryParams.sort ?? null),
   );
@@ -300,11 +305,12 @@ export function MarketplaceBrowser({
     if (gradingCompany !== "all") params.set("grader", gradingCompany);
     if (sellerTrust !== "all") params.set("trust", sellerTrust);
     if (status !== "all") params.set("status", status);
+    if (highSignalOnly) params.set("signal", "high");
     if (sort !== "market-signal") params.set("sort", sort);
 
     const nextPath = params.toString() ? `/marketplace?${params.toString()}` : "/marketplace";
     router.replace(nextPath, { scroll: false });
-  }, [franchise, gradingCompany, listingType, query, router, sellerTrust, sort, status]);
+  }, [franchise, gradingCompany, highSignalOnly, listingType, query, router, sellerTrust, sort, status]);
 
   const filteredListings = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -330,7 +336,9 @@ export function MarketplaceBrowser({
           (franchise === "all" || listing.franchise === franchise) &&
           (gradingCompany === "all" || listing.gradingCompany === gradingCompany) &&
           (sellerTrust === "all" || listing.seller.trustTier === sellerTrust) &&
-          (status === "all" || listing.status === status)
+          (status === "all" || listing.status === status) &&
+          (!highSignalOnly ||
+            (listing.marketDeltaPercent ?? 0) >= HIGH_SIGNAL_DELTA_PERCENT)
         );
       })
       .sort((a, b) => {
@@ -345,7 +353,7 @@ export function MarketplaceBrowser({
             return (b.marketDeltaPercent ?? 0) - (a.marketDeltaPercent ?? 0);
         }
       });
-  }, [franchise, gradingCompany, listingType, listings, query, sellerTrust, sort, status]);
+  }, [franchise, gradingCompany, highSignalOnly, listingType, listings, query, sellerTrust, sort, status]);
 
   const hasActiveFilters =
     query.trim() !== "" ||
@@ -353,7 +361,8 @@ export function MarketplaceBrowser({
     franchise !== "all" ||
     gradingCompany !== "all" ||
     sellerTrust !== "all" ||
-    status !== "all";
+    status !== "all" ||
+    highSignalOnly;
 
   const spotlightListing =
     filteredListings.find((listing) => listing.id === spotlightListingId) ??
@@ -444,6 +453,13 @@ export function MarketplaceBrowser({
           key: "status",
           label: `Status: ${statusLabel(status)}`,
           clear: () => setStatus("all"),
+        }
+      : null,
+    highSignalOnly
+      ? {
+          key: "highSignal",
+          label: `Signal: +${HIGH_SIGNAL_DELTA_PERCENT}% movers`,
+          clear: () => setHighSignalOnly(false),
         }
       : null,
     sort !== "market-signal"
@@ -551,6 +567,7 @@ export function MarketplaceBrowser({
     setGradingCompany("all");
     setSellerTrust("all");
     setStatus("all");
+    setHighSignalOnly(false);
     setSort("market-signal");
   }
 
@@ -563,11 +580,13 @@ export function MarketplaceBrowser({
     setQuery("");
     setFranchise("all");
     setGradingCompany("all");
+    setHighSignalOnly(false);
 
     if (preset === "high-signal") {
       setListingType("all");
       setSellerTrust("all");
       setStatus("all");
+      setHighSignalOnly(true);
       setSort("market-signal");
     }
 
@@ -575,6 +594,7 @@ export function MarketplaceBrowser({
       setListingType("all");
       setSellerTrust("vault");
       setStatus("all");
+      setHighSignalOnly(false);
       setSort("market-signal");
     }
 
@@ -582,6 +602,7 @@ export function MarketplaceBrowser({
       setListingType("premier");
       setSellerTrust("all");
       setStatus("all");
+      setHighSignalOnly(false);
       setSort("price-high");
     }
 
@@ -589,6 +610,7 @@ export function MarketplaceBrowser({
       setListingType("all");
       setSellerTrust("all");
       setStatus("active");
+      setHighSignalOnly(false);
       setSort("market-signal");
     }
   }
@@ -642,7 +664,20 @@ export function MarketplaceBrowser({
   function getActivePreset() {
     if (!hasActiveFilters && sort === "market-signal") return "all";
     if (
+      highSignalOnly &&
+      sort === "market-signal" &&
+      listingType === "all" &&
+      sellerTrust === "all" &&
+      franchise === "all" &&
+      gradingCompany === "all" &&
+      status === "all" &&
+      query.trim() === ""
+    ) {
+      return "high-signal";
+    }
+    if (
       sellerTrust === "vault" &&
+      !highSignalOnly &&
       listingType === "all" &&
       franchise === "all" &&
       gradingCompany === "all" &&
@@ -654,6 +689,7 @@ export function MarketplaceBrowser({
     if (
       listingType === "premier" &&
       sort === "price-high" &&
+      !highSignalOnly &&
       sellerTrust === "all" &&
       franchise === "all" &&
       gradingCompany === "all" &&
@@ -664,6 +700,7 @@ export function MarketplaceBrowser({
     }
     if (
       status === "active" &&
+      !highSignalOnly &&
       listingType === "all" &&
       sellerTrust === "all" &&
       franchise === "all" &&
@@ -686,10 +723,11 @@ export function MarketplaceBrowser({
     if (gradingCompany !== "all") params.set("grader", gradingCompany);
     if (sellerTrust !== "all") params.set("trust", sellerTrust);
     if (status !== "all") params.set("status", status);
+    if (highSignalOnly) params.set("signal", "high");
     if (sort !== "market-signal") params.set("sort", sort);
 
     return params.toString() ? `/marketplace?${params.toString()}` : "/marketplace";
-  }, [franchise, gradingCompany, listingType, query, sellerTrust, sort, status]);
+  }, [franchise, gradingCompany, highSignalOnly, listingType, query, sellerTrust, sort, status]);
 
   return (
     <section ref={rootRef} aria-labelledby="marketplace-results-heading" className="grid gap-4">

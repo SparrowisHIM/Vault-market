@@ -38,6 +38,7 @@ export default async function MarketplacePage({ searchParams }: MarketplacePageP
     grader: firstParam(params.grader),
     trust: firstParam(params.trust),
     status: firstParam(params.status),
+    signal: firstParam(params.signal),
     sort: firstParam(params.sort),
   };
 
