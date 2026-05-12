@@ -1023,16 +1023,16 @@ export function MarketplaceBrowser({
         <div
           ref={resultsGridRef}
           className={cn(
-            "grid grid-cols-1 gap-3",
+            "grid grid-cols-1 gap-3 md:auto-rows-[30rem]",
             viewDensity === "compact"
-              ? "md:grid-cols-2 2xl:grid-cols-3"
+              ? "md:auto-rows-[24rem] md:grid-cols-2 2xl:grid-cols-3"
               : "md:grid-cols-2 xl:grid-cols-3",
           )}
         >
           {filteredListings.map((listing) => (
             <div
               key={listing.id}
-              className="marketplace-result-card motion-safe:opacity-0"
+              className="marketplace-result-card h-full motion-safe:opacity-0"
               onPointerEnter={() => setSpotlightListingId(listing.id)}
               onFocusCapture={() => setSpotlightListingId(listing.id)}
             >

@@ -146,7 +146,7 @@ export function SlabCard({
       onFocusCapture={runInspectionSweep}
       onBlurCapture={resetTilt}
       className={cn(
-        "slab-motion-card group relative isolate overflow-hidden rounded-[8px] border border-[var(--border-medium)] bg-[var(--surface-panel)] shadow-slab backdrop-blur transition duration-200 hover:border-[rgba(47,94,124,0.26)] hover:shadow-slab-hover focus-within:border-[rgba(47,94,124,0.3)] focus-within:shadow-slab-hover",
+        "slab-motion-card group relative isolate h-full overflow-hidden rounded-[8px] border border-[var(--border-medium)] bg-[var(--surface-panel)] shadow-slab backdrop-blur transition duration-200 hover:border-[rgba(47,94,124,0.26)] hover:shadow-slab-hover focus-within:border-[rgba(47,94,124,0.3)] focus-within:shadow-slab-hover",
         compact ? "p-2.5" : "p-3 sm:p-4",
       )}
     >
@@ -162,7 +162,7 @@ export function SlabCard({
       />
       <div
         className={cn(
-          "grid min-w-0 gap-3",
+          "grid h-full min-w-0 gap-3",
           compact
             ? "grid-cols-[82px_1fr]"
             : "grid-cols-[minmax(112px,0.62fr)_minmax(0,1fr)] sm:grid-cols-[minmax(126px,0.58fr)_minmax(0,1fr)]",
@@ -171,7 +171,7 @@ export function SlabCard({
           <div
             ref={slabImageRef}
             className={cn(
-            "slab-image-plane relative overflow-hidden rounded-[7px] border border-[rgba(17,19,15,0.2)] bg-[var(--surface-inset)] shadow-[inset_0_1px_10px_rgba(17,19,15,0.08)] transition duration-200",
+            "slab-image-plane relative self-start overflow-hidden rounded-[7px] border border-[rgba(17,19,15,0.2)] bg-[var(--surface-inset)] shadow-[inset_0_1px_10px_rgba(17,19,15,0.08)] transition duration-200",
             compact ? "aspect-[5/7]" : "aspect-[5/7]",
           )}
         >
@@ -190,7 +190,7 @@ export function SlabCard({
           />
         </div>
 
-        <div className="flex min-w-0 flex-col justify-between gap-3">
+        <div className="flex min-h-0 min-w-0 flex-col justify-between gap-3">
           <div className="min-w-0 space-y-2">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
@@ -203,7 +203,7 @@ export function SlabCard({
                 <h2
                   className={cn(
                     "mt-1 font-semibold leading-tight text-vault-ink",
-                    compact ? "line-clamp-2 text-sm" : "line-clamp-3 text-lg",
+                    compact ? "line-clamp-2 min-h-[2.1rem] text-sm" : "line-clamp-3 min-h-[4rem] text-lg",
                   )}
                 >
                   {listing.title}
@@ -268,7 +268,7 @@ export function SlabCard({
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="mt-auto space-y-2">
             <div
               className={cn(
                 "grid gap-2 rounded-[7px] border border-[rgba(17,19,15,0.1)] bg-[rgba(255,255,255,0.44)]",
