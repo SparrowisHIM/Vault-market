@@ -14,6 +14,7 @@ import {
   Sparkles,
   Truck,
 } from "lucide-react";
+import { SellPageMotion } from "@/components/sell/sell-page-motion";
 import { formatCurrency } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
 
@@ -33,6 +34,8 @@ const vaultEligibleValue = mockListings
   .reduce((total, listing) => total + listing.priceCents, 0);
 const leadIntakeAsset =
   intakePendingListings[0] ?? sellerHeldListings[0] ?? mockListings[0];
+const sellTitleWords =
+  "A guided intake dossier for serious graded-card sellers".split(" ");
 
 const intakeSteps = [
   {
@@ -155,7 +158,7 @@ function SummaryCard({
   fill: number;
 }) {
   return (
-    <div className="group relative overflow-hidden rounded-[10px] border border-[rgba(17,19,15,0.12)] bg-[rgba(249,248,243,0.82)] p-4 shadow-[var(--shadow-slab)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-[rgba(255,254,249,0.92)] hover:shadow-[var(--shadow-slab-hover)]">
+    <div className="sell-summary-card group relative overflow-hidden rounded-[10px] border border-[rgba(17,19,15,0.12)] bg-[rgba(249,248,243,0.82)] p-4 shadow-[var(--shadow-slab)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)] hover:bg-[rgba(255,254,249,0.92)] hover:shadow-[var(--shadow-slab-hover)] motion-safe:opacity-0">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
@@ -181,21 +184,21 @@ function SummaryCard({
 export default function SellPage() {
   return (
     <main className="min-h-screen px-4 py-5 sm:px-6 lg:px-8">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-5">
-        <header className="overflow-hidden rounded-[12px] border border-[rgba(17,19,15,0.22)] shadow-[0_22px_70px_rgba(17,19,15,0.14)]">
+      <SellPageMotion>
+        <header className="sell-intake-shell overflow-hidden rounded-[12px] border border-[rgba(17,19,15,0.22)] shadow-[0_22px_70px_rgba(17,19,15,0.14)] motion-safe:opacity-0">
           <div className="sell-intake-console relative overflow-hidden bg-[linear-gradient(135deg,rgba(13,15,12,0.98)_0%,rgba(24,30,26,0.99)_50%,rgba(13,15,12,0.98)_100%)] text-vault-paper">
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(244,241,233,0.03)_1px,transparent_1px),linear-gradient(rgba(244,241,233,0.024)_1px,transparent_1px)] bg-[length:44px_44px]" />
             <div className="sell-intake-sweep pointer-events-none absolute inset-0" />
             <div className="relative grid gap-5 p-4 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.43fr)] lg:items-stretch">
               <div className="grid min-h-[23rem] gap-5 rounded-[10px] border border-white/10 bg-black/10 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5">
+                  <div className="sell-intake-kicker inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 motion-safe:opacity-0">
                     <ClipboardCheck className="h-4 w-4 text-[#a7ddc4]" aria-hidden="true" />
                     <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-vault-paper/62">
                       VaultMarket / Seller intake
                     </span>
                   </div>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-[rgba(130,199,169,0.22)] bg-[rgba(47,113,88,0.1)] px-3 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#a7ddc4]">
+                  <span className="sell-intake-kicker inline-flex items-center gap-2 rounded-full border border-[rgba(130,199,169,0.22)] bg-[rgba(47,113,88,0.1)] px-3 py-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#a7ddc4] motion-safe:opacity-0">
                     <span className="sell-status-pulse h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
                     Dossier staged
                   </span>
@@ -203,16 +206,21 @@ export default function SellPage() {
 
                 <div>
                   <h1 className="max-w-3xl text-3xl font-semibold leading-[1.03] text-vault-paper sm:text-5xl">
-                    A guided intake dossier for serious graded-card sellers
+                    {sellTitleWords.map((word, index) => (
+                      <span key={`${word}-${index}`} className="sell-title-word inline-block motion-safe:opacity-0">
+                        {word}
+                        {index < sellTitleWords.length - 1 ? "\u00a0" : ""}
+                      </span>
+                    ))}
                   </h1>
-                  <p className="mt-4 max-w-2xl text-sm leading-relaxed text-vault-paper/64 sm:text-[0.95rem]">
+                  <p className="sell-intake-copy mt-4 max-w-2xl text-sm leading-relaxed text-vault-paper/64 motion-safe:opacity-0 sm:text-[0.95rem]">
                     Trusted sellers prepare high-value slabs for marketplace, auction,
                     or vault-first review through a controlled intake pipeline.
                   </p>
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="sell-intake-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Intake asset
                     </p>
@@ -220,7 +228,7 @@ export default function SellPage() {
                       {leadIntakeAsset.title}
                     </p>
                   </div>
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="sell-intake-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Eligible value
                     </p>
@@ -228,7 +236,7 @@ export default function SellPage() {
                       {formatCurrency(vaultEligibleValue)}
                     </p>
                   </div>
-                  <div className="rounded-[9px] border border-white/10 bg-white/[0.05] p-3">
+                  <div className="sell-intake-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Pipeline status
                     </p>
@@ -239,7 +247,7 @@ export default function SellPage() {
                 </div>
               </div>
 
-              <div className="grid gap-3 rounded-[10px] border border-white/10 bg-white/[0.045] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+              <div className="sell-pipeline-panel grid gap-3 rounded-[10px] border border-white/10 bg-white/[0.045] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] motion-safe:opacity-0">
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
@@ -256,7 +264,7 @@ export default function SellPage() {
                     const Icon = step.icon;
 
                     return (
-                      <li key={step.label} className="grid grid-cols-[auto_1fr] gap-3">
+                      <li key={step.label} className="sell-pipeline-row grid grid-cols-[auto_1fr] gap-3 motion-safe:opacity-0">
                         <span className="grid h-9 w-9 place-items-center rounded-[8px] border border-white/10 bg-white/[0.06] text-[#a7ddc4]">
                           <Icon className="h-4 w-4" aria-hidden="true" />
                         </span>
@@ -310,9 +318,9 @@ export default function SellPage() {
           />
         </section>
 
-        <section className="grid gap-5 xl:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)]">
+        <section className="sell-lower-section grid gap-5 xl:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)]">
           <aside className="grid gap-5 self-start">
-            <section className="overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] shadow-[var(--shadow-card)]">
+            <section className="sell-side-panel overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] shadow-[var(--shadow-card)] motion-safe:opacity-0">
               <div className="border-b border-[var(--border-soft)] bg-[linear-gradient(90deg,rgba(47,94,124,0.08),rgba(47,113,88,0.04),transparent)] px-4 py-4">
                 <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-registry">
                   Pipeline map
@@ -329,7 +337,7 @@ export default function SellPage() {
                   return (
                     <li
                       key={step.label}
-                      className="grid grid-cols-[auto_1fr] gap-3 rounded-[9px] border border-[var(--border-soft)] bg-white/[0.42] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)]"
+                      className="sell-panel-row grid grid-cols-[auto_1fr] gap-3 rounded-[9px] border border-[var(--border-soft)] bg-white/[0.42] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] motion-safe:opacity-0"
                     >
                       <span className="grid h-9 w-9 place-items-center rounded-[7px] border border-[var(--border-soft)] bg-white/56 text-vault-registry">
                         <Icon className="h-4 w-4" aria-hidden="true" />
@@ -348,23 +356,23 @@ export default function SellPage() {
               </ol>
             </section>
 
-            <section className="rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)]">
+            <section className="sell-side-panel rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] p-4 shadow-[var(--shadow-card)] motion-safe:opacity-0">
               <h2 className="text-lg font-semibold text-vault-ink">Current intake rules</h2>
               <ul className="mt-4 grid gap-2 text-sm text-vault-steel">
-                <li className="rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3">
+                <li className="sell-panel-row rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3 motion-safe:opacity-0">
                   Graded trading cards only for this review flow.
                 </li>
-                <li className="rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3">
+                <li className="sell-panel-row rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3 motion-safe:opacity-0">
                   Accepted graders: {acceptedGraders.join(", ")}.
                 </li>
-                <li className="rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3">
+                <li className="sell-panel-row rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3 motion-safe:opacity-0">
                   High-value lots can route to marketplace, auction, or vault review.
                 </li>
               </ul>
             </section>
           </aside>
 
-          <section className="overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] shadow-[var(--shadow-card)]">
+          <section className="sell-dossier-panel overflow-hidden rounded-[10px] border border-[var(--border-soft)] bg-[var(--surface-panel)] shadow-[var(--shadow-card)] motion-safe:opacity-0">
             <div className="flex flex-col gap-2 border-b border-[var(--border-soft)] bg-[linear-gradient(90deg,rgba(47,94,124,0.08),rgba(47,113,88,0.04),transparent)] px-4 py-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-registry">
@@ -381,7 +389,7 @@ export default function SellPage() {
             </div>
 
             <form className="grid gap-5 p-4" aria-describedby="sell-submit-note">
-              <section className="rounded-[9px] border border-[rgba(47,113,88,0.2)] bg-[linear-gradient(135deg,rgba(47,113,88,0.08),rgba(255,255,255,0.38))] p-4">
+              <section className="sell-dossier-section rounded-[9px] border border-[rgba(47,113,88,0.2)] bg-[linear-gradient(135deg,rgba(47,113,88,0.08),rgba(255,255,255,0.38))] p-4 motion-safe:opacity-0">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-registry">
@@ -398,7 +406,7 @@ export default function SellPage() {
                 </div>
                 <ul className="mt-3 grid gap-2 sm:grid-cols-3">
                   {dossierCompleteness.map((item) => (
-                    <li key={item} className="flex items-center gap-2 rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-2.5 text-sm font-semibold text-vault-graphite">
+                    <li key={item} className="sell-dossier-row flex items-center gap-2 rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-2.5 text-sm font-semibold text-vault-graphite motion-safe:opacity-0">
                       <Check className="h-3.5 w-3.5 shrink-0 text-[#235844]" aria-hidden="true" />
                       {item}
                     </li>
@@ -406,7 +414,7 @@ export default function SellPage() {
                 </ul>
               </section>
 
-              <fieldset className="grid gap-3 md:grid-cols-2">
+              <fieldset className="sell-dossier-section grid gap-3 motion-safe:opacity-0 md:grid-cols-2">
                 <legend className="mb-1 font-mono text-[0.67rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
                   Slab identity
                 </legend>
@@ -427,7 +435,7 @@ export default function SellPage() {
                 />
               </fieldset>
 
-              <section aria-labelledby="photo-checklist-heading" className="rounded-[9px] border border-[var(--border-soft)] bg-white/36 p-4">
+              <section aria-labelledby="photo-checklist-heading" className="sell-dossier-section rounded-[9px] border border-[var(--border-soft)] bg-white/36 p-4 motion-safe:opacity-0">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <h3 id="photo-checklist-heading" className="text-sm font-semibold text-vault-ink">
@@ -445,7 +453,7 @@ export default function SellPage() {
                   {photoChecklist.map((item) => (
                     <li
                       key={item}
-                      className="flex items-center gap-3 rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3 text-sm font-semibold text-vault-graphite"
+                      className="sell-dossier-row flex items-center gap-3 rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3 text-sm font-semibold text-vault-graphite motion-safe:opacity-0"
                     >
                       <span className="grid h-4 w-4 place-items-center rounded-[4px] border border-[rgba(47,113,88,0.34)] bg-[rgba(47,113,88,0.1)] text-[#235844]">
                         <Check className="h-3 w-3" aria-hidden="true" />
@@ -456,14 +464,14 @@ export default function SellPage() {
                 </ul>
               </section>
 
-              <section aria-labelledby="routing-heading" className="grid gap-3 md:grid-cols-2">
+              <section aria-labelledby="routing-heading" className="sell-dossier-section grid gap-3 motion-safe:opacity-0 md:grid-cols-2">
                 <div className="rounded-[9px] border border-[var(--border-soft)] bg-white/36 p-4">
                   <h3 id="routing-heading" className="text-sm font-semibold text-vault-ink">
                     Listing route
                   </h3>
                   <div className="mt-3 grid gap-2">
                     {["Marketplace", "Auction candidate", "Vault-first review"].map((item, index) => (
-                      <div key={item} className="grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3">
+                      <div key={item} className="sell-dossier-row grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3 motion-safe:opacity-0">
                         <span className="grid h-6 w-6 place-items-center rounded-[6px] border border-[var(--border-soft)] bg-white/58 font-mono text-[0.58rem] font-semibold text-vault-steel">
                           {index + 1}
                         </span>
@@ -478,7 +486,7 @@ export default function SellPage() {
                   <h3 className="text-sm font-semibold text-vault-ink">Custody path</h3>
                   <div className="mt-3 grid gap-2">
                     {["Seller-held review", "Vault intake review", "Desk routing"].map((item, index) => (
-                      <div key={item} className="grid grid-cols-[auto_1fr] gap-3 rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3">
+                      <div key={item} className="sell-dossier-row grid grid-cols-[auto_1fr] gap-3 rounded-[8px] border border-[var(--border-soft)] bg-white/42 p-3 motion-safe:opacity-0">
                         <span className="mt-1 h-2 w-2 rounded-full bg-vault-registry" />
                         <span>
                           <span className="block text-sm font-semibold text-vault-graphite">{item}</span>
@@ -495,13 +503,13 @@ export default function SellPage() {
                 </div>
               </section>
 
-              <section aria-labelledby="requirements-heading" className="rounded-[9px] border border-[var(--border-soft)] bg-white/36 p-4">
+              <section aria-labelledby="requirements-heading" className="sell-dossier-section rounded-[9px] border border-[var(--border-soft)] bg-white/36 p-4 motion-safe:opacity-0">
                 <h3 id="requirements-heading" className="text-sm font-semibold text-vault-ink">
                   Access-gated requirements
                 </h3>
                 <ul className="mt-3 grid gap-2 sm:grid-cols-2">
                   {gatedItems.map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-sm text-vault-steel">
+                    <li key={item} className="sell-dossier-row flex items-center gap-2 text-sm text-vault-steel motion-safe:opacity-0">
                       <LockKeyhole className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                       {item}
                     </li>
@@ -509,7 +517,7 @@ export default function SellPage() {
                 </ul>
               </section>
 
-              <div className="flex flex-col gap-3 rounded-[9px] border border-[rgba(17,19,15,0.18)] bg-[rgba(17,19,15,0.9)] p-4 text-vault-paper sm:flex-row sm:items-center sm:justify-between">
+              <div className="sell-dossier-section flex flex-col gap-3 rounded-[9px] border border-[rgba(17,19,15,0.18)] bg-[rgba(17,19,15,0.9)] p-4 text-vault-paper motion-safe:opacity-0 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/50">
                     Submission gate
@@ -524,7 +532,7 @@ export default function SellPage() {
             </form>
           </section>
         </section>
-      </div>
+      </SellPageMotion>
     </main>
   );
 }
