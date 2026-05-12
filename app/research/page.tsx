@@ -156,7 +156,7 @@ export default function ResearchPage() {
                         </div>
                         <div className="h-1.5 overflow-hidden rounded-full bg-white/[0.08]" aria-hidden="true">
                           <div
-                            className="h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.52),rgba(130,199,169,0.72))]"
+                            className="live-progress-fill h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.52),rgba(130,199,169,0.72))]"
                             style={{ width: `${signal.value}%` }}
                           />
                         </div>

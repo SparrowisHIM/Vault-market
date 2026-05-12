@@ -201,7 +201,7 @@ export default function VaultPage() {
                       {formatCurrency(totalVaultValue)}
                     </p>
                     <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.08]" aria-hidden="true">
-                      <div className="h-full w-[86%] rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.58),rgba(130,199,169,0.72))]" />
+                      <div className="live-progress-fill h-full w-[86%] rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.58),rgba(130,199,169,0.72))]" />
                     </div>
                   </div>
                   <div className="vault-console-stat rounded-[9px] border border-white/10 bg-white/[0.05] p-3 motion-safe:opacity-0">
@@ -213,7 +213,7 @@ export default function VaultPage() {
                     </p>
                     <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.08]" aria-hidden="true">
                       <div
-                        className="h-full rounded-full bg-[linear-gradient(90deg,rgba(166,111,31,0.45),rgba(47,94,124,0.52))]"
+                        className="live-progress-fill h-full rounded-full bg-[linear-gradient(90deg,rgba(166,111,31,0.45),rgba(47,94,124,0.52))]"
                         style={{ width: `${metricPercent(intakeValue, totalVaultValue)}%` }}
                       />
                     </div>
@@ -225,7 +225,7 @@ export default function VaultPage() {
                     <p className="mt-2 text-2xl font-semibold text-vault-paper">{custodyCoverage}%</p>
                     <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.08]" aria-hidden="true">
                       <div
-                        className="h-full rounded-full bg-[linear-gradient(90deg,rgba(47,113,88,0.5),rgba(130,199,169,0.72))]"
+                        className="live-progress-fill h-full rounded-full bg-[linear-gradient(90deg,rgba(47,113,88,0.5),rgba(130,199,169,0.72))]"
                         style={{ width: `${custodyCoverage}%` }}
                       />
                     </div>
@@ -279,7 +279,7 @@ export default function VaultPage() {
                   </div>
                   <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.08]" aria-hidden="true">
                     <div
-                      className="vault-progress-flow h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.55),rgba(130,199,169,0.78),rgba(47,113,88,0.58))]"
+                      className="vault-progress-flow live-progress-fill h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.55),rgba(130,199,169,0.78),rgba(47,113,88,0.58))]"
                       style={{ width: `${intakeProgress}%` }}
                     />
                   </div>
@@ -400,7 +400,7 @@ export default function VaultPage() {
                     <div className="h-1.5 overflow-hidden rounded-full bg-[rgba(17,19,15,0.07)]" aria-hidden="true">
                       <div
                         className={cn(
-                          "h-full rounded-full",
+                          "live-progress-fill h-full rounded-full",
                           listing.vaultStatus === "vault_held"
                             ? "bg-[linear-gradient(90deg,rgba(47,113,88,0.38),rgba(47,113,88,0.78))]"
                             : "bg-[linear-gradient(90deg,rgba(166,111,31,0.42),rgba(47,94,124,0.52))]",

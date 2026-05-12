@@ -95,7 +95,7 @@ export function ResearchIntelligenceSidebar({
                   aria-hidden="true"
                 >
                   <div
-                    className="h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.25),rgba(47,113,88,0.68))]"
+                    className="live-progress-fill h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.25),rgba(47,113,88,0.68))]"
                     style={{ width: `${moverBarPercent(listing.marketDeltaPercent, maxAbsDelta)}%` }}
                   />
                 </div>
@@ -157,7 +157,7 @@ export function ResearchIntelligenceSidebar({
                   </div>
                   <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-[rgba(17,19,15,0.07)]">
                     <div
-                      className="h-full rounded-full bg-[linear-gradient(90deg,rgba(166,111,31,0.42),rgba(47,94,124,0.48))]"
+                      className="live-progress-fill h-full rounded-full bg-[linear-gradient(90deg,rgba(166,111,31,0.42),rgba(47,94,124,0.48))]"
                       style={{
                         width: `${rarityBarPercent(listing.population, minPop, maxPop)}%`,
                       }}

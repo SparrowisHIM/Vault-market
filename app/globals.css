@@ -500,6 +500,67 @@ a {
   animation: sell-progress-flow 3.9s ease-in-out infinite;
 }
 
+.live-progress-fill,
+.summary-meter-fill,
+.vault-progress-flow,
+.sell-progress-flow {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-size: 220% 100%;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    0 0 16px rgba(47, 113, 88, 0.13);
+  animation: live-progress-gradient 4.8s ease-in-out infinite;
+}
+
+.live-progress-fill::before,
+.summary-meter-fill::before,
+.vault-progress-flow::before,
+.sell-progress-flow::before {
+  content: "";
+  position: absolute;
+  inset: -120% -44%;
+  z-index: 1;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      105deg,
+      transparent 0%,
+      transparent 36%,
+      rgba(255, 255, 255, 0.18) 43%,
+      rgba(255, 255, 255, 0.7) 49%,
+      rgba(130, 199, 169, 0.28) 54%,
+      transparent 66%,
+      transparent 100%
+    );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transform: translate3d(-82%, 0, 0);
+  animation: live-progress-sweep 2.7s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.live-progress-fill::after,
+.summary-meter-fill::after,
+.vault-progress-flow::after,
+.sell-progress-flow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.18) 0 1px,
+      transparent 1px 8px
+    );
+  opacity: 0.18;
+  animation: live-progress-ticks 3.2s linear infinite;
+}
+
 .private-desk-console {
   isolation: isolate;
 }
@@ -638,6 +699,41 @@ a {
   }
 }
 
+@keyframes live-progress-gradient {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes live-progress-sweep {
+  0%,
+  28% {
+    opacity: 0;
+    transform: translate3d(-82%, 0, 0);
+  }
+  42% {
+    opacity: 0.95;
+  }
+  72%,
+  100% {
+    opacity: 0;
+    transform: translate3d(82%, 0, 0);
+  }
+}
+
+@keyframes live-progress-ticks {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 16px 0;
+  }
+}
+
 @keyframes auction-session-sweep {
   0%,
   36% {
@@ -736,7 +832,15 @@ a {
   .hero-inspection-sweep,
   .vault-loader-bar,
   .vault-custody-sweep,
+  .live-progress-fill,
+  .live-progress-fill::before,
+  .live-progress-fill::after,
+  .summary-meter-fill,
+  .summary-meter-fill::before,
+  .summary-meter-fill::after,
   .vault-progress-flow,
+  .vault-progress-flow::before,
+  .vault-progress-flow::after,
   .vault-status-pulse,
   .auction-session-sweep,
   .auction-access-pulse,
@@ -744,6 +848,8 @@ a {
   .sell-intake-sweep,
   .sell-status-pulse,
   .sell-progress-flow,
+  .sell-progress-flow::before,
+  .sell-progress-flow::after,
   .private-desk-sweep,
   .private-desk-pulse,
   .private-desk-spotlight::before,

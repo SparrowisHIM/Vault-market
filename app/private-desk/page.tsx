@@ -193,7 +193,7 @@ function CandidateCard({ listing, index }: { listing: VaultListing; index: numbe
             <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-[rgba(17,19,15,0.07)]" aria-hidden="true">
               <div
                 className={cn(
-                  "h-full rounded-full",
+                  "live-progress-fill h-full rounded-full",
                   listing.vaultStatus === "vault_held"
                     ? "bg-[linear-gradient(90deg,rgba(47,113,88,0.4),rgba(47,94,124,0.58))]"
                     : "bg-[linear-gradient(90deg,rgba(166,111,31,0.42),rgba(47,94,124,0.48))]",

@@ -55,7 +55,7 @@ function SignalBar({
       <div className="h-1.5 overflow-hidden rounded-full bg-[rgba(17,19,15,0.07)]" aria-hidden="true">
         <div
           className={cn(
-            "h-full rounded-full",
+            "live-progress-fill h-full rounded-full",
             positive
               ? "bg-[linear-gradient(90deg,rgba(47,113,88,0.38),rgba(47,113,88,0.82))]"
               : "bg-[linear-gradient(90deg,rgba(154,62,53,0.38),rgba(154,62,53,0.78))]",
@@ -163,7 +163,7 @@ export function ResearchCompFeed({ listings, maxAbsDelta }: ResearchCompFeedProp
                     </div>
                     <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-[rgba(17,19,15,0.07)]" aria-hidden="true">
                       <div
-                        className="h-full rounded-full bg-[linear-gradient(90deg,rgba(166,111,31,0.28),rgba(47,94,124,0.58))]"
+                        className="live-progress-fill h-full rounded-full bg-[linear-gradient(90deg,rgba(166,111,31,0.28),rgba(47,94,124,0.58))]"
                         style={{ width: `${compSpread}%` }}
                       />
                     </div>

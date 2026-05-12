@@ -282,7 +282,7 @@ export default function SellPage() {
                           </span>
                           <span className="mt-2 block h-1.5 overflow-hidden rounded-full bg-white/[0.08]" aria-hidden="true">
                             <span
-                              className="sell-progress-flow block h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.55),rgba(130,199,169,0.76),rgba(47,113,88,0.58))]"
+                              className="sell-progress-flow live-progress-fill block h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.55),rgba(130,199,169,0.76),rgba(47,113,88,0.58))]"
                               style={{ width: `${pipelinePercent(index)}%` }}
                             />
                           </span>
@@ -404,7 +404,7 @@ export default function SellPage() {
                   </span>
                 </div>
                 <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[rgba(17,19,15,0.07)]" aria-hidden="true">
-                  <div className="h-full w-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.48),rgba(47,113,88,0.68))]" />
+                  <div className="live-progress-fill h-full w-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.48),rgba(47,113,88,0.68))]" />
                 </div>
                 <ul className="mt-3 grid gap-2 sm:grid-cols-3">
                   {dossierCompleteness.map((item) => (
@@ -494,7 +494,7 @@ export default function SellPage() {
                           <span className="block text-sm font-semibold text-vault-graphite">{item}</span>
                           <span className="mt-1 block h-1.5 overflow-hidden rounded-full bg-[rgba(17,19,15,0.07)]" aria-hidden="true">
                             <span
-                              className="block h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.45),rgba(47,113,88,0.5))]"
+                              className="live-progress-fill block h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.45),rgba(47,113,88,0.5))]"
                               style={{ width: `${[42, 68, 92][index]}%` }}
                             />
                           </span>

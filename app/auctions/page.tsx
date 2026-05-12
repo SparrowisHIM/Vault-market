@@ -161,7 +161,7 @@ function AuctionRow({ listing, index }: { listing: VaultListing; index: number }
             </div>
             <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-[rgba(17,19,15,0.07)]" aria-hidden="true">
               <div
-                className="h-full rounded-full bg-[linear-gradient(90deg,rgba(166,111,31,0.38),rgba(47,94,124,0.55))]"
+                className="live-progress-fill h-full rounded-full bg-[linear-gradient(90deg,rgba(166,111,31,0.38),rgba(47,94,124,0.55))]"
                 style={{ width: listing.listingType === "premier" ? "86%" : "58%" }}
               />
             </div>
