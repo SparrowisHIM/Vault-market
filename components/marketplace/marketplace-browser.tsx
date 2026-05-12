@@ -200,7 +200,7 @@ function MarketSelect<T extends string>({
       </button>
 
       {open ? (
-        <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-40 overflow-hidden rounded-[8px] border border-[rgba(17,19,15,0.13)] bg-[#fbfaf5] p-1.5 shadow-[0_18px_42px_rgba(17,19,15,0.16),inset_0_1px_0_rgba(255,255,255,0.76)]">
+        <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-[90] overflow-hidden rounded-[8px] border border-[rgba(17,19,15,0.14)] bg-[#fffdf7] p-1.5 shadow-[0_24px_58px_rgba(17,19,15,0.22),inset_0_1px_0_rgba(255,255,255,0.86)]">
           <div role="listbox" aria-labelledby={`${id}-label`} className="grid gap-0.5">
             {options.map((option) => {
               const selected = option.value === value;
@@ -838,7 +838,7 @@ export function MarketplaceBrowser({
         </aside>
       </div>
 
-      <div className="marketplace-filter-shell rounded-[10px] border border-[rgba(17,19,15,0.1)] bg-[linear-gradient(180deg,rgba(255,254,249,0.76),rgba(249,248,243,0.58))] p-4 shadow-[0_16px_46px_rgba(17,19,15,0.045),inset_0_1px_0_rgba(255,255,255,0.72)] motion-safe:opacity-0">
+      <div className="marketplace-filter-shell relative z-30 rounded-[10px] border border-[rgba(17,19,15,0.1)] bg-[linear-gradient(180deg,rgba(255,254,249,0.76),rgba(249,248,243,0.58))] p-4 shadow-[0_16px_46px_rgba(17,19,15,0.045),inset_0_1px_0_rgba(255,255,255,0.72)] motion-safe:opacity-0">
         <div className="flex flex-wrap items-center justify-between gap-3 lg:hidden">
           <div>
             <p className={labelClass}>Market refinement</p>
