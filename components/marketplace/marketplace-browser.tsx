@@ -3,6 +3,8 @@
 import {
   ArrowUpRight,
   BadgeCheck,
+  Check,
+  ChevronDown,
   Grid3X3,
   RotateCcw,
   Rows3,
@@ -56,8 +58,8 @@ const sellerTrustTiers: SellerTrustTier[] = ["vault", "verified", "new"];
 const listingStatuses: ListingStatus[] = ["active", "reserved", "sold"];
 const sortValues: SortValue[] = ["market-signal", "price-high", "price-low", "grade-high"];
 
-const filterSelectClass =
-  "h-10 w-full rounded-[6px] border border-[rgba(17,19,15,0.095)] bg-[rgba(255,255,255,0.38)] px-3 text-sm font-medium text-vault-graphite shadow-[inset_0_1px_0_rgba(255,255,255,0.55)] outline-none transition hover:bg-[rgba(255,255,255,0.52)] focus:border-vault-registry focus:bg-white/68 focus:ring-2 focus:ring-[var(--focus-ring)]";
+const filterControlClass =
+  "h-11 w-full rounded-[7px] border border-[rgba(17,19,15,0.105)] bg-[rgba(255,254,249,0.58)] px-3 text-sm font-medium text-vault-graphite shadow-[inset_0_1px_0_rgba(255,255,255,0.68)] outline-none transition hover:border-[rgba(47,94,124,0.2)] hover:bg-[rgba(255,254,249,0.82)] focus:border-vault-registry focus:bg-white/86 focus:ring-2 focus:ring-[var(--focus-ring)]";
 
 const labelClass =
   "font-mono text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-vault-steel";
@@ -124,6 +126,112 @@ function listingTypeLabel(type: ListingType) {
     case "premier":
       return "Premier";
   }
+}
+
+type MarketSelectOption<T extends string> = {
+  value: T;
+  label: string;
+};
+
+function MarketSelect<T extends string>({
+  id,
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  id: string;
+  label: string;
+  value: T;
+  options: MarketSelectOption<T>[];
+  onChange: (value: T) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const selectedOption = options.find((option) => option.value === value) ?? options[0];
+
+  useEffect(() => {
+    if (!open) return;
+
+    function handlePointerDown(event: PointerEvent) {
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open]);
+
+  return (
+    <div ref={rootRef} className="relative grid gap-1.5">
+      <label className={labelClass} id={`${id}-label`}>
+        {label}
+      </label>
+      <button
+        id={id}
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-labelledby={`${id}-label ${id}`}
+        onClick={() => setOpen((current) => !current)}
+        className={cn(
+          filterControlClass,
+          "flex items-center justify-between gap-2 text-left",
+          open && "border-vault-registry bg-white/90 ring-2 ring-[var(--focus-ring)]",
+        )}
+      >
+        <span className="min-w-0 truncate">{selectedOption.label}</span>
+        <ChevronDown
+          className={cn("h-4 w-4 shrink-0 text-vault-steel transition", open && "rotate-180 text-vault-registry")}
+          aria-hidden="true"
+        />
+      </button>
+
+      {open ? (
+        <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-40 overflow-hidden rounded-[8px] border border-[rgba(17,19,15,0.13)] bg-[#fbfaf5] p-1.5 shadow-[0_18px_42px_rgba(17,19,15,0.16),inset_0_1px_0_rgba(255,255,255,0.76)]">
+          <div role="listbox" aria-labelledby={`${id}-label`} className="grid gap-0.5">
+            {options.map((option) => {
+              const selected = option.value === value;
+
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="option"
+                  aria-selected={selected}
+                  onClick={() => {
+                    onChange(option.value);
+                    setOpen(false);
+                  }}
+                  className={cn(
+                    "flex min-h-9 items-center justify-between gap-2 rounded-[6px] px-2.5 text-left text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]",
+                    selected
+                      ? "bg-[rgba(47,94,124,0.1)] text-vault-ink"
+                      : "text-vault-graphite hover:bg-[rgba(17,19,15,0.055)]",
+                  )}
+                >
+                  <span className="min-w-0 truncate">{option.label}</span>
+                  {selected ? <Check className="h-3.5 w-3.5 shrink-0 text-vault-registry" aria-hidden="true" /> : null}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
 }
 
 function getGradeValue(grade: string) {
@@ -730,7 +838,7 @@ export function MarketplaceBrowser({
         </aside>
       </div>
 
-      <div className="marketplace-filter-shell rounded-[8px] border border-[rgba(17,19,15,0.08)] bg-[rgba(249,248,243,0.54)] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.48)] motion-safe:opacity-0">
+      <div className="marketplace-filter-shell rounded-[10px] border border-[rgba(17,19,15,0.1)] bg-[linear-gradient(180deg,rgba(255,254,249,0.76),rgba(249,248,243,0.58))] p-4 shadow-[0_16px_46px_rgba(17,19,15,0.045),inset_0_1px_0_rgba(255,255,255,0.72)] motion-safe:opacity-0">
         <div className="flex flex-wrap items-center justify-between gap-3 lg:hidden">
           <div>
             <p className={labelClass}>Market refinement</p>
@@ -769,7 +877,7 @@ export function MarketplaceBrowser({
         <div
           id="marketplace-filter-panel"
           className={cn(
-            "mt-3 grid gap-3 lg:grid lg:grid-cols-[1.2fr_repeat(6,minmax(0,0.75fr))_auto] lg:items-end",
+            "mt-4 grid gap-3 lg:grid lg:grid-cols-[minmax(210px,1.35fr)_repeat(6,minmax(126px,0.82fr))_minmax(96px,auto)] lg:items-end",
             filtersOpen ? "grid" : "hidden",
           )}
         >
@@ -785,135 +893,83 @@ export function MarketplaceBrowser({
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Card, set, cert, seller..."
             autoComplete="off"
-            className={cn(filterSelectClass, "font-normal")}
+            className={cn(filterControlClass, "font-normal placeholder:text-vault-steel/58")}
           />
         </div>
 
-        <div className="grid gap-1.5">
-          <label className={labelClass} htmlFor="type-filter">
-            Sale mode
-          </label>
-          <select
-            id="type-filter"
-            name="type"
-            value={listingType}
-            onChange={(event) => setListingType(event.target.value as FilterValue<ListingType>)}
-            className={filterSelectClass}
-          >
-            <option value="all">All</option>
-            {listingTypes.map((item) => (
-              <option key={item} value={item}>
-                {listingTypeLabel(item)}
-              </option>
-            ))}
-          </select>
-        </div>
+        <MarketSelect
+          id="type-filter"
+          label="Sale mode"
+          value={listingType}
+          onChange={setListingType}
+          options={[
+            { value: "all", label: "All" },
+            ...listingTypes.map((item) => ({ value: item, label: listingTypeLabel(item) })),
+          ]}
+        />
 
-        <div className="grid gap-1.5">
-          <label className={labelClass} htmlFor="franchise-filter">
-            Franchise
-          </label>
-          <select
-            id="franchise-filter"
-            name="franchise"
-            value={franchise}
-            onChange={(event) => setFranchise(event.target.value as FilterValue<Franchise>)}
-            className={filterSelectClass}
-          >
-            <option value="all">All</option>
-            {franchises.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </div>
+        <MarketSelect
+          id="franchise-filter"
+          label="Franchise"
+          value={franchise}
+          onChange={setFranchise}
+          options={[
+            { value: "all", label: "All" },
+            ...franchises.map((item) => ({ value: item, label: item })),
+          ]}
+        />
 
-        <div className="grid gap-1.5">
-          <label className={labelClass} htmlFor="grading-filter">
-            Grader
-          </label>
-          <select
-            id="grading-filter"
-            name="grader"
-            value={gradingCompany}
-            onChange={(event) =>
-              setGradingCompany(event.target.value as FilterValue<GradingCompany>)
-            }
-            className={filterSelectClass}
-          >
-            <option value="all">All</option>
-            {gradingCompanies.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </div>
+        <MarketSelect
+          id="grading-filter"
+          label="Grader"
+          value={gradingCompany}
+          onChange={setGradingCompany}
+          options={[
+            { value: "all", label: "All" },
+            ...gradingCompanies.map((item) => ({ value: item, label: item })),
+          ]}
+        />
 
-        <div className="grid gap-1.5">
-          <label className={labelClass} htmlFor="trust-filter">
-            Trust
-          </label>
-          <select
-            id="trust-filter"
-            name="trust"
-            value={sellerTrust}
-            onChange={(event) => setSellerTrust(event.target.value as FilterValue<SellerTrustTier>)}
-            className={filterSelectClass}
-          >
-            <option value="all">All</option>
-            {sellerTrustTiers.map((item) => (
-              <option key={item} value={item}>
-                {trustLabel(item)}
-              </option>
-            ))}
-          </select>
-        </div>
+        <MarketSelect
+          id="trust-filter"
+          label="Trust"
+          value={sellerTrust}
+          onChange={setSellerTrust}
+          options={[
+            { value: "all", label: "All" },
+            ...sellerTrustTiers.map((item) => ({ value: item, label: trustLabel(item) })),
+          ]}
+        />
 
-        <div className="grid gap-1.5">
-          <label className={labelClass} htmlFor="status-filter">
-            Status
-          </label>
-          <select
-            id="status-filter"
-            name="status"
-            value={status}
-            onChange={(event) => setStatus(event.target.value as FilterValue<ListingStatus>)}
-            className={filterSelectClass}
-          >
-            <option value="all">All</option>
-            {listingStatuses.map((item) => (
-              <option key={item} value={item}>
-                {statusLabel(item)}
-              </option>
-            ))}
-          </select>
-        </div>
+        <MarketSelect
+          id="status-filter"
+          label="Status"
+          value={status}
+          onChange={setStatus}
+          options={[
+            { value: "all", label: "All" },
+            ...listingStatuses.map((item) => ({ value: item, label: statusLabel(item) })),
+          ]}
+        />
 
-        <div className="grid gap-1.5">
-          <label className={labelClass} htmlFor="sort-listings">
-            Sort
-          </label>
-          <select
-            id="sort-listings"
-            name="sort"
-            value={sort}
-            onChange={(event) => setSort(event.target.value as SortValue)}
-            className={filterSelectClass}
-          >
-            <option value="market-signal">Market signal</option>
-            <option value="price-high">Price high</option>
-            <option value="price-low">Price low</option>
-            <option value="grade-high">Grade high</option>
-          </select>
-        </div>
+        <MarketSelect
+          id="sort-listings"
+          label="Sort"
+          value={sort}
+          onChange={setSort}
+          options={[
+            { value: "market-signal", label: "Market signal" },
+            { value: "price-high", label: "Price high" },
+            { value: "price-low", label: "Price low" },
+            { value: "grade-high", label: "Grade high" },
+          ]}
+        />
 
         <button
           type="button"
           onClick={resetFilters}
           disabled={!hasActiveFilters && sort === "market-signal"}
-          className="inline-flex h-10 items-center justify-center gap-2 rounded-[6px] border border-[rgba(17,19,15,0.1)] bg-white/32 px-3 text-sm font-semibold text-vault-steel transition hover:bg-white/62 hover:text-vault-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] disabled:cursor-not-allowed disabled:opacity-45"
+          className="inline-flex h-11 items-center justify-center gap-2 rounded-[7px] border border-[rgba(17,19,15,0.1)] bg-white/30 px-3 text-sm font-semibold text-vault-steel transition hover:border-[rgba(47,94,124,0.18)] hover:bg-white/70 hover:text-vault-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] disabled:cursor-not-allowed disabled:opacity-40"
         >
           <RotateCcw className="h-4 w-4" aria-hidden="true" />
           Reset
