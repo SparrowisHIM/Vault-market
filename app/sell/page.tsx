@@ -224,7 +224,7 @@ export default function SellPage() {
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/45">
                       Intake asset
                     </p>
-                    <p className="mt-2 truncate text-2xl font-semibold text-vault-paper">
+                    <p className="mt-2 line-clamp-2 min-h-[3.2rem] text-xl font-semibold leading-tight text-vault-paper">
                       {leadIntakeAsset.title}
                     </p>
                   </div>
