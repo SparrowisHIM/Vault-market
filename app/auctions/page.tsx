@@ -99,7 +99,9 @@ function SummaryCard({
           <p className="font-mono text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
             {label}
           </p>
-          <p className="mt-2 text-2xl font-semibold leading-none text-vault-ink">{value}</p>
+          <p className="summary-meter-value mt-2 text-2xl font-semibold leading-none text-vault-ink" data-summary-value={value}>
+            {value}
+          </p>
         </div>
         <span className="grid h-9 w-9 place-items-center rounded-[7px] border border-[var(--border-soft)] bg-white/56 text-vault-registry">
           <Icon className="h-4 w-4" aria-hidden="true" />
@@ -107,7 +109,7 @@ function SummaryCard({
       </div>
       <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-[rgba(17,19,15,0.07)]" aria-hidden="true">
         <div
-          className="h-full rounded-full bg-[linear-gradient(90deg,rgba(166,111,31,0.36),rgba(47,94,124,0.58),rgba(47,113,88,0.42))]"
+          className="summary-meter-fill h-full rounded-full bg-[linear-gradient(90deg,rgba(166,111,31,0.36),rgba(47,94,124,0.58),rgba(47,113,88,0.42))]"
           style={{ width: `${fill}%` }}
         />
       </div>

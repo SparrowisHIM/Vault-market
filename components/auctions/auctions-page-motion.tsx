@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { createScope, createTimeline, stagger } from "animejs";
 import { installContainerBoundMotion } from "@/lib/motion/container-bounds";
+import { installSummaryMeterMotion } from "@/lib/motion/summary-meters";
 
 type AuctionsPageMotionProps = {
   children: React.ReactNode;
@@ -19,9 +20,11 @@ export function AuctionsPageMotion({ children }: AuctionsPageMotionProps) {
     if (reduceMotion) return;
 
     let cleanupContainerBounds: (() => void) | null = null;
+    let cleanupSummaryMeters: (() => void) | null = null;
 
     const scope = createScope({ root }).add(() => {
       cleanupContainerBounds = installContainerBoundMotion(root);
+      cleanupSummaryMeters = installSummaryMeterMotion(root);
 
       const timeline = createTimeline({
         defaults: {
@@ -112,6 +115,7 @@ export function AuctionsPageMotion({ children }: AuctionsPageMotionProps) {
 
     return () => {
       cleanupContainerBounds?.();
+      cleanupSummaryMeters?.();
       scope.revert();
     };
   }, []);

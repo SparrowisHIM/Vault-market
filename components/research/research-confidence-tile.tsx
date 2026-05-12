@@ -27,7 +27,9 @@ export function ResearchConfidenceTile({
           <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
             {label}
           </p>
-          <p className="mt-2 text-2xl font-semibold leading-none text-vault-ink">{value}</p>
+          <p className="summary-meter-value mt-2 text-2xl font-semibold leading-none text-vault-ink" data-summary-value={value}>
+            {value}
+          </p>
         </div>
         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[7px] border border-[var(--border-soft)] bg-white/56 text-vault-registry transition group-hover:border-[rgba(47,94,124,0.28)] group-hover:bg-white/80">
           <Icon className="h-4 w-4" aria-hidden="true" />
@@ -43,8 +45,8 @@ export function ResearchConfidenceTile({
                 key={tick}
                 className={
                   active
-                    ? "h-5 flex-1 rounded-[2px] bg-[linear-gradient(180deg,rgba(47,113,88,0.58),rgba(47,94,124,0.32))]"
-                    : "h-3 flex-1 rounded-[2px] bg-[rgba(17,19,15,0.075)]"
+                    ? "summary-meter-tick-active h-5 flex-1 origin-bottom rounded-[2px] bg-[linear-gradient(180deg,rgba(47,113,88,0.58),rgba(47,94,124,0.32))]"
+                    : "summary-meter-tick-idle h-3 flex-1 origin-bottom rounded-[2px] bg-[rgba(17,19,15,0.075)]"
                 }
               />
             );
@@ -52,7 +54,7 @@ export function ResearchConfidenceTile({
         </div>
         <div className="h-1 overflow-hidden rounded-full bg-[rgba(17,19,15,0.06)]">
           <div
-            className="h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.38),rgba(47,113,88,0.5),rgba(166,111,31,0.34))]"
+            className="summary-meter-fill h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.38),rgba(47,113,88,0.5),rgba(166,111,31,0.34))]"
             style={{ width: `${width}%` }}
           />
         </div>

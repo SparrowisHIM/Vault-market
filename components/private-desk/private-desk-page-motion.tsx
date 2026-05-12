@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { animate, createScope, createTimeline, stagger } from "animejs";
 import { installContainerBoundMotion } from "@/lib/motion/container-bounds";
+import { installSummaryMeterMotion } from "@/lib/motion/summary-meters";
 
 type PrivateDeskPageMotionProps = {
   children: React.ReactNode;
@@ -20,9 +21,11 @@ export function PrivateDeskPageMotion({ children }: PrivateDeskPageMotionProps) 
 
     let lowerDeskObserver: IntersectionObserver | null = null;
     let cleanupContainerBounds: (() => void) | null = null;
+    let cleanupSummaryMeters: (() => void) | null = null;
 
     const scope = createScope({ root }).add(() => {
       cleanupContainerBounds = installContainerBoundMotion(root);
+      cleanupSummaryMeters = installSummaryMeterMotion(root);
 
       const timeline = createTimeline({
         defaults: {
@@ -186,6 +189,7 @@ export function PrivateDeskPageMotion({ children }: PrivateDeskPageMotionProps) 
     return () => {
       lowerDeskObserver?.disconnect();
       cleanupContainerBounds?.();
+      cleanupSummaryMeters?.();
       scope.revert();
     };
   }, []);

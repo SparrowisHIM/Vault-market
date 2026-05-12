@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { createScope, createTimeline, stagger } from "animejs";
 import { installContainerBoundMotion } from "@/lib/motion/container-bounds";
+import { installSummaryMeterMotion } from "@/lib/motion/summary-meters";
 
 type SellPageMotionProps = {
   children: React.ReactNode;
@@ -20,9 +21,11 @@ export function SellPageMotion({ children }: SellPageMotionProps) {
 
     let lowerSellObserver: IntersectionObserver | null = null;
     let cleanupContainerBounds: (() => void) | null = null;
+    let cleanupSummaryMeters: (() => void) | null = null;
 
     const scope = createScope({ root }).add(() => {
       cleanupContainerBounds = installContainerBoundMotion(root);
+      cleanupSummaryMeters = installSummaryMeterMotion(root);
 
       const timeline = createTimeline({
         defaults: {
@@ -189,6 +192,7 @@ export function SellPageMotion({ children }: SellPageMotionProps) {
     return () => {
       lowerSellObserver?.disconnect();
       cleanupContainerBounds?.();
+      cleanupSummaryMeters?.();
       scope.revert();
     };
   }, []);
