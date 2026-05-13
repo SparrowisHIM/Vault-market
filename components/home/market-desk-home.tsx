@@ -55,6 +55,7 @@ const storySteps = [
     label: "Inspect",
     kicker: "Start with the slab",
     detail: "Review cert, grade, custody, seller trust, and slab notes before price becomes the only signal.",
+    cta: "Open marketplace",
     icon: Search,
   },
   {
@@ -62,6 +63,7 @@ const storySteps = [
     label: "Read the market",
     kicker: "Comps with context",
     detail: "Compare ask, last comp, population, rarity, and current signal to separate noise from conviction.",
+    cta: "Open research",
     icon: BookOpen,
   },
   {
@@ -69,6 +71,7 @@ const storySteps = [
     label: "Route exceptional slabs",
     kicker: "Private desk",
     detail: "Send rare or high-value cards into specialist review when the decision deserves a slower room.",
+    cta: "Enter desk",
     icon: Landmark,
     exclusive: true,
   },
@@ -524,7 +527,7 @@ export function MarketDeskHome() {
                 <div className="flex items-center justify-between gap-3 border-b border-white/10 pb-3">
                   <div>
                     <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/46">
-                      Mobile desk brief
+                      Desk brief
                     </p>
                     <p className="mt-1 text-sm font-semibold text-vault-paper">
                       Evidence before the slab opens
@@ -772,7 +775,7 @@ export function MarketDeskHome() {
                     />
                   </span>
                   <span className={cn("mt-5 inline-flex items-center gap-2 text-sm font-semibold", item.exclusive ? "text-vault-paper/74" : "text-vault-registry")}>
-                    Continue
+                    {item.cta}
                     <ArrowRight
                       className="workflow-step-arrow h-4 w-4 shrink-0 transition motion-safe:group-hover:translate-x-0.5 motion-safe:opacity-0"
                       aria-hidden="true"
