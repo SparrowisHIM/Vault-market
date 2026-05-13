@@ -7,14 +7,16 @@ import {
   ArrowRight,
   BookOpen,
   Gauge,
-  Gem,
   Landmark,
   LineChart,
   Search,
   Sparkles,
 } from "lucide-react";
+import { ListingTypeBadge } from "@/components/marketplace/listing-type-badge";
+import { MarketDelta } from "@/components/marketplace/market-delta";
+import { SellerTrustBadge } from "@/components/marketplace/seller-trust-badge";
 import { SlabArtImage } from "@/components/marketplace/slab-art-image";
-import { formatCurrency, formatPopulation } from "@/lib/marketplace/format";
+import { formatCurrency, formatPopulation, getVaultStatusLabel } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
 import type { VaultListing } from "@/lib/marketplace/types";
 import { installContainerBoundMotion } from "@/lib/motion/container-bounds";
@@ -77,7 +79,13 @@ const tapeItems = mockListings.map((listing) => ({
 
 const heroHeadlineWords = "Built For Slabs Worth Slowing Down For.".split(" ");
 const workflowHeadingWords = "Inspect First. Read The Market. Route The Exceptional.".split(" ");
-const homepagePreviewListings = mockListings.slice(0, 3);
+const homepagePreviewListings = [
+  "2003-pokemon-skyridge-crystal-ho-oh-psa-10",
+  "1999-pokemon-first-edition-blastoise-psa-9",
+  "2021-pokemon-umbreon-vmax-alt-art-psa-10",
+]
+  .map((slug) => mockListings.find((listing) => listing.slug === slug))
+  .filter(Boolean) as VaultListing[];
 const privateDeskCandidate =
   mockListings.find((listing) => listing.listingType === "premier") ?? mockListings[0];
 const strongestSignalListing =
@@ -721,37 +729,97 @@ export function MarketDeskHome() {
       </section>
 
       <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.68fr_1.32fr] lg:items-start">
-          <LandingSectionHeader
-            eyebrow="Marketplace preview"
-            title="Browse the book before opening the slab."
-            copy="Cert, population, custody, and price stay close together so each card can be read before it is chased."
-          />
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <LandingSectionHeader
+              eyebrow="Marketplace preview"
+              title="Browse the book before opening the slab."
+              copy="Listings surface grade, cert, seller trust, custody posture, ask, and market movement before the collector enters the full inspection room."
+            />
+            <Link
+              href="/marketplace"
+              className="inline-flex h-11 w-fit items-center justify-center gap-2 rounded-[7px] border border-[var(--border-soft)] bg-white/48 px-4 text-sm font-semibold text-vault-graphite transition duration-200 hover:-translate-y-0.5 hover:bg-white/74 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
+            >
+              Open marketplace
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
 
-          <div className="grid gap-3">
+          <div className="mt-8 grid gap-4 lg:grid-cols-3">
             {homepagePreviewListings.map((listing) => (
-              <Link
+              <article
                 key={listing.id}
-                href={`/marketplace/${listing.slug}`}
-                className="group grid gap-4 rounded-[10px] border border-[var(--border-soft)] bg-white/48 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.66)] transition duration-200 hover:-translate-y-0.5 hover:bg-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:grid-cols-[auto_1fr_auto] sm:items-center"
+                className="group relative overflow-hidden rounded-[14px] border border-[rgba(17,19,15,0.12)] bg-[linear-gradient(145deg,rgba(255,255,255,0.58),rgba(244,241,233,0.42))] p-3 shadow-[0_24px_70px_rgba(17,19,15,0.08),inset_0_1px_0_rgba(255,255,255,0.72)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(47,94,124,0.22)]"
               >
-                <span className="grid h-12 w-12 place-items-center rounded-[9px] border border-[var(--border-soft)] bg-[rgba(17,19,15,0.92)] text-vault-paper">
-                  <Gem className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <span className="min-w-0">
-                  <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
-                    {listing.gradingCompany} {listing.grade}
-                  </span>
-                  <span className="mt-1 block text-lg font-semibold text-vault-ink">{listing.title}</span>
-                  <span className="mt-1 block text-sm leading-6 text-vault-steel">
-                    {formatPopulation(listing.population)} / {listing.vaultStatus.replace("_", " ")}
-                  </span>
-                </span>
-                <span className="flex items-center gap-3 sm:justify-end">
-                  <span className="text-sm font-semibold text-vault-ink">{formatCurrency(listing.priceCents)}</span>
-                  <ArrowRight className="h-4 w-4 text-vault-registry transition group-hover:translate-x-0.5" aria-hidden="true" />
-                </span>
-              </Link>
+                <div className="relative overflow-hidden rounded-[11px] border border-[rgba(17,19,15,0.1)] bg-[rgba(17,19,15,0.92)] p-4">
+                  <div className="absolute inset-x-8 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,196,178,0.42),transparent)]" aria-hidden="true" />
+                  <div className="relative mx-auto aspect-[5/7] w-full max-w-[210px] overflow-hidden rounded-[10px] shadow-[0_24px_42px_rgba(0,0,0,0.26)] transition duration-300 group-hover:scale-[1.015] motion-reduce:transition-none">
+                    <SlabArtImage image={listing.image} sizes="(min-width: 1024px) 210px, 62vw" />
+                  </div>
+                </div>
+
+                <div className="px-1 pb-2 pt-4">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <ListingTypeBadge type={listing.listingType} compact />
+                    <MarketDelta value={listing.marketDeltaPercent} compact />
+                  </div>
+                  <h3 className="mt-3 min-h-[3.25rem] text-lg font-semibold leading-6 text-vault-ink">
+                    {listing.title}
+                  </h3>
+
+                  <div className="mt-4 grid grid-cols-2 gap-2 border-y border-[rgba(17,19,15,0.08)] py-3">
+                    <div>
+                      <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
+                        Grade
+                      </p>
+                      <p className="mt-1 text-sm font-semibold text-vault-ink">
+                        {listing.gradingCompany} {listing.grade}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
+                        Ask
+                      </p>
+                      <p className="mt-1 text-sm font-semibold text-vault-ink">
+                        {formatCurrency(listing.priceCents)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
+                        Cert
+                      </p>
+                      <p className="mt-1 text-sm font-semibold text-vault-ink">{listing.certNumber}</p>
+                    </div>
+                    <div>
+                      <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-steel">
+                        Pop
+                      </p>
+                      <p className="mt-1 text-sm font-semibold text-vault-ink">
+                        {formatPopulation(listing.population).replace("Pop ", "")}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <SellerTrustBadge
+                      tier={listing.seller.trustTier}
+                      completedSales={listing.seller.completedSales}
+                      compact
+                    />
+                    <span className="rounded-[5px] border border-[rgba(47,94,124,0.18)] bg-[rgba(47,94,124,0.07)] px-1.5 py-1 font-mono text-[0.66rem] font-medium text-[#244f69]">
+                      {getVaultStatusLabel(listing.vaultStatus)}
+                    </span>
+                  </div>
+
+                  <Link
+                    href={`/marketplace/${listing.slug}`}
+                    className="mt-5 inline-flex h-10 w-full items-center justify-center gap-2 rounded-[7px] border border-vault-graphite bg-vault-ink px-4 text-sm font-semibold text-vault-paper transition duration-200 hover:bg-vault-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
+                  >
+                    Inspect slab
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" aria-hidden="true" />
+                  </Link>
+                </div>
+              </article>
             ))}
           </div>
         </div>
