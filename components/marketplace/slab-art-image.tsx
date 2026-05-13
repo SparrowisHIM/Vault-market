@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import { useState } from "react";
 import type { ListingImage } from "@/lib/marketplace/types";
 import { cn } from "@/lib/utils";
 
@@ -14,37 +12,17 @@ type SlabArtImageProps = {
 
 export function SlabArtImage({
   image,
-  sizes: _sizes,
-  priority = false,
   className,
 }: SlabArtImageProps) {
-  const [useFallback, setUseFallback] = useState(false);
-  const shouldRenderFallback = useFallback || image.src === image.fallbackSrc;
-
-  if (shouldRenderFallback) {
-    return (
-      // Native img is more reliable for inline SVG data artwork than Next/Image.
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={image.fallbackSrc}
-        alt={image.fallbackAlt}
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
-        className={cn("absolute inset-0 h-full w-full object-contain", className)}
-      />
-    );
-  }
-
   return (
-    <Image
-      src={image.src}
-      alt={image.alt}
-      fill
-      sizes={_sizes}
-      unoptimized
-      priority={priority}
-      onError={() => setUseFallback(true)}
-      className={cn("object-contain", className)}
+    // Native img is more reliable for inline SVG data artwork than Next/Image.
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={image.fallbackSrc}
+      alt={image.fallbackAlt || image.alt}
+      loading="eager"
+      decoding="async"
+      className={cn("absolute inset-0 h-full w-full object-contain", className)}
     />
   );
 }
