@@ -42,8 +42,8 @@ const heroStackLayouts: Record<HeroStackLayout, HeroStackPosition[]> = {
   ],
   spread: [
     { x: "0px", y: "-8px", rotate: 0, zIndex: 40 },
-    { x: "clamp(-214px,-15vw,-122px)", y: "clamp(14px,2.5vw,32px)", rotate: -16, zIndex: 24 },
-    { x: "clamp(122px,15vw,214px)", y: "clamp(14px,2.5vw,32px)", rotate: 16, zIndex: 18 },
+    { x: "clamp(-214px,min(-15vw,-78px),-72px)", y: "clamp(14px,2.5vw,32px)", rotate: -16, zIndex: 24 },
+    { x: "clamp(72px,max(15vw,78px),214px)", y: "clamp(14px,2.5vw,32px)", rotate: 16, zIndex: 18 },
   ],
 };
 
@@ -1008,16 +1008,16 @@ export function MarketDeskHome() {
 
               <article className="relative overflow-hidden rounded-[13px] border border-[rgba(155,194,220,0.18)] bg-[linear-gradient(145deg,rgba(255,255,255,0.1),rgba(255,255,255,0.045))] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
                 <div className="absolute inset-x-8 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,194,220,0.58),transparent)]" aria-hidden="true" />
-                <div className="flex items-center justify-between gap-4">
-                  <div>
+                <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sm:gap-4">
+                  <div className="min-w-0">
                     <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/46">
                       Desk ticket
                     </p>
-                    <p className="mt-2 font-mono text-2xl font-semibold tracking-[0.08em] text-vault-paper">
+                    <p className="mt-2 break-words font-mono text-2xl font-semibold tracking-[0.08em] text-vault-paper">
                       {privateDeskTicketId}
                     </p>
                   </div>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-[rgba(155,194,220,0.2)] bg-[rgba(47,94,124,0.14)] px-3 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-[#9bc2dc]">
+                  <span className="inline-flex shrink-0 items-center gap-2 rounded-full border border-[rgba(155,194,220,0.2)] bg-[rgba(47,94,124,0.14)] px-3 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-[#9bc2dc]">
                     <span className="private-desk-pulse h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
                     Verified path
                   </span>
