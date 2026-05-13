@@ -767,10 +767,10 @@ export function MarketDeskHome() {
                   <span className={cn("mt-5 block h-1 overflow-hidden rounded-full", item.exclusive ? "bg-white/10" : "bg-[rgba(17,19,15,0.08)]")}>
                     <span
                       className={cn(
-                        "block h-full rounded-full transition-all duration-300 motion-reduce:transition-none",
+                        "live-progress-fill block h-full rounded-full transition-opacity duration-200 motion-reduce:transition-none",
                         item.exclusive
-                          ? "w-4/5 bg-[linear-gradient(90deg,rgba(155,196,178,0.42),rgba(244,241,233,0.72))] group-hover:w-full"
-                          : "w-3/5 bg-[linear-gradient(90deg,rgba(47,94,124,0.42),rgba(155,196,178,0.58))] group-hover:w-4/5",
+                          ? "w-4/5 bg-[linear-gradient(90deg,rgba(155,196,178,0.42),rgba(244,241,233,0.72))] group-hover:opacity-95"
+                          : "w-3/5 bg-[linear-gradient(90deg,rgba(47,94,124,0.42),rgba(155,196,178,0.58))] group-hover:opacity-95",
                       )}
                     />
                   </span>

@@ -190,7 +190,7 @@ export function QuickActions({
         aria-label={primaryAction.ariaLabel}
       >
         <span
-          className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.24),transparent)] transition duration-500 group-hover:translate-x-[320%]"
+          className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.24),transparent)] transition-transform duration-200 group-hover:translate-x-[320%]"
           aria-hidden="true"
         />
         <PrimaryIcon className={cn("h-4 w-4", !compact && "mr-1.5")} aria-hidden="true" />
@@ -209,7 +209,7 @@ export function QuickActions({
       aria-label={primaryAction.ariaLabel}
     >
       <span
-        className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.24),transparent)] transition duration-500 group-hover:translate-x-[320%]"
+        className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.24),transparent)] transition-transform duration-200 group-hover:translate-x-[320%]"
         aria-hidden="true"
       />
       <PrimaryIcon className={cn("h-4 w-4", !compact && "mr-1.5")} aria-hidden="true" />
