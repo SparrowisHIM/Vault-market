@@ -92,15 +92,13 @@ export function installSummaryMeterMotion(root: HTMLElement) {
 
   if (fills.length > 0) {
     fills.forEach((fill) => {
-      fill.style.transformOrigin = "left center";
-      fill.style.willChange = "opacity, transform";
+      fill.style.willChange = "opacity";
     });
 
     animations.push(
       animate(fills, {
-        scaleX: [0, 1],
-        opacity: [0.45, 1],
-        duration: 760,
+        opacity: [0.58, 1],
+        duration: 520,
         delay: stagger(82, { start: 260 }),
         ease: "outExpo",
       }),
