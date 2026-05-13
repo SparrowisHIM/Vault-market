@@ -136,6 +136,7 @@ function AccessButton({ label = "Seller access required" }: { label?: string }) 
       aria-disabled="true"
       aria-describedby="sell-submit-note"
       title="Seller intake requires approved collector access."
+      suppressHydrationWarning
       className="inline-flex h-11 items-center justify-center gap-2 rounded-[6px] border border-[var(--border-soft)] bg-white/34 px-4 text-sm font-semibold text-vault-steel transition hover:bg-white/48 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
     >
       <LockKeyhole className="h-4 w-4" aria-hidden="true" />
