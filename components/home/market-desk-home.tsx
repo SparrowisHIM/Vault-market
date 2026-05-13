@@ -6,12 +6,16 @@ import { animate, createScope, createTimeline, stagger } from "animejs";
 import {
   ArrowRight,
   BookOpen,
+  Gauge,
+  Gem,
   Landmark,
+  LineChart,
   Search,
+  ShieldCheck,
   Sparkles,
 } from "lucide-react";
 import { SlabArtImage } from "@/components/marketplace/slab-art-image";
-import { formatCurrency } from "@/lib/marketplace/format";
+import { formatCurrency, formatPopulation } from "@/lib/marketplace/format";
 import { mockListings } from "@/lib/marketplace/mock-listings";
 import type { VaultListing } from "@/lib/marketplace/types";
 import { installContainerBoundMotion } from "@/lib/motion/container-bounds";
@@ -73,7 +77,77 @@ const tapeItems = mockListings.map((listing) => ({
 }));
 
 const heroHeadlineWords = "Built For Slabs Worth Slowing Down For.".split(" ");
-const workflowHeadingWords = "A slower path for faster conviction.".split(" ");
+const workflowHeadingWords = "Inspect First. Read The Market. Route The Exceptional.".split(" ");
+const homepagePreviewListings = mockListings.slice(0, 3);
+const privateDeskCandidate =
+  mockListings.find((listing) => listing.listingType === "premier") ?? mockListings[0];
+const strongestSignalListing =
+  [...mockListings].sort((a, b) => (b.marketDeltaPercent ?? 0) - (a.marketDeltaPercent ?? 0))[0] ??
+  mockListings[0];
+const rarestPopulationListing =
+  [...mockListings].sort((a, b) => (a.population ?? Number.MAX_SAFE_INTEGER) - (b.population ?? Number.MAX_SAFE_INTEGER))[0] ??
+  mockListings[0];
+
+const marketFrictionPoints = [
+  {
+    title: "Condition gets flattened",
+    copy: "Photos, certs, population, and custody notes often sit too far from the decision.",
+  },
+  {
+    title: "Comps arrive without context",
+    copy: "A price can look obvious until grade, eye appeal, timing, and seller trust are read together.",
+  },
+  {
+    title: "Exceptional cards move too fast",
+    copy: "The slabs that deserve specialist attention are pushed through the same quick-buy rhythm.",
+  },
+];
+
+const researchSignalPoints = [
+  {
+    label: "Signal read",
+    value: strongestSignalListing.title,
+    detail: `${(strongestSignalListing.marketDeltaPercent ?? 0) > 0 ? "+" : ""}${(strongestSignalListing.marketDeltaPercent ?? 0).toFixed(1)}% market delta`,
+  },
+  {
+    label: "Population lens",
+    value: rarestPopulationListing.title,
+    detail: formatPopulation(rarestPopulationListing.population),
+  },
+  {
+    label: "Desk posture",
+    value: "Hold the rush",
+    detail: "Evidence, custody, and comps stay visible before conviction.",
+  },
+];
+
+type LandingSectionHeaderProps = {
+  eyebrow: string;
+  title: string;
+  copy: string;
+  align?: "left" | "center";
+};
+
+function LandingSectionHeader({
+  eyebrow,
+  title,
+  copy,
+  align = "left",
+}: LandingSectionHeaderProps) {
+  return (
+    <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center")}>
+      <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
+        {eyebrow}
+      </p>
+      <h2 className="mt-3 text-3xl font-semibold leading-tight text-vault-ink sm:text-4xl">
+        {title}
+      </h2>
+      <p className="mt-4 text-sm leading-6 text-vault-steel sm:text-base sm:leading-7">
+        {copy}
+      </p>
+    </div>
+  );
+}
 
 export function MarketDeskHome() {
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -480,11 +554,41 @@ export function MarketDeskHome() {
         </div>
       </section>
 
-      <section className="workflow-section px-4 py-12 sm:px-6 lg:px-8">
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <LandingSectionHeader
+            eyebrow="Market friction"
+            title="Most marketplaces ask for a decision before showing the evidence."
+            copy="VaultMarket slows the first read down enough for the condition, custody, comps, and seller posture to stay visible."
+          />
+
+          <div className="mt-8 grid gap-3 md:grid-cols-3">
+            {marketFrictionPoints.map((item, index) => (
+              <article
+                key={item.title}
+                className="rounded-[10px] border border-[var(--border-soft)] bg-white/44 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.62)]"
+              >
+                <div className="mb-5 flex items-center justify-between gap-4">
+                  <span className="grid h-10 w-10 place-items-center rounded-[8px] border border-[var(--border-soft)] bg-white/54 text-vault-registry">
+                    <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                  <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <h3 className="text-lg font-semibold text-vault-ink">{item.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-vault-steel">{item.copy}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="workflow-section px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.64fr_1.36fr] lg:items-start">
           <div>
             <p className="workflow-kicker font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-vault-steel motion-safe:opacity-0">
-              How VaultMarket is read
+              VaultMarket method
             </p>
             <h2 className="mt-3 max-w-md text-3xl font-semibold leading-tight text-vault-ink sm:text-4xl">
               {workflowHeadingWords.map((word, index) => (
@@ -495,7 +599,7 @@ export function MarketDeskHome() {
               ))}
             </h2>
             <p className="workflow-support-copy mt-4 max-w-md text-sm leading-6 text-vault-steel motion-safe:opacity-0">
-              The desk is organized around a simple collector workflow: inspect the slab,
+              The desk is organized around a collector workflow: inspect the slab,
               read the market, and reserve specialist attention for the cards that need it.
             </p>
           </div>
@@ -554,6 +658,144 @@ export function MarketDeskHome() {
                 </Link>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.68fr_1.32fr] lg:items-start">
+          <LandingSectionHeader
+            eyebrow="Marketplace preview"
+            title="Browse the book before opening the slab."
+            copy="The homepage preview stays editorial and light for now, using the same demo listing source as the marketplace."
+          />
+
+          <div className="grid gap-3">
+            {homepagePreviewListings.map((listing) => (
+              <Link
+                key={listing.id}
+                href={`/marketplace/${listing.slug}`}
+                className="group grid gap-4 rounded-[10px] border border-[var(--border-soft)] bg-white/48 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.66)] transition duration-200 hover:-translate-y-0.5 hover:bg-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:grid-cols-[auto_1fr_auto] sm:items-center"
+              >
+                <span className="grid h-12 w-12 place-items-center rounded-[9px] border border-[var(--border-soft)] bg-[rgba(17,19,15,0.92)] text-vault-paper">
+                  <Gem className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <span className="min-w-0">
+                  <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
+                    {listing.gradingCompany} {listing.grade}
+                  </span>
+                  <span className="mt-1 block text-lg font-semibold text-vault-ink">{listing.title}</span>
+                  <span className="mt-1 block text-sm leading-6 text-vault-steel">
+                    {formatPopulation(listing.population)} / {listing.vaultStatus.replace("_", " ")}
+                  </span>
+                </span>
+                <span className="flex items-center gap-3 sm:justify-end">
+                  <span className="text-sm font-semibold text-vault-ink">{formatCurrency(listing.priceCents)}</span>
+                  <ArrowRight className="h-4 w-4 text-vault-registry transition group-hover:translate-x-0.5" aria-hidden="true" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-7xl rounded-[18px] border border-[rgba(17,19,15,0.14)] bg-[rgba(17,19,15,0.93)] p-6 text-vault-paper shadow-[0_28px_90px_rgba(17,19,15,0.2)] sm:p-8 lg:p-10">
+          <div className="grid gap-8 lg:grid-cols-[0.74fr_1.26fr] lg:items-start">
+            <div>
+              <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/52">
+                Research signal
+              </p>
+              <h2 className="mt-3 max-w-xl text-3xl font-semibold leading-tight text-vault-paper sm:text-4xl">
+                Market context before conviction.
+              </h2>
+              <p className="mt-4 max-w-lg text-sm leading-6 text-vault-paper/64 sm:text-base sm:leading-7">
+                Signal blocks stay calm and readable, setting up the deeper research experience without pretending to be live data.
+              </p>
+            </div>
+
+            <div className="grid gap-3 md:grid-cols-3">
+              {researchSignalPoints.map((item, index) => (
+                <article
+                  key={item.label}
+                  className="rounded-[10px] border border-white/10 bg-white/[0.055] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                >
+                  <div className="mb-6 flex items-center justify-between gap-4">
+                    <span className="grid h-10 w-10 place-items-center rounded-[8px] border border-white/10 bg-white/[0.07] text-[#9bc4b2]">
+                      {index === 0 ? (
+                        <LineChart className="h-4 w-4" aria-hidden="true" />
+                      ) : (
+                        <Gauge className="h-4 w-4" aria-hidden="true" />
+                      )}
+                    </span>
+                    <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/42">
+                      {item.label}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-semibold leading-6 text-vault-paper">{item.value}</h3>
+                  <p className="mt-3 text-sm leading-6 text-vault-paper/58">{item.detail}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.06fr_0.94fr] lg:items-stretch">
+          <div className="rounded-[14px] border border-[var(--border-soft)] bg-white/46 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.66)] sm:p-8">
+            <LandingSectionHeader
+              eyebrow="Private desk handoff"
+              title="Exceptional slabs deserve a slower room."
+              copy="The handoff section frames the private desk as a quieter continuation of the same evidence-first flow."
+            />
+          </div>
+
+          <Link
+            href="/private-desk"
+            className="group flex min-h-[19rem] flex-col justify-between rounded-[14px] border border-[rgba(17,19,15,0.32)] bg-[linear-gradient(145deg,rgba(17,19,15,0.96),rgba(37,40,32,0.94))] p-6 text-vault-paper shadow-[0_28px_80px_rgba(17,19,15,0.2)] transition duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:p-8"
+          >
+            <span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.07] px-3 py-1.5 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/58">
+                <Landmark className="h-3.5 w-3.5" aria-hidden="true" />
+                Desk candidate
+              </span>
+              <span className="mt-6 block text-2xl font-semibold leading-tight">{privateDeskCandidate.title}</span>
+              <span className="mt-3 block text-sm leading-6 text-vault-paper/62">
+                {privateDeskCandidate.gradingCompany} {privateDeskCandidate.grade} / {formatCurrency(privateDeskCandidate.priceCents)}
+              </span>
+            </span>
+            <span className="mt-8 inline-flex items-center gap-2 text-sm font-semibold">
+              Continue to private desk
+              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" aria-hidden="true" />
+            </span>
+          </Link>
+        </div>
+      </section>
+
+      <section className="px-4 pb-20 pt-16 sm:px-6 sm:pb-24 sm:pt-20 lg:px-8">
+        <div className="mx-auto max-w-5xl text-center">
+          <LandingSectionHeader
+            eyebrow="Final entry"
+            title="Enter the desk with context."
+            copy="Browse the market, compare the signal, or move directly into private review when the slab calls for more time."
+            align="center"
+          />
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link
+              href="/marketplace"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-[7px] border border-vault-graphite bg-vault-ink px-5 text-sm font-semibold text-vault-paper shadow-[0_18px_44px_rgba(17,19,15,0.18)] transition duration-200 hover:-translate-y-0.5 hover:bg-vault-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
+            >
+              Browse graded cards
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+            <Link
+              href="/private-desk"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-[7px] border border-[var(--border-soft)] bg-white/50 px-5 text-sm font-semibold text-vault-graphite transition duration-200 hover:-translate-y-0.5 hover:bg-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
+            >
+              Private desk access
+              <Landmark className="h-4 w-4" aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </section>
