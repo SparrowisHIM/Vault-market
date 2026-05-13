@@ -667,7 +667,7 @@ export function MarketDeskHome() {
           <LandingSectionHeader
             eyebrow="Marketplace preview"
             title="Browse the book before opening the slab."
-            copy="The homepage preview stays editorial and light for now, using the same demo listing source as the marketplace."
+            copy="Cert, population, custody, and price stay close together so each card can be read before it is chased."
           />
 
           <div className="grid gap-3">
@@ -710,7 +710,7 @@ export function MarketDeskHome() {
                 Market context before conviction.
               </h2>
               <p className="mt-4 max-w-lg text-sm leading-6 text-vault-paper/64 sm:text-base sm:leading-7">
-                Signal blocks stay calm and readable, setting up the deeper research experience without pretending to be live data.
+                Comp movement, population pressure, and desk posture sit together so conviction forms from evidence instead of speed.
               </p>
             </div>
 
@@ -747,7 +747,7 @@ export function MarketDeskHome() {
             <LandingSectionHeader
               eyebrow="Private desk handoff"
               title="Exceptional slabs deserve a slower room."
-              copy="The handoff section frames the private desk as a quieter continuation of the same evidence-first flow."
+              copy="For slabs that carry more weight than a quick listing, the desk keeps the read slower, quieter, and better documented."
             />
           </div>
 
