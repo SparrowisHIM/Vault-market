@@ -93,7 +93,7 @@ export function installSummaryMeterMotion(root: HTMLElement) {
   if (fills.length > 0) {
     fills.forEach((fill) => {
       fill.style.transformOrigin = "left center";
-      fill.style.willChange = "filter, box-shadow, opacity, transform";
+      fill.style.willChange = "opacity, transform";
     });
 
     animations.push(
@@ -106,20 +106,6 @@ export function installSummaryMeterMotion(root: HTMLElement) {
       }),
     );
 
-    animations.push(
-      animate(fills, {
-        filter: ["brightness(0.96)", "brightness(1.22)", "brightness(1)"],
-        boxShadow: [
-          "0 0 0 rgba(47,113,88,0)",
-          "0 0 16px rgba(47,113,88,0.34)",
-          "0 0 0 rgba(47,113,88,0)",
-        ],
-        duration: 1800,
-        delay: stagger(140, { start: 1050 }),
-        loop: true,
-        ease: "inOutSine",
-      }),
-    );
   }
 
   if (activeTicks.length > 0) {
