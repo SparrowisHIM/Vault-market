@@ -49,21 +49,21 @@ const storySteps = [
     href: "/marketplace",
     label: "Inspect",
     kicker: "Start with the slab",
-    detail: "Review cert, grade, custody, seller trust, and inspection notes before the price ever becomes the point.",
+    detail: "Review cert, grade, custody, seller trust, and slab notes before price becomes the only signal.",
     icon: Search,
   },
   {
     href: "/research",
     label: "Read the market",
     kicker: "Comps with context",
-    detail: "Use market signal, last comp, population, and estimate range to separate noise from conviction.",
+    detail: "Compare ask, last comp, population, rarity, and current signal to separate noise from conviction.",
     icon: BookOpen,
   },
   {
     href: "/private-desk",
     label: "Route exceptional slabs",
     kicker: "Private desk",
-    detail: "For cards that deserve a slower decision, send the slab into specialist review and high-touch desk handling.",
+    detail: "Send rare or high-value cards into specialist review when the decision deserves a slower room.",
     icon: Landmark,
     exclusive: true,
   },
@@ -627,7 +627,7 @@ export function MarketDeskHome() {
       </section>
 
       <section className="workflow-section px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.64fr_1.36fr] lg:items-start">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.58fr_1.42fr] lg:items-center">
           <div>
             <p className="workflow-kicker font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-vault-steel motion-safe:opacity-0">
               VaultMarket method
@@ -646,7 +646,9 @@ export function MarketDeskHome() {
             </p>
           </div>
 
-          <div className="grid gap-3">
+          <div className="relative rounded-[16px] border border-[rgba(17,19,15,0.12)] bg-white/36 p-3 shadow-[0_24px_70px_rgba(17,19,15,0.07),inset_0_1px_0_rgba(255,255,255,0.68)]">
+            <div className="pointer-events-none absolute left-[2.2rem] right-[2.2rem] top-[4.4rem] hidden h-px bg-[linear-gradient(90deg,rgba(47,94,124,0.18),rgba(155,196,178,0.36),rgba(17,19,15,0.28))] lg:block" aria-hidden="true" />
+            <div className="grid gap-3 lg:grid-cols-3">
             {storySteps.map((item, index) => {
               const Icon = item.icon;
 
@@ -655,23 +657,24 @@ export function MarketDeskHome() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "workflow-step-card group grid gap-4 rounded-[10px] border p-5 transition duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] motion-safe:opacity-0 sm:grid-cols-[auto_1fr_auto] sm:items-center",
+                    "workflow-step-card group relative overflow-hidden rounded-[12px] border p-5 transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] motion-safe:opacity-0 motion-safe:transition-transform motion-safe:hover:-translate-y-0.5",
                     item.exclusive
-                      ? "border-[rgba(17,19,15,0.34)] bg-[rgba(17,19,15,0.92)] text-vault-paper shadow-[0_26px_70px_rgba(17,19,15,0.22)]"
-                      : "border-[var(--border-soft)] bg-white/42 text-vault-ink shadow-[inset_0_1px_0_rgba(255,255,255,0.62)] hover:bg-white/64",
+                      ? "border-[rgba(17,19,15,0.42)] bg-[linear-gradient(145deg,rgba(17,19,15,0.96),rgba(38,42,34,0.94))] text-vault-paper shadow-[0_26px_70px_rgba(17,19,15,0.22)] hover:border-[#9bc4b2]/28"
+                      : "border-[var(--border-soft)] bg-[rgba(255,255,255,0.54)] text-vault-ink shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] hover:border-[rgba(47,94,124,0.24)] hover:bg-white/70",
                   )}
                 >
-                  <span
-                    className={cn(
-                      "workflow-step-icon grid h-11 w-11 place-items-center rounded-[8px] border will-change-transform",
-                      item.exclusive
-                        ? "border-white/12 bg-white/[0.07] text-vault-paper"
-                        : "border-[var(--border-soft)] bg-white/54 text-vault-registry",
-                    )}
-                  >
-                    <Icon className="h-5 w-5" aria-hidden="true" />
-                  </span>
-                  <span className="min-w-0">
+                  <span className={cn("pointer-events-none absolute inset-x-4 top-0 h-px opacity-70 transition-opacity duration-300 group-hover:opacity-100", item.exclusive ? "bg-[linear-gradient(90deg,transparent,rgba(155,196,178,0.55),transparent)]" : "bg-[linear-gradient(90deg,transparent,rgba(47,94,124,0.28),transparent)]")} aria-hidden="true" />
+                  <span className={cn("mb-5 flex items-center justify-between gap-4 border-b pb-4", item.exclusive ? "border-white/10" : "border-[rgba(17,19,15,0.08)]")}>
+                    <span
+                      className={cn(
+                        "workflow-step-icon grid h-11 w-11 place-items-center rounded-[8px] border will-change-transform motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-0.5",
+                        item.exclusive
+                          ? "border-white/12 bg-white/[0.07] text-vault-paper shadow-[0_0_26px_rgba(155,196,178,0.12)]"
+                          : "border-[var(--border-soft)] bg-white/58 text-vault-registry",
+                      )}
+                    >
+                      <Icon className="h-5 w-5" aria-hidden="true" />
+                    </span>
                     <span
                       className={cn(
                         "font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em]",
@@ -680,26 +683,39 @@ export function MarketDeskHome() {
                     >
                       {String(index + 1).padStart(2, "0")} / {item.kicker}
                     </span>
-                    <span className="mt-1 block text-xl font-semibold">{item.label}</span>
+                  </span>
+                  <span className="block min-w-0">
+                    <span className="block text-xl font-semibold">{item.label}</span>
                     <span
                       className={cn(
-                        "mt-1 block text-sm leading-6",
+                        "mt-3 block text-sm leading-6",
                         item.exclusive ? "text-vault-paper/64" : "text-vault-steel",
                       )}
                     >
                       {item.detail}
                     </span>
                   </span>
-                  <ArrowRight
-                    className={cn(
-                      "workflow-step-arrow h-4 w-4 shrink-0 transition group-hover:translate-x-0.5 motion-safe:opacity-0",
-                      item.exclusive ? "text-vault-paper/58" : "text-vault-registry",
-                    )}
-                    aria-hidden="true"
-                  />
+                  <span className={cn("mt-5 block h-1 overflow-hidden rounded-full", item.exclusive ? "bg-white/10" : "bg-[rgba(17,19,15,0.08)]")}>
+                    <span
+                      className={cn(
+                        "block h-full rounded-full transition-all duration-300 motion-reduce:transition-none",
+                        item.exclusive
+                          ? "w-4/5 bg-[linear-gradient(90deg,rgba(155,196,178,0.42),rgba(244,241,233,0.72))] group-hover:w-full"
+                          : "w-3/5 bg-[linear-gradient(90deg,rgba(47,94,124,0.42),rgba(155,196,178,0.58))] group-hover:w-4/5",
+                      )}
+                    />
+                  </span>
+                  <span className={cn("mt-5 inline-flex items-center gap-2 text-sm font-semibold", item.exclusive ? "text-vault-paper/74" : "text-vault-registry")}>
+                    Continue
+                    <ArrowRight
+                      className="workflow-step-arrow h-4 w-4 shrink-0 transition motion-safe:group-hover:translate-x-0.5 motion-safe:opacity-0"
+                      aria-hidden="true"
+                    />
+                  </span>
                 </Link>
               );
             })}
+            </div>
           </div>
         </div>
       </section>
