@@ -519,8 +519,41 @@ export function MarketDeskHome() {
           </div>
 
           <div className="desk-reveal">
+            <div className="rounded-[16px] border border-[rgba(17,19,15,0.14)] bg-[linear-gradient(145deg,rgba(255,255,255,0.62),rgba(244,241,233,0.46))] p-3 shadow-[0_22px_60px_rgba(17,19,15,0.08),inset_0_1px_0_rgba(255,255,255,0.72)] md:hidden">
+              <div className="rounded-[12px] border border-[rgba(17,19,15,0.1)] bg-[rgba(17,19,15,0.93)] p-4 text-vault-paper shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]">
+                <div className="flex items-center justify-between gap-3 border-b border-white/10 pb-3">
+                  <div>
+                    <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/46">
+                      Mobile desk brief
+                    </p>
+                    <p className="mt-1 text-sm font-semibold text-vault-paper">
+                      Evidence before the slab opens
+                    </p>
+                  </div>
+                  <span className="h-2 w-2 rounded-full bg-[#9bc4b2] shadow-[0_0_18px_rgba(155,196,178,0.44)]" aria-hidden="true" />
+                </div>
+                <div className="mt-3 grid gap-2">
+                  {storySteps.map((item, index) => (
+                    <Link
+                      key={`mobile-${item.href}`}
+                      href={item.href}
+                      className="grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-[9px] border border-white/10 bg-white/[0.055] p-3 transition hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9bc4b2]"
+                    >
+                      <span className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-[#9bc4b2]/78">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span>
+                        <span className="block text-sm font-semibold text-vault-paper">{item.label}</span>
+                        <span className="mt-0.5 block truncate text-xs text-vault-paper/50">{item.kicker}</span>
+                      </span>
+                      <ArrowRight className="h-4 w-4 text-vault-paper/42" aria-hidden="true" />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
             <div
-              className="hero-slab-motion relative mx-auto h-[440px] max-w-[700px] cursor-pointer overflow-visible rounded-[24px] transition-transform duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] sm:h-[540px] lg:h-[540px]"
+              className="hero-slab-motion relative mx-auto hidden h-[440px] max-w-[700px] cursor-pointer overflow-visible rounded-[24px] transition-transform duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)] md:block md:h-[500px] lg:h-[540px]"
               style={tiltStyle}
               onPointerMove={handlePointerMove}
               onPointerLeave={() => setTiltStyle({ transform: "perspective(1100px)" })}
