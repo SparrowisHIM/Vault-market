@@ -594,7 +594,7 @@ export function MarketDeskHome() {
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="px-4 py-14 sm:px-6 sm:py-[4.5rem] lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div className="relative">
             <div className="pointer-events-none absolute -left-4 top-2 hidden h-28 w-px bg-[linear-gradient(180deg,rgba(47,94,124,0),rgba(47,94,124,0.34),rgba(47,94,124,0))] lg:block" aria-hidden="true" />
@@ -659,7 +659,7 @@ export function MarketDeskHome() {
         </div>
       </section>
 
-      <section className="workflow-section px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="workflow-section px-4 py-14 sm:px-6 sm:py-[4.5rem] lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.58fr_1.42fr] lg:items-center">
           <div>
             <p className="workflow-kicker font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-vault-steel motion-safe:opacity-0">
@@ -753,7 +753,7 @@ export function MarketDeskHome() {
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="px-4 py-14 sm:px-6 sm:py-[4.5rem] lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <LandingSectionHeader
@@ -850,7 +850,7 @@ export function MarketDeskHome() {
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="px-4 py-14 sm:px-6 sm:py-[4.5rem] lg:px-8">
         <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[18px] border border-[rgba(17,19,15,0.16)] bg-[linear-gradient(135deg,rgba(13,15,12,0.98),rgba(25,29,23,0.98)_48%,rgba(12,14,11,0.98))] p-4 text-vault-paper shadow-[0_28px_90px_rgba(17,19,15,0.22)] sm:p-6 lg:p-8">
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(244,241,233,0.03)_1px,transparent_1px),linear-gradient(rgba(244,241,233,0.024)_1px,transparent_1px)] bg-[length:38px_38px]" aria-hidden="true" />
           <div className="relative grid gap-6 rounded-[12px] border border-white/10 bg-white/[0.035] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] sm:p-5 lg:grid-cols-[0.78fr_1.22fr] lg:items-stretch">
@@ -934,7 +934,7 @@ export function MarketDeskHome() {
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="px-4 py-14 sm:px-6 sm:py-[4.5rem] lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.86fr_1.14fr] lg:items-center">
           <div>
             <LandingSectionHeader
@@ -1056,29 +1056,47 @@ export function MarketDeskHome() {
         </div>
       </section>
 
-      <section className="px-4 pb-20 pt-16 sm:px-6 sm:pb-24 sm:pt-20 lg:px-8">
-        <div className="mx-auto max-w-5xl text-center">
-          <LandingSectionHeader
-            eyebrow="Final entry"
-            title="Enter the desk with context."
-            copy="Browse the market, compare the signal, or move directly into private review when the slab calls for more time."
-            align="center"
-          />
-          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <Link
-              href="/marketplace"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-[7px] border border-vault-graphite bg-vault-ink px-5 text-sm font-semibold text-vault-paper shadow-[0_18px_44px_rgba(17,19,15,0.18)] transition duration-200 hover:-translate-y-0.5 hover:bg-vault-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
-            >
-              Browse graded cards
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-            <Link
-              href="/private-desk"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-[7px] border border-[var(--border-soft)] bg-white/50 px-5 text-sm font-semibold text-vault-graphite transition duration-200 hover:-translate-y-0.5 hover:bg-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-canvas)]"
-            >
-              Private desk access
-              <Landmark className="h-4 w-4" aria-hidden="true" />
-            </Link>
+      <section className="px-4 pb-20 pt-14 sm:px-6 sm:pb-24 sm:pt-[4.5rem] lg:px-8">
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[18px] border border-[rgba(17,19,15,0.18)] bg-[linear-gradient(145deg,rgba(249,248,243,0.76),rgba(255,254,249,0.54))] p-4 shadow-[0_28px_90px_rgba(17,19,15,0.11),inset_0_1px_0_rgba(255,255,255,0.74)] sm:p-6 lg:p-8">
+          <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(47,94,124,0.32),rgba(155,196,178,0.38),transparent)]" aria-hidden="true" />
+          <div className="grid gap-8 rounded-[14px] border border-[rgba(17,19,15,0.12)] bg-[rgba(17,19,15,0.94)] p-6 text-vault-paper shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+            <div>
+              <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/50">
+                Final entry
+              </p>
+              <h2 className="mt-3 max-w-3xl text-3xl font-semibold leading-tight text-vault-paper sm:text-5xl">
+                Enter the desk with context.
+              </h2>
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-vault-paper/64 sm:text-base sm:leading-7">
+                Browse graded cards, inspect the evidence, and route exceptional slabs into specialist review when the decision deserves more than a quick checkout.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-2 border-t border-white/10 pt-4">
+                {["Evidence first", "Market signal", "Specialist review"].map((label) => (
+                  <span
+                    key={label}
+                    className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/54"
+                  >
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:min-w-[24rem] lg:grid-cols-1">
+              <Link
+                href="/marketplace"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-[7px] border border-vault-paper/20 bg-vault-paper px-5 text-sm font-semibold text-vault-ink shadow-[0_18px_44px_rgba(0,0,0,0.2)] transition duration-200 hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9bc4b2] focus-visible:ring-offset-2 focus-visible:ring-offset-vault-ink"
+              >
+                Browse graded cards
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <Link
+                href="/private-desk"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-[7px] border border-white/12 bg-white/[0.07] px-5 text-sm font-semibold text-vault-paper transition duration-200 hover:-translate-y-0.5 hover:border-[#9bc4b2]/30 hover:bg-white/[0.11] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9bc4b2] focus-visible:ring-offset-2 focus-visible:ring-offset-vault-ink"
+              >
+                Private desk access
+                <Landmark className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
