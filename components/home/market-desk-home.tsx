@@ -120,19 +120,22 @@ const marketFrictionPoints = [
 
 const researchSignalPoints = [
   {
-    label: "Signal read",
-    value: strongestSignalListing.title,
-    detail: `${(strongestSignalListing.marketDeltaPercent ?? 0) > 0 ? "+" : ""}${(strongestSignalListing.marketDeltaPercent ?? 0).toFixed(1)}% market delta`,
+    label: "Last comp vs current ask",
+    value: `${formatCurrency(strongestSignalListing.lastCompCents ?? strongestSignalListing.priceCents)} / ${formatCurrency(strongestSignalListing.priceCents)}`,
+    detail: strongestSignalListing.title,
+    progress: 74,
   },
   {
-    label: "Population lens",
-    value: rarestPopulationListing.title,
-    detail: formatPopulation(rarestPopulationListing.population),
+    label: "Population / rarity read",
+    value: formatPopulation(rarestPopulationListing.population),
+    detail: rarestPopulationListing.title,
+    progress: 58,
   },
   {
-    label: "Desk posture",
-    value: "Hold the rush",
-    detail: "Evidence, custody, and comps stay visible before conviction.",
+    label: "Market movement",
+    value: `${(strongestSignalListing.marketDeltaPercent ?? 0) > 0 ? "+" : ""}${(strongestSignalListing.marketDeltaPercent ?? 0).toFixed(1)}% signal`,
+    detail: `${getVaultStatusLabel(strongestSignalListing.vaultStatus)} custody posture`,
+    progress: 82,
   },
 ];
 
@@ -826,42 +829,84 @@ export function MarketDeskHome() {
       </section>
 
       <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <div className="mx-auto max-w-7xl rounded-[18px] border border-[rgba(17,19,15,0.14)] bg-[rgba(17,19,15,0.93)] p-6 text-vault-paper shadow-[0_28px_90px_rgba(17,19,15,0.2)] sm:p-8 lg:p-10">
-          <div className="grid gap-8 lg:grid-cols-[0.74fr_1.26fr] lg:items-start">
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[18px] border border-[rgba(17,19,15,0.16)] bg-[linear-gradient(135deg,rgba(13,15,12,0.98),rgba(25,29,23,0.98)_48%,rgba(12,14,11,0.98))] p-4 text-vault-paper shadow-[0_28px_90px_rgba(17,19,15,0.22)] sm:p-6 lg:p-8">
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(244,241,233,0.03)_1px,transparent_1px),linear-gradient(rgba(244,241,233,0.024)_1px,transparent_1px)] bg-[length:38px_38px]" aria-hidden="true" />
+          <div className="relative grid gap-6 rounded-[12px] border border-white/10 bg-white/[0.035] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] sm:p-5 lg:grid-cols-[0.78fr_1.22fr] lg:items-stretch">
             <div>
-              <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/52">
-                Research signal
-              </p>
-              <h2 className="mt-3 max-w-xl text-3xl font-semibold leading-tight text-vault-paper sm:text-4xl">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5">
+                <LineChart className="h-4 w-4 text-[#9bc4b2]" aria-hidden="true" />
+                <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/58">
+                  Research signal
+                </span>
+              </div>
+              <h2 className="mt-5 max-w-xl text-3xl font-semibold leading-tight text-vault-paper sm:text-4xl">
                 Market context before conviction.
               </h2>
               <p className="mt-4 max-w-lg text-sm leading-6 text-vault-paper/64 sm:text-base sm:leading-7">
-                Comp movement, population pressure, and desk posture sit together so conviction forms from evidence instead of speed.
+                Comparable sales, current ask, rarity, custody posture, and live signal help collectors understand the slab before making a move.
               </p>
+              <Link
+                href="/research"
+                className="mt-7 inline-flex h-11 items-center justify-center gap-2 rounded-[7px] border border-white/12 bg-white/[0.075] px-4 text-sm font-semibold text-vault-paper transition duration-200 hover:-translate-y-0.5 hover:border-[#9bc4b2]/32 hover:bg-white/[0.11] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9bc4b2] focus-visible:ring-offset-2 focus-visible:ring-offset-vault-ink"
+              >
+                Research desk
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
             </div>
 
-            <div className="grid gap-3 md:grid-cols-3">
-              {researchSignalPoints.map((item, index) => (
-                <article
-                  key={item.label}
-                  className="rounded-[10px] border border-white/10 bg-white/[0.055] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-                >
-                  <div className="mb-6 flex items-center justify-between gap-4">
-                    <span className="grid h-10 w-10 place-items-center rounded-[8px] border border-white/10 bg-white/[0.07] text-[#9bc4b2]">
-                      {index === 0 ? (
-                        <LineChart className="h-4 w-4" aria-hidden="true" />
-                      ) : (
-                        <Gauge className="h-4 w-4" aria-hidden="true" />
-                      )}
-                    </span>
-                    <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/42">
-                      {item.label}
+            <div className="grid gap-3 lg:grid-cols-[0.86fr_1.14fr]">
+              <div className="rounded-[11px] border border-white/10 bg-black/[0.14] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/46">
+                    Confidence arc
+                  </span>
+                  <Gauge className="h-4 w-4 text-vault-paper/48" aria-hidden="true" />
+                </div>
+                <div className="mx-auto mt-5 grid h-36 w-36 place-items-center rounded-full bg-[conic-gradient(from_215deg,rgba(155,196,178,0.9)_0deg,rgba(47,94,124,0.72)_218deg,rgba(255,255,255,0.08)_219deg_360deg)] p-2 shadow-[0_0_38px_rgba(47,94,124,0.14)]">
+                  <div className="grid h-full w-full place-items-center rounded-full border border-white/10 bg-[rgba(17,19,15,0.94)] text-center">
+                    <span>
+                      <span className="block text-3xl font-semibold text-vault-paper">82</span>
+                      <span className="mt-1 block font-mono text-[0.56rem] font-semibold uppercase tracking-[0.15em] text-vault-paper/46">
+                        Signal read
+                      </span>
                     </span>
                   </div>
-                  <h3 className="text-lg font-semibold leading-6 text-vault-paper">{item.value}</h3>
-                  <p className="mt-3 text-sm leading-6 text-vault-paper/58">{item.detail}</p>
-                </article>
-              ))}
+                </div>
+                <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-white/[0.08]" aria-hidden="true">
+                  <div className="live-progress-fill h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.56),rgba(155,196,178,0.78))]" style={{ width: "82%" }} />
+                </div>
+                <p className="mt-3 text-center text-xs leading-5 text-vault-paper/50">
+                  Ask, comps, rarity, and custody aligned for a cleaner read.
+                </p>
+              </div>
+
+              <div className="grid gap-2">
+                {researchSignalPoints.map((item, index) => (
+                  <article
+                    key={item.label}
+                    className="research-scan-row group rounded-[10px] border border-white/10 bg-white/[0.055] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] transition duration-200 hover:border-[#9bc4b2]/24 hover:bg-white/[0.075]"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/44">
+                          {String(index + 1).padStart(2, "0")} / {item.label}
+                        </p>
+                        <h3 className="mt-1 text-sm font-semibold text-vault-paper sm:text-base">
+                          {item.value}
+                        </h3>
+                      </div>
+                      <span className="h-2 w-2 rounded-full bg-[#9bc4b2] opacity-70 shadow-[0_0_18px_rgba(155,196,178,0.42)] transition group-hover:opacity-100" aria-hidden="true" />
+                    </div>
+                    <p className="mt-2 truncate text-sm text-vault-paper/56">{item.detail}</p>
+                    <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/[0.08]" aria-hidden="true">
+                      <div
+                        className="live-progress-fill h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.52),rgba(155,196,178,0.74))]"
+                        style={{ width: `${item.progress}%` }}
+                      />
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </div>
