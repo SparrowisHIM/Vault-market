@@ -991,11 +991,12 @@ export function MarketDeskHome() {
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(244,241,233,0.03)_1px,transparent_1px),linear-gradient(rgba(244,241,233,0.024)_1px,transparent_1px)] bg-[length:42px_42px]" aria-hidden="true" />
             <div className="private-desk-sweep pointer-events-none absolute inset-0" aria-hidden="true" />
             <div className="relative grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-              <article className="rounded-[13px] border border-white/10 bg-white/[0.055] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+              <article className="relative overflow-hidden rounded-[13px] border border-white/10 bg-[linear-gradient(150deg,rgba(255,255,255,0.07),rgba(255,255,255,0.035)_48%,rgba(47,94,124,0.055))] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+                <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,194,220,0.34),transparent)]" aria-hidden="true" />
                 <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
                   <div>
                     <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/48">
-                      Lead candidate
+                      Review candidate
                     </p>
                     <h3 className="mt-2 text-xl font-semibold leading-6 text-vault-paper">
                       {privateDeskCandidate.title}
@@ -1006,8 +1007,8 @@ export function MarketDeskHome() {
                   </span>
                 </div>
 
-                <div className="mt-4 grid grid-cols-2 gap-3">
-                  <div>
+                <div className="mt-4 grid grid-cols-2 gap-3 border-b border-white/10 pb-4">
+                  <div className="rounded-[8px] border border-white/10 bg-black/[0.12] p-3">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/42">
                       Grade
                     </p>
@@ -1015,7 +1016,7 @@ export function MarketDeskHome() {
                       {privateDeskCandidate.gradingCompany} {privateDeskCandidate.grade}
                     </p>
                   </div>
-                  <div>
+                  <div className="rounded-[8px] border border-white/10 bg-black/[0.12] p-3">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/42">
                       Ask
                     </p>
@@ -1023,7 +1024,7 @@ export function MarketDeskHome() {
                       {formatCurrency(privateDeskCandidate.priceCents)}
                     </p>
                   </div>
-                  <div>
+                  <div className="rounded-[8px] border border-white/10 bg-black/[0.12] p-3">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/42">
                       Custody
                     </p>
@@ -1031,7 +1032,7 @@ export function MarketDeskHome() {
                       {getVaultStatusLabel(privateDeskCandidate.vaultStatus)}
                     </p>
                   </div>
-                  <div>
+                  <div className="rounded-[8px] border border-white/10 bg-black/[0.12] p-3">
                     <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/42">
                       Signal
                     </p>
@@ -1039,6 +1040,31 @@ export function MarketDeskHome() {
                       +{(privateDeskCandidate.marketDeltaPercent ?? 0).toFixed(1)}%
                     </p>
                   </div>
+                </div>
+
+                <div className="mt-4 grid gap-3">
+                  {[
+                    { label: "Valuation carried", value: formatCurrency(privateDeskCandidate.priceCents), fill: 82 },
+                    { label: "Custody posture", value: getVaultStatusLabel(privateDeskCandidate.vaultStatus), fill: 92 },
+                    { label: "Desk readiness", value: "Specialist review", fill: 74 },
+                  ].map((item) => (
+                    <div key={item.label} className="rounded-[8px] border border-white/10 bg-black/[0.1] p-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-vault-paper/42">
+                          {item.label}
+                        </span>
+                        <span className="text-xs font-semibold text-vault-paper/72">
+                          {item.value}
+                        </span>
+                      </div>
+                      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10" aria-hidden="true">
+                        <span
+                          className="live-progress-fill block h-full rounded-full bg-[linear-gradient(90deg,rgba(47,94,124,0.5),rgba(155,194,220,0.68),rgba(130,199,169,0.46))]"
+                          style={{ width: `${item.fill}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </article>
 
