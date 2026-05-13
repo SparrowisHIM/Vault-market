@@ -11,7 +11,6 @@ import {
   Landmark,
   LineChart,
   Search,
-  ShieldCheck,
   Sparkles,
 } from "lucide-react";
 import { SlabArtImage } from "@/components/marketplace/slab-art-image";
@@ -90,16 +89,24 @@ const rarestPopulationListing =
 
 const marketFrictionPoints = [
   {
-    title: "Condition gets flattened",
-    copy: "Photos, certs, population, and custody notes often sit too far from the decision.",
+    label: "Price shown first",
+    detail: "The number becomes the story before the card has been read.",
   },
   {
-    title: "Comps arrive without context",
-    copy: "A price can look obvious until grade, eye appeal, timing, and seller trust are read together.",
+    label: "Cert hidden too deep",
+    detail: "Verification sits behind clicks instead of beside the decision.",
   },
   {
-    title: "Exceptional cards move too fast",
-    copy: "The slabs that deserve specialist attention are pushed through the same quick-buy rhythm.",
+    label: "Seller trust unclear",
+    detail: "Collectors are left to infer reputation from thin signals.",
+  },
+  {
+    label: "Comps disconnected",
+    detail: "Market history is treated like a separate tab, not part of the read.",
+  },
+  {
+    label: "Custody unknown",
+    detail: "Where the slab sits can matter as much as what it claims to be.",
   },
 ];
 
@@ -555,31 +562,66 @@ export function MarketDeskHome() {
       </section>
 
       <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <LandingSectionHeader
-            eyebrow="Market friction"
-            title="Most marketplaces ask for a decision before showing the evidence."
-            copy="VaultMarket slows the first read down enough for the condition, custody, comps, and seller posture to stay visible."
-          />
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div className="relative">
+            <div className="pointer-events-none absolute -left-4 top-2 hidden h-28 w-px bg-[linear-gradient(180deg,rgba(47,94,124,0),rgba(47,94,124,0.34),rgba(47,94,124,0))] lg:block" aria-hidden="true" />
+            <LandingSectionHeader
+              eyebrow="Market friction"
+              title="Most marketplaces ask for a decision before showing the evidence."
+              copy="VaultMarket slows the browse down. Grade, cert, custody, seller trust, population, and market signal appear before the full inspection view, so collectors are not forced to judge the slab from price alone."
+            />
+            <div className="mt-8 flex max-w-xl flex-wrap gap-2">
+              {["Cert", "Custody", "Seller trust", "Population", "Comps", "Market signal"].map((label) => (
+                <span
+                  key={label}
+                  className="rounded-full border border-[rgba(47,94,124,0.16)] bg-white/38 px-3 py-1.5 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-vault-steel shadow-[inset_0_1px_0_rgba(255,255,255,0.62)]"
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+          </div>
 
-          <div className="mt-8 grid gap-3 md:grid-cols-3">
-            {marketFrictionPoints.map((item, index) => (
-              <article
-                key={item.title}
-                className="rounded-[10px] border border-[var(--border-soft)] bg-white/44 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.62)]"
-              >
-                <div className="mb-5 flex items-center justify-between gap-4">
-                  <span className="grid h-10 w-10 place-items-center rounded-[8px] border border-[var(--border-soft)] bg-white/54 text-vault-registry">
-                    <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+          <div className="rounded-[16px] border border-[rgba(17,19,15,0.12)] bg-[linear-gradient(145deg,rgba(255,255,255,0.56),rgba(244,241,233,0.4))] p-3 shadow-[0_24px_70px_rgba(17,19,15,0.08),inset_0_1px_0_rgba(255,255,255,0.72)]">
+            <div className="rounded-[12px] border border-[rgba(17,19,15,0.1)] bg-[rgba(17,19,15,0.92)] p-4 text-vault-paper shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:p-5">
+              <div className="mb-5 flex items-center justify-between gap-4 border-b border-white/10 pb-4">
+                <div>
+                  <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-paper/42">
+                    Missing context stack
+                  </p>
+                  <p className="mt-1 text-sm text-vault-paper/62">
+                    What gets buried before conviction forms.
+                  </p>
+                </div>
+                <span className="h-2 w-2 rounded-full bg-[#9bc4b2] shadow-[0_0_18px_rgba(155,196,178,0.44)]" aria-hidden="true" />
+              </div>
+
+              <div className="space-y-2">
+                {marketFrictionPoints.map((item, index) => (
+                  <div
+                    key={item.label}
+                    className="grid gap-3 rounded-[9px] border border-white/8 bg-white/[0.045] p-3 sm:grid-cols-[2.5rem_0.9fr_1.1fr] sm:items-center"
+                  >
+                    <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-[#9bc4b2]/72">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-sm font-semibold text-vault-paper">{item.label}</span>
+                    <span className="text-sm leading-6 text-vault-paper/56">{item.detail}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-3 rounded-[10px] border border-[#9bc4b2]/20 bg-[linear-gradient(90deg,rgba(155,196,178,0.14),rgba(47,94,124,0.12),rgba(255,255,255,0.04))] p-4">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                  <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-[#9bc4b2]">
+                    VaultMarket
                   </span>
-                  <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-vault-steel">
-                    {String(index + 1).padStart(2, "0")}
+                  <span className="text-sm font-semibold text-vault-paper">
+                    Context before conviction
                   </span>
                 </div>
-                <h3 className="text-lg font-semibold text-vault-ink">{item.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-vault-steel">{item.copy}</p>
-              </article>
-            ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
